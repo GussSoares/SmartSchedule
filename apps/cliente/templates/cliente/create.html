@@ -1,0 +1,338 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block title_page %}
+  {{ request.resolver_match.app_name.capitalize }}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      <form action="{% url 'cliente:create' %}" method="POST">
+      {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nome</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                </div>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                  {% for error in form.first_name.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Sobrenome</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                </div>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                  {% for error in form.last_name.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Login</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                </div>
+                {{ form.login }}
+                {% if form.login.errors %}
+                  {% for error in form.login.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                </div>
+                {{ form.email }}
+                {% if form.email.errors %}
+                  {% for error in form.email.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="exampleInputEmail1">CPF</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                </div>
+                {{ form.cpf_cnpj }}
+                {% if form.cpf_cnpj.errors %}
+                  {% for error in form.cpf_cnpj.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Data de Nascimento</label>
+              <div class="input-group date" data-provide="datepicker">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                {{ form.data_nascimento }}
+                {% if form.data_nascimento.errors %}
+                  {% for error in form.data_nascimento.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Telefone</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                </div>
+                {{ form.telefone }}
+                {% if form.telefone.errors %}
+                  {% for error in form.telefone.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">CEP</label>
+              {{ form.cep }}
+              {% if form.cep.errors %}
+                {% for error in form.cep.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Endereço</label>
+              {{ form.logradouro }}
+              {% if form.logradouro.errors %}
+                {% for error in form.logradouro.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Número</label>
+              {{ form.numero }}
+              {% if form.numero.errors %}
+                {% for error in form.numero.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Complemento</label>
+              {{ form.complemento }}
+              {% if form.complemento.errors %}
+                {% for error in form.complemento.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Bairro</label>
+              {{ form.bairro }}
+              {% if form.bairro.errors %}
+                {% for error in form.bairro.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Cidade</label>
+              {{ form.cidade }}
+              {% if form.cidade.errors %}
+                {% for error in form.cidade.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">UF</label>
+              {{ form.uf }}
+              {% if form.uf.errors %}
+                {% for error in form.uf.errors %}
+                  <span class="error text-danger">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Senha</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                </div>
+                {{ password_form.password1 }}
+                {% if password_form.password1.errors %}
+                  {% for error in password_form.password1.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Confirme a Senha</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                </div>
+                {{ password_form.password2 }}
+                {% if password_form.password2.errors %}
+                  {% for error in password_form.password2.errors %}
+                    <span class="error text-danger">{{ error|escape }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary float-right">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <i class="fas fa-list"></i>&nbsp;&nbsp;
+            Clientes Ativos
+          </h2>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <table id="example2" class="table dataTable table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th class="all">Nome</th>
+                  <th>Email</th>
+                  <th>CPF/CNPJ</th>
+                  <th>Data de Nascimento</th>
+                  <th>Endereço</th>
+                  <th class="all">Telefone</th>
+                  <th class="all">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cliente in clientes %}
+                  <tr>
+                    <td>{{ cliente.full_name }}</td>
+                    <td>{{ cliente.email|default_if_none:'--' }}</td>
+                    <td>{{ cliente.cpf_cnpj|default_if_none:'--' }}</td>
+                    <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
+                    <td>{{ cliente.full_address_humanized }}</td>
+                    <td>{{ cliente.telefone|default_if_none:'--' }}</td>
+                    <td>
+                      <div class="btn-group-sm btn-group">
+                        <a title="Editar" class="btn btn-default" onclick="$('.modal-content').load('{% url "cliente:update" pk=cliente.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-pen"></i></a>
+                        <a title="Alterar Senha" class="btn btn-default" onclick="$('.modal-content').load('{% url "cliente:set_password" pk=cliente.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-key"></i></a>
+                        <button title="Remover" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="ajax" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <i class="fas fa-sync fa-spin loading-img"></i>
+          <span> &nbsp;&nbsp;Carregando…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}" />
+{% endblock %}
+{% block js %}
+
+  <script src="{% static "dist/js/ui-modals/ui-modals.min.js" %}"></script>
+  <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+  <script>
+    $('#example2').DataTable({
+      "autoWidth": false,
+      "responsive": true,
+    });
+
+    $('#ajax').on('shown.bs.modal', function () {
+      $('.date').datepicker({
+        daysOfWeekHighlighted: '06',
+        format: 'dd/mm/yyyy',
+        todayHighlight: true,
+        autoclose: true
+      });
+    })
+  </script>
+{% endblock %}

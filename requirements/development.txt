@@ -1,0 +1,24 @@
+# coverage measures code coverage of Python programs
+# See http://coverage.readthedocs.io/en/latest/
+#coverage
+
+# **tox** automates testing
+# See https://tox.readthedocs.io/en/latest/index.html
+#tox
+
+# **Sphinx** is used to create documentation
+# See http://www.sphinx-doc.org/en/stable/tutorial.html
+#Sphinx
+
+# **flake8** is used to check for PEP8 compliance
+# See http://flake8.pycqa.org/en/latest/index.html
+#flake8
+
+asgiref==3.2.10
+autopep8==1.5.3
+Django==3.0.8
+psycopg2==2.8.5
+pycodestyle==2.6.0
+pytz==2020.1
+sqlparse==0.3.1
+toml==0.10.1
