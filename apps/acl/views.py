@@ -44,7 +44,7 @@ def profile(request):
     password_form = SetPasswordForm()
 
     if request.method == 'POST':
-        form = ClienteForm(request.POST, instance=instance)
+        form = ClienteForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             user = form.save()
             password_form = SetPasswordForm(request.POST)
@@ -59,6 +59,7 @@ def profile(request):
 
     context = {
         'form': form,
+        'profile': instance,
         'password_form': password_form
     }
     return render(request, 'profile/profile.html', context)

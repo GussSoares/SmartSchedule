@@ -27,4 +27,4 @@ urlpatterns = [
 
     url(r'^cliente/', include('apps.cliente.urls', namespace="cliente"))
 
-] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

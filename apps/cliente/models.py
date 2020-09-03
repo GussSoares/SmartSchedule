@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -23,6 +24,7 @@ class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
     cidade = models.CharField(_("Cidade"), max_length=255, null=True, default=None, blank=True)
     uf = models.CharField(_("UF"), max_length=255, null=True, default=None, blank=True)
     data_nascimento = models.DateField(_("Data de Nascimento"), null=True, blank=True)
+    foto = models.ImageField(_("Foto de Perfil"), null=True, blank=True, upload_to="profile/", default="profile/default-user.jpg")
 
     objects = UsuarioManager()
 
@@ -49,3 +51,7 @@ class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
     def full_address_humanized(self):
         return"{} {} - {}, {}, {} - {}".format(self.logradouro or "", self.numero or "", self.complemento or "",
                                                self.bairro or "", self.cidade or "", self.uf or "")
+
+    @property
+    def cidade_uf(self):
+        return " - ".join([self.cidade, self.uf])

@@ -6,16 +6,22 @@
     <div class="col-md-12">
       <div class="card card-primary card-outline">
         <div class="card-body box-profile">
-          <div class="text-center">
-            <img class="profile-user-img img-fluid img-circle" src="{% static 'dist/img/default-user.jpg' %}" alt="User profile picture">
+
+          <form action="{% url 'acl:profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text-center">
+            {#            <input type="file" style="display: none;" />#}
+            {{ form.foto }}
+            <img id="img_profile" onclick="upload_image()" style="cursor: pointer; max-height: 100px; max-width: 100px" class="profile-user-img img-fluid img-circle" src="{{ MEDIA_URL }}{{ request.user.foto }}" alt="User profile picture">
+            <br>
+            <span class="text-secondary">100x100*</span>
           </div>
+
           <h3 class="profile-username text-center">{{ request.user.full_name }}</h3>
           <br>
 
-{#          <p class="text-muted text-center">Software Engineer</p>#}
+          {#          <p class="text-muted text-center">Software Engineer</p>#}
 
-          <form action="{% url 'acl:profile' %}" method="POST">
-            {% csrf_token %}
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -240,7 +246,7 @@
               </div>
               <div class="col-md-12">
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary float-right">Salvar</button>
+                  <button type="submit" class="btn btn-primary float-right"><i class="fas fa-check"></i> Salvar</button>
                 </div>
               </div>
             </div>
@@ -277,5 +283,26 @@
         password2.attr('required', false)
       }
     });
+    function upload_image() {
+      let input = $('#id_foto');
+
+      input.click()
+
+      input.change(function (ev) {
+        var selectedFile = ev.target.files[0];
+        var reader = new FileReader();
+
+        var imgtag = document.getElementById("img_profile");
+        imgtag.title = selectedFile.name;
+
+        reader.onload = function(event) {
+          imgtag.src = event.target.result;
+        };
+        reader.readAsDataURL(selectedFile);
+
+
+      })
+    }
+
   </script>
 {% endblock %}

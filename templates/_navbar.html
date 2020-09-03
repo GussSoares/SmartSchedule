@@ -115,13 +115,13 @@
 {#      </li>#}
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-          <img src="{% static 'dist/img/default-user.jpg' %}" class="user-image img-circle elevation-2" alt="User Image">
+          <img src="{{ MEDIA_URL }}{{ request.user.foto }}" class="user-image img-circle elevation-2" alt="User Image">
           <span class="d-none d-md-inline">{{ request.user.first_name }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
           <li class="user-header bg-primary">
-            <img src="{% static 'dist/img/default-user.jpg' %}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{ MEDIA_URL }}{{ request.user.foto }}" class="img-circle elevation-2" alt="User Image">
 
             <p>
               {{ request.user.full_name }}

@@ -9,7 +9,7 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ['first_name', 'last_name', 'login', 'email', 'cpf_cnpj', 'data_nascimento', 'telefone', 'cep',
-                  'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf']
+                  'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'foto']
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -81,6 +81,10 @@ class ClienteForm(forms.ModelForm):
                 'placeholder': 'UF',
                 'autocomplete': 'off'
             }),
+            'foto': forms.FileInput(attrs={
+                'class': 'form-control',
+                'style': 'display: none'
+            })
         }
 
 

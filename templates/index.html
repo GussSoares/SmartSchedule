@@ -58,12 +58,15 @@
             <h5>
               {% if message.tags == 'success' %}
                 <i class="fa-lg fas fa-check"></i>
+                Sucesso!
               {% elif message.tags == 'warning' %}
                 <i class="fa-lg fas fa-exclamation-triangle"></i>
+                Atenção!
               {% elif message.tags == 'error' %}
                 <i class="fa-lg fas fa-times-circle"></i>
+                Erro!
               {% endif %}
-              {{ message.tags|capfirst }}!
+{#              {{ message.tags|capfirst }}!#}
             </h5>
             <span>{{ message }}</span>
           </div>

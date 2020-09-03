@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from django.http import JsonResponse
 from .forms import ClienteForm, SetPasswordForm
 from .models import Cliente
 
@@ -31,6 +32,7 @@ def create(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def update(request, pk):
     instance = get_object_or_404(Cliente, pk=pk)
     form = ClienteForm(instance=instance)
@@ -49,6 +51,7 @@ def update(request, pk):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def set_password(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
     form = SetPasswordForm()
@@ -71,3 +74,14 @@ def set_password(request, pk):
         'pk': pk
     }
     return render(request, "cliente/set_password.html", context)
+
+
+def delete(request, pk):
+    try:
+        cliente = get_object_or_404(Cliente, pk=pk)
+        # cliente.delete()
+        messages.success(request, "Cliente removido com sucesso!")
+    except Exception as exc:
+        messages.error(request, "Erro ao remover cliente!")
+
+    return JsonResponse({'result': 'success'})

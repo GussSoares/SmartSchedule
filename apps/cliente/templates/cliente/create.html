@@ -234,7 +234,7 @@
           </div>
           <div class="col-md-12">
             <div class="form-group">
-              <button type="submit" class="btn btn-primary float-right">Salvar</button>
+              <button type="submit" class="btn btn-primary float-right"><i class="fas fa-check"></i> Salvar</button>
             </div>
           </div>
         </div>
@@ -276,13 +276,13 @@
                     <td>{{ cliente.email|default_if_none:'--' }}</td>
                     <td>{{ cliente.cpf_cnpj|default_if_none:'--' }}</td>
                     <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
-                    <td>{{ cliente.full_address_humanized }}</td>
+                    <td>{{ cliente.full_address_humanized|default_if_none:'--' }}</td>
                     <td>{{ cliente.telefone|default_if_none:'--' }}</td>
                     <td>
                       <div class="btn-group-sm btn-group">
                         <a title="Editar" class="btn btn-default" onclick="$('.modal-content').load('{% url "cliente:update" pk=cliente.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-pen"></i></a>
                         <a title="Alterar Senha" class="btn btn-default" onclick="$('.modal-content').load('{% url "cliente:set_password" pk=cliente.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-key"></i></a>
-                        <button title="Remover" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        <button onclick="deletar_cliente({{ cliente.id }})" title="Remover" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -320,6 +320,8 @@
   <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
   <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
   <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'plugins/bootbox/bootbox.all.min.js' %}"></script>
+  <script src="{% static 'plugins/bootbox/bootbox.locales.min.js' %}"></script>
   <script>
     $('#example2').DataTable({
       "autoWidth": false,
@@ -334,5 +336,31 @@
         autoclose: true
       });
     })
+
+    function deletar_cliente(id) {
+      bootbox.confirm({
+        title: "Ateção",
+        message: "Deseja realmente remover este registro?",
+        buttons: {
+          cancel: {
+            label: '<i class="fa fa-times"></i> Cancel'
+          },
+          confirm: {
+            label: '<i class="fa fa-check"></i> Confirm',
+            className: 'btn-danger'
+          }
+        },
+        callback: function (result) {
+          if (result == true) {
+            $.ajax({
+              url: `/cliente/delete/${id}`,
+              complete: function (data) {
+                window.location.reload();
+              }
+            })
+          }
+        }
+      })
+    }
   </script>
 {% endblock %}
