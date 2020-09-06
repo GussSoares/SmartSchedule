@@ -2,7 +2,7 @@
     "name": "Smartevent24 Push Notification",
     "short_name": "smartevent24",
     "gcm_sender_id": "539876079581",
-    "start_url": "/",
+    "start_url": "/static/plugin/pushalert/",
     "display": "standalone",
     "icons": [
         {

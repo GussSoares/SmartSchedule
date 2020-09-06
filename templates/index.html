@@ -36,13 +36,22 @@
   <link rel="shortcut icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <link rel="icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <!-- PushAlert -->
-  <script type="text/javascript">
-    (function(d, t) {
-      var g = d.createElement(t),
-              s = d.getElementsByTagName(t)[0];
-      g.src = "https://cdn.pushalert.co/integrate_3d453cfe3ab8c7642a9f314aadf95de7.js";
-      s.parentNode.insertBefore(g, s);
-    }(document, "script"));
+{#  <script type="text/javascript">#}
+{#    (function(d, t) {#}
+{#      var g = d.createElement(t),#}
+{#              s = d.getElementsByTagName(t)[0];#}
+{#      g.src = "https://cdn.pushalert.co/integrate_3d453cfe3ab8c7642a9f314aadf95de7.js";#}
+{#      s.parentNode.insertBefore(g, s);#}
+{#    }(document, "script"));#}
+{#  </script>#}
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "6b3bb072-2bd6-40e1-ae89-d840d5bc66c1",
+      });
+    });
   </script>
   <!-- End PushAlert -->
   {% block css %}{% endblock %}
