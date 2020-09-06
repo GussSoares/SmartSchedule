@@ -66,26 +66,26 @@
                 <i class="fa-lg fas fa-times-circle"></i>
                 Erro!
               {% endif %}
-{#              {{ message.tags|capfirst }}!#}
+              {#              {{ message.tags|capfirst }}!#}
             </h5>
             <span>{{ message }}</span>
           </div>
         {% endfor %}
         {% if not request.user.email or not request.user.logradouro or not request.user.numero or not request.user.complemento or not request.user.bairro or not request.user.cidade or not request.user.uf or not request.user.telefone %}
           <div class="alert alert-warning alert-always" role="alert">
-              <i class="fa-lg fas fa-exclamation-triangle"></i>
+            <i class="fa-lg fas fa-exclamation-triangle"></i>
             <span>Por favor, complete seu cadastro</span>
           </div>
         {% endif %}
         <div class="row mb-2">
           <div class="col-sm-6">
-          <h1 class="m-0 text-dark">{% block title_page %}{% endblock %}</h1>
+            <h1 class="m-0 text-dark">{% block title_page %}{% endblock %}</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-{#            <ol class="breadcrumb float-sm-right">#}
-{#              <li class="breadcrumb-item"><a href="#">Home</a></li>#}
-{#              <li class="breadcrumb-item active">Dashboard v1</li>#}
-{#            </ol>#}
+            {#            <ol class="breadcrumb float-sm-right">#}
+            {#              <li class="breadcrumb-item"><a href="#">Home</a></li>#}
+            {#              <li class="breadcrumb-item active">Dashboard v1</li>#}
+            {#            </ol>#}
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -96,7 +96,7 @@
     <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
-{#        {% include "_content.html" %}#}
+        {#        {% include "_content.html" %}#}
         {% block content %}{% endblock %}
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
@@ -155,6 +155,7 @@
 
 <script src="{% static "dist/js/ui-modals/ui-modals.min.js" %}"></script>
 <script src="{% static "dist/js/global/default.js" %}"></script>
+<script src="{% static "plugins/jquery-validation/jquery.validate.min.js" %}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 {#<script src="{% static "dist/js/pages/dashboard.js" %}"></script>#}
 <!-- AdminLTE for demo purposes -->
@@ -162,15 +163,20 @@
 <script>
   var elem;
   if (window.location.pathname === '/'){
-      elem = $('p[class="title"]:contains(\'Dashboard\')').closest('.nav-item');
-      elem.addClass('menu-open');
-      elem.find('.nav-link').addClass('active');
+    elem = $('p[class="title"]:contains(\'Dashboard\')').closest('.nav-item');
+    elem.addClass('menu-open');
+    elem.find('.nav-link').addClass('active');
   }else{
-      elem = $('a[href$="'+window.location.pathname+'"]').closest('.nav-item');
-      elem.parents("li.nav-item").addClass('menu-open').find('a.nav-link').addClass('active')
+    elem = $('a[href$="'+window.location.pathname+'"]').closest('.nav-item');
+    elem.parents("li.nav-item").addClass('menu-open').find('a.nav-link').addClass('active')
   }
 
   $('.alert').not('.alert-always').delay(2500).fadeOut(2000);
+
+  $('form').on('submit', function (ev) {
+    console.log('te')
+    $(this).validate()
+  })
 </script>
 {% block js %}{% endblock %}
 </body>

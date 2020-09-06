@@ -2,9 +2,10 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from .models import Cliente
+from ..core.forms import CustomForm, CustomModelForm
 
 
-class ClienteForm(forms.ModelForm):
+class ClienteForm(CustomModelForm):
 
     class Meta:
         model = Cliente
@@ -88,7 +89,7 @@ class ClienteForm(forms.ModelForm):
         }
 
 
-class SetPasswordForm(forms.Form):
+class SetPasswordForm(CustomForm):
 
     password1 = forms.CharField(required=True, localize=True, widget=forms.PasswordInput(attrs={
         'class': 'form-control',
@@ -99,13 +100,13 @@ class SetPasswordForm(forms.Form):
         'placeholder': 'Confirme a Senha'
     }))
 
-    def clean(self):
-        cleaned_data = super(SetPasswordForm, self).clean()
-
-        if 'password1' in self.changed_data and 'password2' in self.changed_data:
-            if cleaned_data.get('password1') == cleaned_data.get('password2'):
-                return cleaned_data
-            else:
-                self.add_error('password1', ValidationError("As senhas não coicidem!"))
-
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super(SetPasswordForm, self).clean()
+    #
+    #     if 'password1' in self.changed_data and 'password2' in self.changed_data:
+    #         if cleaned_data.get('password1') == cleaned_data.get('password2'):
+    #             return cleaned_data
+    #         else:
+    #             self.add_error('password1', ValidationError("As senhas não coicidem!"))
+    #
+    #     return cleaned_data

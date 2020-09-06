@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout, update_session_auth_hash
 from django.contrib import messages
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from ..cliente.forms import ClienteForm, SetPasswordForm
 from ..cliente.models import Cliente
 
@@ -34,7 +34,20 @@ def logout(request):
 
 
 def register(request):
-    return render(request, 'register/register.html')
+    register_form = RegisterForm()
+    if request.method == 'POST':
+        register_form = RegisterForm(request.POST)
+        if register_form.is_valid():
+            cliente = register_form.save()
+            cliente.set_password(register_form.cleaned_data.get('password1'))
+            cliente.save()
+            django_login(request, cliente)
+            return redirect('dashboard:index')
+
+    context = {
+        'register_form': register_form
+    }
+    return render(request, 'register/register.html', context)
 
 
 def profile(request):

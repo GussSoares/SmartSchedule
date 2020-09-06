@@ -33,7 +33,7 @@
                     {{ form.first_name }}
                     {% if form.first_name.errors %}
                       {% for error in form.first_name.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -49,7 +49,7 @@
                     {{ form.last_name }}
                     {% if form.last_name.errors %}
                       {% for error in form.last_name.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -65,7 +65,7 @@
                     {{ form.login }}
                     {% if form.login.errors %}
                       {% for error in form.login.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -81,7 +81,7 @@
                     {{ form.email }}
                     {% if form.email.errors %}
                       {% for error in form.email.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -97,7 +97,7 @@
                     {{ form.cpf_cnpj }}
                     {% if form.cpf_cnpj.errors %}
                       {% for error in form.cpf_cnpj.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -113,7 +113,7 @@
                     {{ form.data_nascimento }}
                     {% if form.data_nascimento.errors %}
                       {% for error in form.data_nascimento.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -129,7 +129,7 @@
                     {{ form.telefone }}
                     {% if form.telefone.errors %}
                       {% for error in form.telefone.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -141,7 +141,7 @@
                   {{ form.cep }}
                   {% if form.cep.errors %}
                     {% for error in form.cep.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -152,7 +152,7 @@
                   {{ form.logradouro }}
                   {% if form.logradouro.errors %}
                     {% for error in form.logradouro.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -163,7 +163,7 @@
                   {{ form.numero }}
                   {% if form.numero.errors %}
                     {% for error in form.numero.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -174,7 +174,7 @@
                   {{ form.complemento }}
                   {% if form.complemento.errors %}
                     {% for error in form.complemento.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -185,7 +185,7 @@
                   {{ form.bairro }}
                   {% if form.bairro.errors %}
                     {% for error in form.bairro.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -196,7 +196,7 @@
                   {{ form.cidade }}
                   {% if form.cidade.errors %}
                     {% for error in form.cidade.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -207,7 +207,7 @@
                   {{ form.uf }}
                   {% if form.uf.errors %}
                     {% for error in form.uf.errors %}
-                      <span class="error text-danger">{{ error|escape }}</span>
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
                     {% endfor %}
                   {% endif %}
                 </div>
@@ -222,7 +222,7 @@
                     {{ password_form.password1 }}
                     {% if password_form.password1.errors %}
                       {% for error in password_form.password1.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
@@ -238,7 +238,7 @@
                     {{ password_form.password2 }}
                     {% if password_form.password2.errors %}
                       {% for error in password_form.password2.errors %}
-                        <span class="error text-danger">{{ error|escape }}</span>
+                        <span class="error invalid-feedback">{{ error|escape }}</span>
                       {% endfor %}
                     {% endif %}
                   </div>
