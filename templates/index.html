@@ -35,6 +35,16 @@
   <!-- IE -->
   <link rel="shortcut icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <link rel="icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
+  <!-- PushAlert -->
+  <script type="text/javascript">
+    (function(d, t) {
+      var g = d.createElement(t),
+              s = d.getElementsByTagName(t)[0];
+      g.src = "https://cdn.pushalert.co/integrate_3d453cfe3ab8c7642a9f314aadf95de7.js";
+      s.parentNode.insertBefore(g, s);
+    }(document, "script"));
+  </script>
+  <!-- End PushAlert -->
   {% block css %}{% endblock %}
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
