@@ -76,3 +76,7 @@ def profile(request):
         'password_form': password_form
     }
     return render(request, 'profile/profile.html', context)
+
+
+def confirm(request):
+    return render(request, 'confirm/confirm_notification.html')
