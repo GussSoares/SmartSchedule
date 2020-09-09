@@ -23,6 +23,49 @@
   <link rel="shortcut icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <link rel="icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'dist/css/global/styles.css' %}" />
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "6b3bb072-2bd6-40e1-ae89-d840d5bc66c1",
+        autoResubscribe: true,
+        notifyButton: {
+          enable: true, /* Required to use the Subscription Bell */
+          size: 'medium', /* One of 'small', 'medium', or 'large' */
+          theme: 'default', /* One of 'default' (red-white) or 'inverse" (white-red) */
+          position: 'bottom-right', /* Either 'bottom-left' or 'bottom-right' */
+          offset: {
+            bottom: '0px',
+            left: '0px', /* Only applied if bottom-left */
+            right: '0px' /* Only applied if bottom-right */
+          },
+          prenotify: true, /* Show an icon with 1 unread message for first-time site visitors */
+          showCredit: false, /* Hide the OneSignal logo */
+          text: {
+            'tip.state.unsubscribed': 'Subscribe to notifications',
+            'tip.state.subscribed': "You're subscribed to notifications",
+            'tip.state.blocked': "You've blocked notifications",
+            'message.prenotify': 'Click to subscribe to notifications',
+            'message.action.subscribed': "Thanks for subscribing!",
+            'message.action.resubscribed': "You're subscribed to notifications",
+            'message.action.unsubscribed': "You won't receive notifications again",
+            'dialog.main.title': 'Manage Site Notifications',
+            'dialog.main.button.subscribe': 'SUBSCRIBE',
+            'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
+            'dialog.blocked.title': 'Unblock Notifications',
+            'dialog.blocked.message': "Follow these instructions to allow notifications:"
+          }
+        },
+        welcomeNotification: {
+          "title": "My Custom Title",
+          "message": "Thanks for subscribing!",
+          // "url": "" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
+        }
+      });
+      OneSignal.showNativePrompt();
+    });
+  </script>
 </head>
 
 <body class="hold-transition login-page background">
@@ -307,9 +350,9 @@
 <!-- AdminLTE App -->
 <script src="{% static "dist/js/adminlte.min.js" %}"></script>
 <script src="{% static "plugins/bootbox/bootbox.all.min.js" %}"></script>
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+
 <script>
-  window.OneSignal = window.OneSignal || [];
+
   function confirm(elem) {
     bootbox.confirm({
       title: "Atenção!",
@@ -325,45 +368,7 @@
       },
       callback: function (result) {
         if (result) {
-          OneSignal.push(function() {
-            OneSignal.init({
-              appId: "6b3bb072-2bd6-40e1-ae89-d840d5bc66c1",
-              autoResubscribe: true,
-              notifyButton: {
-                enable: true, /* Required to use the Subscription Bell */
-                size: 'medium', /* One of 'small', 'medium', or 'large' */
-                theme: 'default', /* One of 'default' (red-white) or 'inverse" (white-red) */
-                position: 'bottom-right', /* Either 'bottom-left' or 'bottom-right' */
-                offset: {
-                  bottom: '0px',
-                  left: '0px', /* Only applied if bottom-left */
-                  right: '0px' /* Only applied if bottom-right */
-                },
-                prenotify: true, /* Show an icon with 1 unread message for first-time site visitors */
-                showCredit: false, /* Hide the OneSignal logo */
-                text: {
-                  'tip.state.unsubscribed': 'Subscribe to notifications',
-                  'tip.state.subscribed': "You're subscribed to notifications",
-                  'tip.state.blocked': "You've blocked notifications",
-                  'message.prenotify': 'Click to subscribe to notifications',
-                  'message.action.subscribed': "Thanks for subscribing!",
-                  'message.action.resubscribed': "You're subscribed to notifications",
-                  'message.action.unsubscribed': "You won't receive notifications again",
-                  'dialog.main.title': 'Manage Site Notifications',
-                  'dialog.main.button.subscribe': 'SUBSCRIBE',
-                  'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
-                  'dialog.blocked.title': 'Unblock Notifications',
-                  'dialog.blocked.message': "Follow these instructions to allow notifications:"
-                }
-              },
-              welcomeNotification: {
-                "title": "My Custom Title",
-                "message": "Thanks for subscribing!",
-                // "url": "" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
-              }
-            });
-            OneSignal.showNativePrompt();
-          });
+
         }
       }
     })
