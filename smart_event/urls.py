@@ -7,6 +7,8 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.decorators.cache import cache_control
+from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,7 +27,16 @@ urlpatterns = [
 
     url(r'^', include('apps.dashboard.urls', namespace="dashboard")),
 
-    url(r'^cliente/', include('apps.cliente.urls', namespace="cliente"))
+    url(r'^cliente/', include('apps.cliente.urls', namespace="cliente")),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^OneSignalSDKWorker.js', cache_control(max_age=2592000)(TemplateView.as_view(
+      template_name="onesignal/OneSignalSDKWorker.js",
+      content_type='application/javascript',
+    )), name='OneSignalSDKWorker.js'),
+
+    url(r'^OneSignalSDKUpdaterWorker.js', cache_control(max_age=2592000)(TemplateView.as_view(
+      template_name="onesignal/OneSignalSDKUpdaterWorker.js",
+      content_type='application/javascript',
+    )), name='OneSignalSDKUpdaterWorker.js')
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
