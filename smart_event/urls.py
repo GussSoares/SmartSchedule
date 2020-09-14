@@ -29,6 +29,8 @@ urlpatterns = [
 
     url(r'^cliente/', include('apps.cliente.urls', namespace="cliente")),
 
+    url(r'^escala/', include('apps.escala.urls', namespace="escala")),
+
     url(r'^OneSignalSDKWorker.js', cache_control(max_age=2592000)(TemplateView.as_view(
       template_name="onesignal/OneSignalSDKWorker.js",
       content_type='application/javascript',

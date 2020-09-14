@@ -25,6 +25,7 @@ class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
     uf = models.CharField(_("UF"), max_length=255, null=True, default=None, blank=True)
     data_nascimento = models.DateField(_("Data de Nascimento"), null=True, blank=True)
     foto = models.ImageField(_("Foto de Perfil"), null=True, blank=True, upload_to="profile/", default="profile/default-user.jpg")
+    categoria = models.ForeignKey("cliente.Categoria", null=True, default=None, on_delete=models.SET_NULL)
 
     objects = UsuarioManager()
 
@@ -55,3 +56,13 @@ class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
     @property
     def cidade_uf(self):
         return " - ".join([self.cidade, self.uf])
+
+
+class Categoria(DefaultModel):
+    descricao = models.CharField(max_length=255, null=False, default="")
+
+    class Meta:
+        db_table = 'categoria'
+
+    def __str__(self):
+        return self.descricao

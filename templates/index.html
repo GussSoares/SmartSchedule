@@ -44,7 +44,7 @@
 {#      s.parentNode.insertBefore(g, s);#}
 {#    }(document, "script"));#}
 {#  </script>#}
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+{% comment %}  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script>
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
@@ -52,7 +52,7 @@
         appId: "ac46fd4e-3813-479a-b175-0149f9789d8f",
       });
     });
-  </script>
+  </script>{% endcomment %}
   <!-- End PushAlert -->
   {% block css %}{% endblock %}
 </head>

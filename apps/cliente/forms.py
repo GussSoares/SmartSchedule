@@ -10,7 +10,7 @@ class ClienteForm(CustomModelForm):
     class Meta:
         model = Cliente
         fields = ['first_name', 'last_name', 'login', 'email', 'cpf_cnpj', 'data_nascimento', 'telefone', 'cep',
-                  'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'foto']
+                  'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'foto', 'categoria']
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -85,6 +85,9 @@ class ClienteForm(CustomModelForm):
             'foto': forms.FileInput(attrs={
                 'class': 'form-control',
                 'style': 'display: none'
+            }),
+            'categoria': forms.Select(attrs={
+                'class': 'form-control select2'
             })
         }
 

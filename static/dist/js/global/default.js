@@ -1,5 +1,5 @@
 // all modals reload
-$(".modal").on('hidden.bs.modal', function () {
+$("#ajax.modal").on('hidden.bs.modal', function () {
     $(this).find('.modal-content')
         .html("<div class=\"modal-body\">\n" +
         "          <i class=\"fas fa-sync fa-spin loading-img\"></i>\n" +

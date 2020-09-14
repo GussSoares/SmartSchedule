@@ -50,6 +50,8 @@ DEFAULT_APPS = [
     'apps.dashboard',
     'apps.cliente',
     'apps.core',
+    'apps.escala',
+    'apps.notification',
 ]
 
 # Middlewares
