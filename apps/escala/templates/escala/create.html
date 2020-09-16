@@ -11,8 +11,13 @@
 {#  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />#}
 {#  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />#}
 
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{% static 'plugins/dhx-calendar/codebase/dhtmlxscheduler_material.css' %}" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <link href="https://adminlte.io/themes/dev/AdminLTE/plugins/select2/css/select2.min.css"/>
+  <link href="https://adminlte.io/themes/dev/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"/>
 
 
   <style type="text/css" >
@@ -22,7 +27,29 @@
       height:100%;
       overflow:hidden;
     }{% endcomment %}
+    .dhx_cal_larea{
+      overflow:visible;
+    }
+    .dhx_cal_select2,
+    .dhx_cal_select2 select{
+      width: 400px;
+    }
+    #my_form {
+      position: absolute;
+      top: 100px;
+      left: 200px;
+      z-index: 10001;
+      display: none;
+      background-color: white;
+      border: 2px outset gray;
+      padding: 20px;
+      font-family: Tahoma;
+      font-size: 10pt;
+    }
 
+    #my_form label {
+      width: 200px;
+    }
     .add_event_button{
       position: absolute;
       width: 55px;
@@ -146,6 +173,18 @@
 
 {#          <div id="calendar"></div>#}
           <div id="scheduler_here" style='width:100%; height:400px;'></div>
+          <div id="my_form" class="dhx_cal_light dhx_cal_light_wide">
+            <select id="teste" class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-primary">
+              <option value="1">Alabama</option>
+              <option value="2">Alaska</option>
+              <option value="3">California</option>
+              <option value="4">Delaware</option>
+              <option>Tennessee</option>
+              <option>Texas</option>
+              <option>Washington</option>
+            </select>
+          </div>
+
 {#          <div class="add_event_button" data-tooltip="Create new event"><span></span></div>#}
         </div>
         <!-- /.card-body -->
@@ -154,28 +193,34 @@
     </div>
     <!-- /.col -->
   </div>
-  {#  <div class="modal fade" id="modal-default" role="basic" aria-hidden="true">#}
-  {#    <div class="modal-dialog">#}
-  {#      <div class="modal-content">#}
-  {#        <div class="modal-body">#}
-  {#          <i class="fas fa-sync fa-spin loading-img"></i>#}
-  {#          <span> &nbsp;&nbsp;Carregando…</span>#}
-  {#        </div>#}
-  {#      </div>#}
-  {#      <!-- /.modal-content -->#}
-  {#    </div>#}
-  {#    <!-- /.modal-dialog -->#}
-  {#  </div>#}
+    <div class="modal fade" id="modal-default" role="basic" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
   <!-- /.modal -->
 {% endblock %}
 
 {% block js %}
   <script src="{% static 'plugins/dhx-calendar/codebase/dhtmlxscheduler.js' %}" charset="utf-8"></script>
-  <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_multiselect.js' %}"></script>
+{#  <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_multiselect.js' %}"></script>#}
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_editors.js' %}"></script>
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_recurring.js' %}" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+  <script src="https://cdn.dhtmlx.com/scheduler/edge/ext/dhtmlxscheduler_minical.js"></script>
+  <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_container_autoresize.js' %}"></script>
   <!-- Quick info extension -->
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_quick_info.js' %}" charset="utf-8"></script>
+  <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+  <script src="{% static 'plugins/bootbox/bootbox.all.min.js' %}"></script>
+  <script src="{% static 'plugins/bootbox/bootbox.locales.min.js' %}"></script>
+
   <script>
     window.addEventListener("DOMContentLoaded", function(){
       console.log('aiai')
@@ -284,38 +329,84 @@
         { key: 15, label: 'Diana' }
       ];
 
-      scheduler.locale.labels.section_text = 'Text';
-      scheduler.locale.labels.section_time = 'Time';
+      scheduler.form_blocks['selectmultiple'] = {
+        render: function (config) {
+          var height=(config.height||50)+"px";
+
+          return `<div class='dhx_cal_ltext select2-primary'>` + $('#teste').css({"height": height, "width": "100%"}).select2()[0].outerHTML + "</div>"
+        },
+        set_value:function(node,value,ev,config){
+          // node - HTML object related to HTML defined above
+          // value - value defined by map_to property
+          // ev - event object
+          // config - section configuration object
+
+          $(node).val($('#teste').val() || "")
+        },
+        get_value:function(node,ev,config){
+          // node - HTML object related to HTML defined above
+          // event object
+          // config - section configuration object
+
+          ev.membros = $('#teste option:selected').toArray().map(item => item.text) || "";
+          return $('#teste').val().toString() || "";
+        },
+        focus:function(node){
+          // node - HTML object related to HTML defined above
+          $(node).focus();
+        }
+      }
+
+      scheduler.config.xml_date = "%Y-%m-%d %h:%i";
+
+      var opts = scheduler.serverList("options", [
+        {key:1, label: "John"},
+        {key:2, label: "Mike"},
+        {key:3, label: "Anna"}
+      ]);
+
+      scheduler.locale.labels.section_owner = "Membros";
+      scheduler.locale.labels.section_text = 'Descrição';
+      scheduler.locale.labels.section_time = 'Período';
       scheduler.locale.labels.section_select = 'Alert';
       scheduler.locale.labels.section_template = 'Details';
-      scheduler.locale.labels.section_userselect = "Participants";
+      {#scheduler.locale.labels.section_userselect = "Participants";#}
       scheduler.locale.labels.section_fruitselect = "Fruits";
       scheduler.locale.labels.section_checkme = "Check me";
       scheduler.locale.labels.section_priority = 'Priority';
-
+      scheduler.locale.labels.section_details = "Details";
       scheduler.config.lightbox.sections=[
-        { name:"text", height:35, map_to:"text", type:"textarea" , focus:true },
-        { name:"userselect", height: 35, map_to:"user_id", type:"multiselect", options: users, vertical:false },
-        { name:"select", height:35, map_to:"type", type:"select", options:alert_opts},
+        {name: "owner", height: 32, map_to: "owner", type: "selectmultiple", options: opts, focus:true},
+        { name:"text", height:35, map_to:"text", type:"textarea", lines: 3 },
+        {#{ name:"select", height:35, map_to:"type", type:"select", options:alert_opts},#}
         {#{ name:"recurring", height:115, type:"recurring", map_to:"rec_type", button:"recurring"},#}
         { name:"time", height:40, type:"time", map_to:"auto" },
       ];
 
-      scheduler.init('scheduler_here',new Date(),"week");
-      {% comment %}scheduler.parse([
-        {text:"Meeting",    start_date:new Date(), end_date:new Date()},
-        {text:"Conference", start_date:new Date(), end_date:new Date()},
-        {text:"Interview",  start_date:new Date(), end_date:new Date()}
-      ],"json");{% endcomment %}
       scheduler.load("{% url 'escala:get_all_schedules' %}");
 
-      {% comment %}document.querySelector(".add_event_button").addEventListener("click", function(){
-        scheduler.addEventNow();
-      });{% endcomment %}
-      scheduler.attachEvent("onEventSave", function (id, ev){
+      scheduler.config.details_on_dblclick = true;
+      scheduler.config.details_on_create = true;
+      scheduler.config.wide_form = true;
+      scheduler.templates.quick_info_content = function(start, end, ev){
+        return `
+          <div>
+          <h3>${ev.text}</h3>
+          <h5>${ev.membros || ""}</h5>
+          </div>
+        `;
+      };
+      scheduler.init('scheduler_here',new Date(),"week");
+
+      scheduler.attachEvent('onLightbox', function () {
+        // inicializa os inputs aqui
+        $('#teste').select2()
+      })
+      scheduler.attachEvent('onEventSave', function (id, ev) {
+        // todo: chamar endpoint de criar escala aqui
         console.log(ev)
-        return true;
-      });
+        return true
+      })
     });
   </script>
 {% endblock %}
