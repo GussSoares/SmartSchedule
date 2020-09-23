@@ -9,6 +9,7 @@ from .models import Schedule, ScheduleMember
 from ..cliente.models import Member
 import datetime
 import pytz
+import json
 
 timezone = pytz.timezone(settings.TIME_ZONE)
 
@@ -25,7 +26,7 @@ def create_schedule(request):
                 )
                 schedule.save()
 
-                members_list = request.POST.get('owner').split(',')
+                members_list = json.loads(request.POST.get('owner'))
                 schedules_members = []
                 for m in members_list:
                     schedules_members.append(ScheduleMember(
@@ -54,7 +55,7 @@ def update_schedule(request, pk):
                 schedule_members.delete()
 
                 # coloca novamente os membros na escala
-                members_list = request.POST.get('owner').split(',')
+                members_list = json.loads(request.POST.get('owner'))
                 schedules_members = []
                 for m in members_list:
                     schedules_members.append(ScheduleMember(

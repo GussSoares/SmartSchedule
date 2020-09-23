@@ -334,7 +334,7 @@
             {#$(node).find('#id_membro').val(ev.owner.split(','))#}
             $(node).find('#id_membro').val(ev.owner)
           } else {
-            $(node).val($('#id_membro').val() || "")
+            $(node).find('#id_membro').val([])
           }
         },
         get_value:function(node,ev,config){
@@ -342,7 +342,7 @@
           // event object
           // config - section configuration object
           ev.membros = $('#id_membro option:selected').toArray().map(item => item.text) || "";
-          return $('#id_membro').val().toString() || "";
+          return $(node).find('#id_membro').val();
         },
         focus:function(node){
           // node - HTML object related to HTML defined above
@@ -396,7 +396,7 @@
           data: {
             start_date: ev.start_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
             end_date: ev.end_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
-            owner: ev.owner,
+            owner: JSON.stringify(ev.owner),
             text: ev.text
           },
           method: 'POST',
@@ -432,7 +432,7 @@
           data: {
             start_date: ev.start_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
             end_date: ev.end_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
-            owner: ev.owner,
+            owner: JSON.stringify(ev.owner),
             text: ev.text
           },
           method: 'POST',
@@ -468,7 +468,7 @@
           data: {
             start_date: ev.start_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
             end_date: ev.end_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
-            owner: ev.owner,
+            owner: JSON.stringify(ev.owner),
             text: ev.text
           },
           method: 'POST',
