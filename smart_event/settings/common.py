@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'smart_event.settings.middleware.LocaleMiddleware',
+    'smart_event.settings.middleware.TimezoneMiddleware'
 ]
 
 # template stuff
@@ -104,7 +105,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-AUTH_USER_MODEL = 'cliente.Cliente'
+AUTH_USER_MODEL = 'cliente.Client'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'

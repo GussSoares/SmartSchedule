@@ -49,6 +49,7 @@
         <p class="login-box-msg">Faça login para iniciar sua sessão</p>
         <form action="{% url 'acl:login' %}" method="post">
           {% csrf_token %}
+          <input type="hidden" name="next" value="{{next}}" />
           <div class="input-group mb-3">
             {% comment %} <input type="text" class="form-control" placeholder="Login"> {% endcomment %}
             {{form.login}}

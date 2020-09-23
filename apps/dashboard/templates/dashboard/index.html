@@ -1,4 +1,5 @@
 {% extends "index.html" %}
+{% load static %}
 
 {% block title_page %}
   {{ request.resolver_match.app_name.capitalize }}
@@ -203,6 +204,82 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card bg-success">
+            <div class="card-header border-0">
+
+              <h3 class="card-title">
+                <i class="far fa-calendar-alt"></i>
+                Calendar
+              </h3>
+              <!-- tools card -->
+              <div class="card-tools">
+                <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" data-card-widget="maximize">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+              <!-- /. tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body pt-0">
+              <!--The calendar -->
+              <div id="calendar" style="width: 100%"></div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Últimos Membros</h3>
+
+              <div class="card-tools">
+                {% if last_members|length %}
+                  <span class="badge badge-danger">{{ last_members|length }} Novos Membros</span>
+                {% endif %}
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <ul class="users-list clearfix">
+                {% for member in last_members %}
+                  <li>
+                    <img src="{{ MEDIA_URL }}{{ member.cliente.foto }}" class="user-image img-circle" height="80" width="80" alt="User Image">
+                    <span class="users-list-name">{{ member.cliente.full_name }}</span>
+                    <span class="users-list-date">{{ member.cliente.created_at|date:"d M" }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+              <!-- /.users-list -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer text-center">
+              <a href="{% url 'member:create_member' %}">Ver Todos</a>
+            </div>
+            <!-- /.card-footer -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+<script>
+  // The Calender
+  $('#calendar').datetimepicker({
+    format: 'L',
+    inline: true,
+    autoApply: true
+  })
+</script>
 {% endblock %}

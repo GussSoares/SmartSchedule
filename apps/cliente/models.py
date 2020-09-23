@@ -7,7 +7,7 @@ from ..core.models import DefaultModel, UsuarioManager
 
 
 # Create your models here.
-class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
+class Client(DefaultModel, PermissionsMixin, AbstractBaseUser):
 
     login = models.CharField(_("Login"), max_length=50, unique=True)
     first_name = models.CharField(_("Primeiro Nome"), max_length=50)
@@ -25,7 +25,6 @@ class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
     uf = models.CharField(_("UF"), max_length=255, null=True, default=None, blank=True)
     data_nascimento = models.DateField(_("Data de Nascimento"), null=True, blank=True)
     foto = models.ImageField(_("Foto de Perfil"), null=True, blank=True, upload_to="profile/", default="profile/default-user.jpg")
-    categoria = models.ForeignKey("cliente.Categoria", null=True, default=None, on_delete=models.SET_NULL)
 
     objects = UsuarioManager()
 
@@ -57,12 +56,45 @@ class Cliente(DefaultModel, PermissionsMixin, AbstractBaseUser):
     def cidade_uf(self):
         return " - ".join([self.cidade, self.uf])
 
+    @property
+    def is_coordinator(self):
+        return Coordinator.objects.filter(cliente=self).exists()
 
-class Categoria(DefaultModel):
-    descricao = models.CharField(max_length=255, null=False, default="")
+    @property
+    def is_member(self):
+        return Member.objects.filter(cliente=self).exists()
+
+
+class Coordinator(DefaultModel):
+    cliente = models.ForeignKey('cliente.Client', null=False, on_delete=models.CASCADE)
+    grupo = models.ForeignKey('cliente.Group', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
-        db_table = 'categoria'
+        db_table = 'coordenador'
+
+    def __str__(self):
+        return self.cliente.full_name
+
+
+class Member(DefaultModel):
+    cliente = models.ForeignKey('cliente.Client', null=False, on_delete=models.CASCADE)
+    grupo = models.ForeignKey('cliente.Group', null=True, blank=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table = 'membro'
+
+    def __str__(self):
+        return self.cliente.full_name
+
+
+class Group(DefaultModel):
+    descricao = models.CharField(_("Descrição"), max_length=255, null=False, blank=False)
+
+    class Meta:
+        db_table = 'grupo'
 
     def __str__(self):
         return self.descricao
+
+    def get_coordinators_name(self):
+        return ", ".join(self.coordinator_set.all().values_list('cliente__first_name', flat=True))

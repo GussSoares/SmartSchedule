@@ -9,5 +9,6 @@ urlpatterns = [
 
     url(r'^api/create/$', api.create_schedule, name="api_create"),
     url(r'^api/update/(?P<pk>\d+)$', api.update_schedule, name="api_update"),
+    url(r'^api/delete/(?P<pk>\d+)$', api.delete_schedule, name="api_delete"),
     url(r'^api/get-all-schedules/$', api.get_all_schedules, name="get_all_schedules"),
 ]

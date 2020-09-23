@@ -1,8 +1,10 @@
 {% extends "index.html" %}
 {% load static %}
+{% load tz %}
 
 {% block title_page %}
   {{ request.resolver_match.app_name.capitalize }}
+  {{ timezone }}
 {% endblock %}
 
 {% block css %}
@@ -18,6 +20,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <link href="https://adminlte.io/themes/dev/AdminLTE/plugins/select2/css/select2.min.css"/>
   <link href="https://adminlte.io/themes/dev/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"/>
+  <link href="{% static 'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}" />
+{#  <link href="{% static 'plugins/sweetalert2/sweetalert2.min.css' %}" />#}
 
 
   <style type="text/css" >
@@ -174,15 +178,16 @@
 {#          <div id="calendar"></div>#}
           <div id="scheduler_here" style='width:100%; height:400px;'></div>
           <div id="my_form" class="dhx_cal_light dhx_cal_light_wide">
-            <select id="teste" class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-primary">
-              <option value="1">Alabama</option>
-              <option value="2">Alaska</option>
-              <option value="3">California</option>
-              <option value="4">Delaware</option>
-              <option>Tennessee</option>
-              <option>Texas</option>
-              <option>Washington</option>
-            </select>
+{#            <select id="id_membro" class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-primary">#}
+{#              <option value="1">Alabama</option>#}
+{#              <option value="2">Alaska</option>#}
+{#              <option value="3">California</option>#}
+{#              <option value="4">Delaware</option>#}
+{#              <option>Tennessee</option>#}
+{#              <option>Texas</option>#}
+{#              <option>Washington</option>#}
+{#            </select>#}
+            {{ form.membro }}
           </div>
 
 {#          <div class="add_event_button" data-tooltip="Create new event"><span></span></div>#}
@@ -217,11 +222,21 @@
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_container_autoresize.js' %}"></script>
   <!-- Quick info extension -->
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_quick_info.js' %}" charset="utf-8"></script>
+  <script src="{% static 'plugins/dhx-calendar/codebase/locale/locale_pt.js' %}"></script>
   <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
   <script src="{% static 'plugins/bootbox/bootbox.all.min.js' %}"></script>
   <script src="{% static 'plugins/bootbox/bootbox.locales.min.js' %}"></script>
+  <script src="{% static 'plugins/sweetalert2/sweetalert2.all.js' %}"></script>
 
   <script>
+    var action = null;
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
     window.addEventListener("DOMContentLoaded", function(){
       console.log('aiai')
       // different configs for different screen sizes
@@ -303,53 +318,31 @@
       scheduler.attachEvent("onBeforeViewChange", resetConfig);
       scheduler.attachEvent("onSchedulerResize", resetConfig);
 
-
-      // demo data
-      var alert_opts = [
-        { key: 1, label: 'None' },
-        { key: 2, label: 'On start date' },
-        { key: 3, label: '1 day before' }
-      ];
-
-      var users = [
-        { key: 1, label: 'George' },
-        { key: 2, label: 'Nataly' },
-        { key: 3, label: 'Diana' },
-        { key: 4, label: 'George' },
-        { key: 5, label: 'Nataly' },
-        { key: 6, label: 'Diana' },
-        { key: 7, label: 'George' },
-        { key: 8, label: 'Nataly' },
-        { key: 9, label: 'Diana' },
-        { key: 10, label: 'George' },
-        { key: 11, label: 'Nataly' },
-        { key: 12, label: 'Diana' },
-        { key: 13, label: 'George' },
-        { key: 14, label: 'Nataly' },
-        { key: 15, label: 'Diana' }
-      ];
-
       scheduler.form_blocks['selectmultiple'] = {
         render: function (config) {
           var height=(config.height||50)+"px";
 
-          return `<div class='dhx_cal_ltext select2-primary'>` + $('#teste').css({"height": height, "width": "100%"}).select2()[0].outerHTML + "</div>"
+          return `<div class='dhx_cal_ltext select2-primary'>` + $('#id_membro').css({"height": height, "width": "100%"}).select2()[0].outerHTML + "</div>"
         },
         set_value:function(node,value,ev,config){
           // node - HTML object related to HTML defined above
           // value - value defined by map_to property
           // ev - event object
           // config - section configuration object
-
-          $(node).val($('#teste').val() || "")
+          if (typeof ev.owner === typeof []) {
+            console.log(ev)
+            {#$(node).find('#id_membro').val(ev.owner.split(','))#}
+            $(node).find('#id_membro').val(ev.owner)
+          } else {
+            $(node).val($('#id_membro').val() || "")
+          }
         },
         get_value:function(node,ev,config){
           // node - HTML object related to HTML defined above
           // event object
           // config - section configuration object
-
-          ev.membros = $('#teste option:selected').toArray().map(item => item.text) || "";
-          return $('#teste').val().toString() || "";
+          ev.membros = $('#id_membro option:selected').toArray().map(item => item.text) || "";
+          return $('#id_membro').val().toString() || "";
         },
         focus:function(node){
           // node - HTML object related to HTML defined above
@@ -359,54 +352,160 @@
 
       scheduler.config.xml_date = "%Y-%m-%d %h:%i";
 
-      var opts = scheduler.serverList("options", [
-        {key:1, label: "John"},
-        {key:2, label: "Mike"},
-        {key:3, label: "Anna"}
-      ]);
-
-      scheduler.locale.labels.section_owner = "Membros";
       scheduler.locale.labels.section_text = 'Descrição';
+      scheduler.locale.labels.section_owner = "Membros";
       scheduler.locale.labels.section_time = 'Período';
-      scheduler.locale.labels.section_select = 'Alert';
-      scheduler.locale.labels.section_template = 'Details';
-      {#scheduler.locale.labels.section_userselect = "Participants";#}
-      scheduler.locale.labels.section_fruitselect = "Fruits";
-      scheduler.locale.labels.section_checkme = "Check me";
-      scheduler.locale.labels.section_priority = 'Priority';
-      scheduler.locale.labels.section_details = "Details";
+      scheduler.locale.labels.section_obs = 'OBS';
+
       scheduler.config.lightbox.sections=[
-        {name: "owner", height: 32, map_to: "owner", type: "selectmultiple", options: opts, focus:true},
-        { name:"text", height:35, map_to:"text", type:"textarea", lines: 3 },
-        {#{ name:"select", height:35, map_to:"type", type:"select", options:alert_opts},#}
-        {#{ name:"recurring", height:115, type:"recurring", map_to:"rec_type", button:"recurring"},#}
-        { name:"time", height:40, type:"time", map_to:"auto" },
+        { name: "text", height: 35, map_to: "text", type: "textarea", lines: 3, focus:true },
+        { name: "owner", height: 32, map_to: "owner", type: "selectmultiple", required: true},
+        { name: "time", height: 40, type: "time", map_to: "auto" },
+        { name: "obs", height: 70, map_to: "obs", type: "textarea", lines: 3 },
+
       ];
 
       scheduler.load("{% url 'escala:get_all_schedules' %}");
 
+
       scheduler.config.details_on_dblclick = true;
       scheduler.config.details_on_create = true;
       scheduler.config.wide_form = true;
+      scheduler.config.start_on_monday = false;
       scheduler.templates.quick_info_content = function(start, end, ev){
         return `
           <div>
           <h3>${ev.text}</h3>
-          <h5>${ev.membros || ""}</h5>
+          <h5>${ev.membros.join(', ') || ""}</h5>
           </div>
         `;
       };
       scheduler.init('scheduler_here',new Date(),"week");
 
+      // ------- HANDLE EVENTS --------
       scheduler.attachEvent('onLightbox', function () {
         // inicializa os inputs aqui
-        $('#teste').select2()
+        $('#id_membro').select2()
       })
-      scheduler.attachEvent('onEventSave', function (id, ev) {
-        // todo: chamar endpoint de criar escala aqui
-        console.log(ev)
+
+      // ------------ CREATE SCHEDULE ------------
+      scheduler.attachEvent('onEventAdded', function (id, ev) {
+        var result = true;
+        $.ajax({
+          url: '{% url 'schedule:api_create' %}',
+          data: {
+            start_date: ev.start_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
+            end_date: ev.end_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
+            owner: ev.owner,
+            text: ev.text
+          },
+          method: 'POST',
+          async: false,
+          success: function (data) {
+            scheduler.changeEventId(id, data.id);
+            Toast.fire({
+              icon: 'success',
+              title: 'Escala criada com sucesso!'
+            })
+            result = true;
+          },
+          error: function (data) {
+            Toast.fire({
+              icon: 'error',
+              title: 'Falha ao criar escala!'
+            })
+            result = false;
+          }
+        })
+        if (!result) {
+          scheduler.hideLightbox();
+          return false
+        }
         return true
       })
+
+      // ------------ UPDATE SCHEDULE ------------
+      scheduler.attachEvent('onEventChanged', function (id, ev) {
+        var result = null;
+        $.ajax({
+          url: `/schedule/api/update/${id}`,
+          data: {
+            start_date: ev.start_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
+            end_date: ev.end_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
+            owner: ev.owner,
+            text: ev.text
+          },
+          method: 'POST',
+          async: false,
+          success: function (data) {
+            scheduler.changeEventId(id, data.id);
+            Toast.fire({
+              icon: 'success',
+              title: 'Escala alterada com sucesso!'
+            })
+            result = true;
+          },
+          error: function (data) {
+            Toast.fire({
+              icon: 'error',
+              title: 'Falha ao alterar escala!'
+            })
+            result = false;
+          }
+        })
+        if (!result) {
+          scheduler.hideLightbox();
+          return false
+        }
+        return true
+      })
+
+      // ------------ DELETE SCHEDULE ------------
+      scheduler.attachEvent('onConfirmedBeforeEventDelete', function (id, ev) {
+        var result = true;
+        $.ajax({
+          url: `/schedule/api/delete/${id}`,
+          data: {
+            start_date: ev.start_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
+            end_date: ev.end_date.toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'}),
+            owner: ev.owner,
+            text: ev.text
+          },
+          method: 'POST',
+          async: false,
+          success: function (data) {
+            {#scheduler.changeEventId(id, data.id);#}
+            Toast.fire({
+              icon: 'success',
+              title: 'Escala deletada com sucesso!'
+            })
+            result = true;
+          },
+          error: function (data) {
+            {#scheduler.deleteEvent(id)#}
+            Toast.fire({
+              icon: 'error',
+              title: 'Falha ao deletar escala!'
+            })
+            result = false;
+          }
+        })
+
+        return true
+      })
+
+      // ------------ VALIDATION SCHEDULE ------------
+      scheduler.attachEvent('onEventSave', function (id, ev) {
+        if (!ev.owner) {
+          Toast.fire({
+            icon: 'info',
+            title: 'Informe os membros!'
+          })
+          return false;
+        }
+        return true;
+      })
+
     });
   </script>
 {% endblock %}

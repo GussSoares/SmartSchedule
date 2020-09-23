@@ -1,16 +1,14 @@
 from django import forms
-from django.core.exceptions import ValidationError
-
-from .models import Cliente
+from .models import Client, Group, Coordinator, Member
 from ..core.forms import CustomForm, CustomModelForm
 
 
-class ClienteForm(CustomModelForm):
+class ClientForm(CustomModelForm):
 
     class Meta:
-        model = Cliente
+        model = Client
         fields = ['first_name', 'last_name', 'login', 'email', 'cpf_cnpj', 'data_nascimento', 'telefone', 'cep',
-                  'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'foto', 'categoria']
+                  'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'foto']
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -85,9 +83,6 @@ class ClienteForm(CustomModelForm):
             'foto': forms.FileInput(attrs={
                 'class': 'form-control',
                 'style': 'display: none'
-            }),
-            'categoria': forms.Select(attrs={
-                'class': 'form-control select2'
             })
         }
 
@@ -103,13 +98,39 @@ class SetPasswordForm(CustomForm):
         'placeholder': 'Confirme a Senha'
     }))
 
-    # def clean(self):
-    #     cleaned_data = super(SetPasswordForm, self).clean()
-    #
-    #     if 'password1' in self.changed_data and 'password2' in self.changed_data:
-    #         if cleaned_data.get('password1') == cleaned_data.get('password2'):
-    #             return cleaned_data
-    #         else:
-    #             self.add_error('password1', ValidationError("As senhas não coicidem!"))
-    #
-    #     return cleaned_data
+
+class CoordForm(CustomModelForm):
+    class Meta:
+        model = Coordinator
+        fields = ['grupo']
+        widgets = {
+            'grupo': forms.Select(attrs={
+                'class': 'form-control select2',
+                'placeholder': 'Informe uma Grupo'
+            })
+        }
+
+
+class MemberForm(CustomModelForm):
+    class Meta:
+        model = Member
+        fields = ['grupo']
+        widgets = {
+            'grupo': forms.Select(attrs={
+                'class': 'form-control select2',
+                'placeholder': 'Informe uma Grupo'
+            })
+        }
+
+
+class GroupForm(CustomModelForm):
+
+    class Meta:
+        model = Group
+        fields = ['descricao']
+        widgets = {
+            'descricao': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Informe uma Descrição'
+            })
+        }

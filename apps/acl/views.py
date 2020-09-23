@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout, update_session_auth_hash
 from django.contrib import messages
 from .forms import LoginForm, RegisterForm
-from ..cliente.forms import ClienteForm, SetPasswordForm
-from ..cliente.models import Cliente
+from ..cliente.forms import ClientForm, SetPasswordForm
+from ..cliente.models import Client
 
 
 def login(request):
@@ -17,13 +17,14 @@ def login(request):
 
             if user:
                 django_login(request, user)
-
+                if request.POST.get('next'):
+                    return redirect(request.POST.get('next'))
                 return redirect('dashboard:index')
             else:
                 messages.error(request, "Usuário ou Senha incorretos!")
 
     context = {
-        'form': form
+        'form': form,
     }
     return render(request, 'login/login.html', context)
 
@@ -52,12 +53,12 @@ def register(request):
 
 def profile(request):
 
-    instance = get_object_or_404(Cliente, pk=request.user.id)
-    form = ClienteForm(instance=instance)
+    instance = get_object_or_404(Client, pk=request.user.id)
+    form = ClientForm(instance=instance)
     password_form = SetPasswordForm()
 
     if request.method == 'POST':
-        form = ClienteForm(request.POST, request.FILES, instance=instance)
+        form = ClientForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             user = form.save()
             password_form = SetPasswordForm(request.POST)

@@ -15,6 +15,13 @@ $('.date').datepicker({
   autoclose: true
 });
 
+// all select2
+$('.select2').select2({
+    placeholder: 'Selecione uma opção',
+    allowClear: true
+})
+
+
 // function to create element by html string passed
 function createElementFromHTML(htmlString) {
     var div = document.createElement('div');

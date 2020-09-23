@@ -1,6 +1,6 @@
 from django import forms
 from ..core.forms import CustomModelForm, CustomForm
-from ..cliente.models import Cliente
+from ..cliente.models import Client
 
 
 class LoginForm(CustomForm):
@@ -32,7 +32,7 @@ class RegisterForm(CustomModelForm):
     }))
 
     class Meta:
-        model = Cliente
+        model = Client
         fields = ['first_name', 'last_name', 'login', 'email', 'password1', 'password2']
         widgets = {
             'first_name': forms.TextInput(attrs={

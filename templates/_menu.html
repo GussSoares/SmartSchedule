@@ -29,76 +29,82 @@
               <p class="title">Dashboard<i class="right"></i></p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-address-card"></i>
-              <p>Clientes<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'cliente:create' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Clientes</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Grupos<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Grupos</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-tie"></i>
-              <p>Coordenadores<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Coordenadores</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-plus"></i>
-              <p>Membros<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Membros</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-calendar-check"></i>
-              <p>Escalas<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'escala:create' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Escalas</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+{#          <li class="nav-item">#}
+{#            <a href="#" class="nav-link">#}
+{#              <i class="nav-icon fas fa-address-card"></i>#}
+{#              <p>Clientes<i class="fas fa-angle-left right"></i></p>#}
+{#            </a>#}
+{#            <ul class="nav nav-treeview">#}
+{#              <li class="nav-item">#}
+{#                <a href="{% url 'client:create_client' %}" class="nav-link">#}
+{#                  <i class="far fa-circle nav-icon"></i>#}
+{#                  <p>Clientes</p>#}
+{#                </a>#}
+{#              </li>#}
+{#            </ul>#}
+{#          </li>#}
+
+          {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>Grupos<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'group:create_group' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Grupos</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-user-tie"></i>
+                <p>Coordenadores<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'coordinator:create_coord' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Coordenadores</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          {% endif %}
+          {% if request.user.is_superuser or request.user.is_coordinator %}
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-user-plus"></i>
+                <p>Membros<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'member:create_member' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Membros</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>Escalas<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'escala:create' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Escalas</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          {% endif %}
+
 {#          <li class="nav-item has-treeview menu-open">#}
 {#            <a href="#" class="nav-link active">#}
 {#              <i class="nav-icon fas fa-tachometer-alt"></i>#}

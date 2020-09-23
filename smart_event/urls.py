@@ -27,9 +27,15 @@ urlpatterns = [
 
     url(r'^', include('apps.dashboard.urls', namespace="dashboard")),
 
-    url(r'^cliente/', include('apps.cliente.urls', namespace="cliente")),
+    url(r'^client/', include('apps.cliente.urls', namespace="client")),
 
-    url(r'^escala/', include('apps.escala.urls', namespace="escala")),
+    url(r'^coordinator/', include('apps.cliente.urls', namespace="coordinator")),
+
+    url(r'^member/', include('apps.cliente.urls', namespace="member")),
+
+    url(r'^group/', include('apps.cliente.urls', namespace="group")),
+
+    url(r'^schedule/', include('apps.escala.urls', namespace="schedule")),
 
     url(r'^OneSignalSDKWorker.js', cache_control(max_age=2592000)(TemplateView.as_view(
       template_name="onesignal/OneSignalSDKWorker.js",

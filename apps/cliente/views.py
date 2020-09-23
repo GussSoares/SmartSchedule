@@ -3,26 +3,26 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.http import JsonResponse
-from .forms import ClienteForm, SetPasswordForm
-from .models import Cliente
+from .forms import ClientForm, SetPasswordForm, GroupForm, CoordForm, MemberForm
+from .models import Client, Coordinator, Member, Group
 
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
-def create(request):
-    form = ClienteForm()
+def create_cliente(request):
+    form = ClientForm()
     password_form = SetPasswordForm()
     if request.method == 'POST':
-        form = ClienteForm(request.POST)
+        form = ClientForm(request.POST)
         password_form = SetPasswordForm(request.POST)
         if form.is_valid() and password_form.is_valid():
             cliente = form.save()
             cliente.set_password(password_form.cleaned_data.get('password1'))
             cliente.save()
             messages.success(request, "Cliente criado com sucesso!")
-            return redirect('cliente:create')
+            return redirect('client:create_client')
 
-    clientes = Cliente.objects.filter(is_active=True)
+    clientes = Client.objects.filter(is_active=True)
     context = {
         'form': form,
         'password_form': password_form,
@@ -33,15 +33,15 @@ def create(request):
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
-def update(request, pk):
-    instance = get_object_or_404(Cliente, pk=pk)
-    form = ClienteForm(instance=instance)
+def update_cliente(request, pk):
+    instance = get_object_or_404(Client, pk=pk)
+    form = ClientForm(instance=instance)
     if request.method == 'POST':
-        form = ClienteForm(request.POST, instance=instance)
+        form = ClientForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
             messages.success(request, "Cliente alterado com sucesso!")
-            return redirect('cliente:create')
+            return redirect('client:create_client')
 
     context = {
         'form': form,
@@ -53,7 +53,7 @@ def update(request, pk):
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def set_password(request, pk):
-    cliente = get_object_or_404(Cliente, pk=pk)
+    cliente = get_object_or_404(Client, pk=pk)
     form = SetPasswordForm()
 
     if request.method == 'POST':
@@ -67,7 +67,7 @@ def set_password(request, pk):
             messages.success(request, "Senha alterado com sucesso!")
         else:
             messages.error(request, form.errors.as_ul())
-        return redirect('cliente:create')
+        return redirect('client:create_client')
 
     context = {
         'form': form,
@@ -76,12 +76,195 @@ def set_password(request, pk):
     return render(request, "cliente/set_password.html", context)
 
 
-def delete(request, pk):
+def delete_cliente(request, pk):
     try:
-        cliente = get_object_or_404(Cliente, pk=pk)
-        # cliente.delete()
+        cliente = get_object_or_404(Client, pk=pk)
+        cliente.delete()
         messages.success(request, "Cliente removido com sucesso!")
     except Exception as exc:
         messages.error(request, "Erro ao remover cliente!")
 
     return JsonResponse({'result': 'success'})
+
+
+# ---------------------- COORDENADOR ---------------------- #
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def create_coord(request):
+    form = ClientForm()
+    form_coord = CoordForm()
+    password_form = SetPasswordForm()
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        form_coord = CoordForm(request.POST)
+        password_form = SetPasswordForm(request.POST)
+        if form.is_valid() and password_form.is_valid() and form_coord.is_valid():
+            cliente = form.save()
+            cliente.set_password(password_form.cleaned_data.get('password1'))
+            cliente.save()
+            Coordinator.objects.create(cliente=cliente, grupo=form_coord.cleaned_data.get('grupo'))
+            messages.success(request, "Coordenador criado com sucesso!")
+            return redirect('coordinator:create_coord')
+
+    coords = Coordinator.objects.filter(cliente__is_active=True)
+    context = {
+        'form': form,
+        'form_coord': form_coord,
+        'password_form': password_form,
+        'coords': coords
+    }
+    return render(request, 'coordenador/create.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def update_coord(request, pk):
+    instance = get_object_or_404(Coordinator, pk=pk)
+    form = ClientForm(instance=instance.cliente)
+    form_coord = CoordForm(instance=instance)
+    if request.method == 'POST':
+        form = ClientForm(request.POST, instance=instance.cliente)
+        form_coord = CoordForm(request.POST, instance=instance)
+        if form.is_valid() and form_coord.is_valid():
+            form.save()
+            instance.grupo = form_coord.cleaned_data.get('grupo')
+            instance.save()
+            messages.success(request, "Coordenador alterado com sucesso!")
+            return redirect('coordinator:create_coord')
+
+    context = {
+        'form': form,
+        'form_coord': form_coord,
+        'pk': pk
+    }
+    return render(request, "coordenador/update.html", context)
+
+
+def delete_coord(request, pk):
+    try:
+        cliente = get_object_or_404(Client, pk=pk)
+        cliente.delete()
+        messages.success(request, "Coordenador removido com sucesso!")
+    except Exception as exc:
+        messages.error(request, "Erro ao remover coordenador!")
+
+    return JsonResponse({'result': 'success'})
+
+
+# ---------------------- MEMBRO ---------------------- #
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+def create_membro(request):
+    form = ClientForm()
+    form_member = MemberForm()
+    password_form = SetPasswordForm()
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        form_member = MemberForm(request.POST)
+        password_form = SetPasswordForm(request.POST)
+        if form.is_valid() and password_form.is_valid() and form_member.is_valid():
+            cliente = form.save()
+            cliente.set_password(password_form.cleaned_data.get('password1'))
+            cliente.save()
+            Member.objects.create(cliente=cliente, grupo=form_member.cleaned_data.get('grupo'))
+            messages.success(request, "Membro criado com sucesso!")
+            return redirect('member:create_member')
+
+    members = Member.objects.filter(cliente__is_active=True)
+    context = {
+        'form': form,
+        'form_member': form_member,
+        'password_form': password_form,
+        'members': members
+    }
+    return render(request, 'membro/create.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+def update_membro(request, pk):
+    instance = get_object_or_404(Member, pk=pk)
+    form_member = MemberForm(instance=instance)
+    form = ClientForm(instance=instance.cliente)
+    if request.method == 'POST':
+        form = ClientForm(request.POST, instance=instance.cliente)
+        form_member = MemberForm(request.POST, instance=instance)
+        if form.is_valid() and form_member.is_valid():
+            form.save()
+            instance.grupo = form_member.cleaned_data.get('grupo')
+            instance.save()
+            messages.success(request, "Membro alterado com sucesso!")
+            return redirect('member:create_member')
+
+    context = {
+        'form': form,
+        'form_member': form_member,
+        'pk': pk
+    }
+    return render(request, 'membro/update.html', context)
+
+
+def delete_membro(request, pk):
+    try:
+        cliente = get_object_or_404(Client, pk=pk)
+        cliente.delete()
+        messages.success(request, "Membro removido com sucesso!")
+    except Exception as exc:
+        messages.error(request, "Erro ao remover membro!")
+
+    return JsonResponse({'result': 'success'})
+
+
+# ---------------------- GRUPO ---------------------- #
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+def create_grupo(request):
+    form = GroupForm()
+    if request.method == 'POST':
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Grupo criado com sucesso!")
+            return redirect('group:create_group')
+
+    groups = Group.objects.all()
+    context = {
+        'form': form,
+        'groups': groups
+    }
+    return render(request, 'grupo/create.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+def update_grupo(request, pk):
+    instance = get_object_or_404(Group, pk=pk)
+    form = GroupForm(instance=instance)
+    if request.method == 'POST':
+        form = GroupForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Grupo alterado com sucesso!")
+            return redirect('group:create_group')
+
+    context = {
+        'form': form,
+        'pk': pk
+    }
+    return render(request, 'grupo/update.html', context)
+
+
+def delete_grupo(request, pk):
+    try:
+        group = get_object_or_404(Group, pk=pk)
+        if Member.objects.filter(grupo=group).exists():
+            messages.warning(request, "Existem membros associados a este grupo!")
+        elif Coordinator.objects.filter(grupo=group).exists():
+            messages.warning(request, "Existem coordenadores associados a este grupo!")
+        else:
+            group.delete()
+            messages.success(request, "Grupo removido com sucesso!")
+    except Exception as exc:
+        messages.error(request, "Erro ao remover grupo!")
+    return JsonResponse({'result': 'success'})
+

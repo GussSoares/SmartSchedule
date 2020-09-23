@@ -1,11 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title">Editar Cliente</h4>
+  <h4 class="modal-title">Editar Membro</h4>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <form id="form_update" action="{% url 'client:update_client' pk=pk %}" method="POST">
+  <form id="form_update" action="{% url 'member:update_member' pk=pk %}" method="POST">
     {% csrf_token %}
     <div class="row">
       <div class="col-md-6">
@@ -88,9 +88,9 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="form-group">
-          <label for="{{ form.data_nascimento }}">Data de Nasc.</label>
+          <label for="{{ form.data_nascimento.label }}">Data de Nasc.</label>
           <div class="input-group date" data-provide="datepicker">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         <div class="form-group">
           <label for="exampleInputEmail1">Telefone</label>
           <div class="input-group">
@@ -195,6 +195,22 @@
               <span class="error invalid-feedback">{{ error|escape }}</span>
             {% endfor %}
           {% endif %}
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Grupo do Membro</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-users"></i></span>
+            </div>
+            {{ form_member.grupo }}
+            {% if form_member.grupo.errors %}
+              {% for error in form_member.grupo.errors %}
+                <span class="error invalid-feedback">{{ error|escape }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
