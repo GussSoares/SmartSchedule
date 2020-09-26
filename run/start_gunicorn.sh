@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="seu-projeto"                              #Name of the application (*)
+NAME="smart_event"                              #Name of the application (*)
 DJANGODIR=/home/gustavo/workspace/env/SmartEvent             # Django project directory (*)
 SOCKFILE=/home/gustavo/workspace/env/SmartEvent/run/gunicorn.sock        # we will communicate using this unix socket (*)
 USER=gustavo                                       # the user to run as (*)
@@ -28,7 +28,3 @@ exec gunicorn ${DJANGO_WSGI_MODULE}:application \
   --workers $NUM_WORKERS \
   --user $USER \
   --bind=unix:$SOCKFILE
-
-IMPORTANTE!
-DNS: 213.136.95.10
-DNS: 213.136.95.11
