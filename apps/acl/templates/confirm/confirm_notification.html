@@ -33,10 +33,8 @@
 
       OneSignal.on('subscriptionChange', function (isSubscribed) {
         console.log("The user's subscription state is now:",isSubscribed);
-        OneSignal.push(function() {
-          OneSignal.getUserId(function(userId) {
-            console.log("OneSignal User ID:", userId);
-          });
+        OneSignal.getUserId(function(userId) {
+          console.log("OneSignal User ID:", userId);
         });
       });
 
