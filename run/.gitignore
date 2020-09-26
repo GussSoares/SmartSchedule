@@ -4,7 +4,7 @@
 #*
 
 # ignore sqlite3
-.sqlite3
+*.sqlite3
 
 # except the explaining README
 !README
