@@ -1,0 +1,53 @@
+upstream smartschedule {
+  server unix:/home/gustavo/workspace/env/SmartEvent/run/gunicorn.sock fail_timeout=10s;
+}
+
+# This is not neccessary - it's just commonly used
+# it just redirects example.com -> www.example.com
+# so it isn't treated as two separate websites
+
+server {
+    listen    80;
+    listen    443 default_server ssl;
+    server_name vmi452903.contaboserver.net 144.91.109.33 teste.smartschedule.ml;
+
+    client_max_body_size 4G;
+
+    access_log /home/gustavo/workspace/env/SmartEvent/logs/nginx-access.log;
+    error_log /home/gustavo/workspace/env/SmartEvent/logs/nginx-error.log warn;
+
+    location /static/ {
+        autoindex on;
+        alias   /home/gustavo/workspace/env/SmartEvent/static/;
+    }
+
+   location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        if (!-f $request_filename) {
+            proxy_pass http://smartschedule;
+            break;
+        }
+    }
+
+    #For favicon
+    location  /favicon.ico {
+        alias /home/gustavo/workspace/env/SmartEvent/static/img/favicon.ico;
+    }
+    #For robots.txt
+    location  /robots.txt {
+        alias /home/gustavo/workspace/env/SmartEvent/static/robots.txt ;
+    }
+    # Error pages
+    error_page 500 502 503 504 /500.html;
+    location = /500.html {
+        root /home/gustavo/workspace/env/SmartEvent/static/;
+    }
+
+    # SSL
+    ssl_certificate /etc/letsencrypt/live/teste.smartschedule.ml/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/teste.smartschedule.ml/privkey.pem;
+
+}

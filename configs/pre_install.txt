@@ -1,0 +1,26 @@
+sudo apt install software-properties-common
+
+sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget bzip2 libpq-dev
+
+# link pra instalar o postgres (recomendado)
+https://computingforgeeks.com/installing-postgresql-database-server-on-ubuntu/
+
+# ou fazer isso
+sudo apt install postgresql postgresql-contrib
+sudo -i -u postgres
+psql
+sudo -u postgres psql
+sudo -u postgres createuser --interactive
+
+sudo su - postgres
+psql -c "alter user postgres with password 'postgres'"
+
+
+sudo apt install nginx
+sudo service nginx start
+
+# se der erro de porta 80 ja usava, precisa encerrar o apache
+sudo /etc/init.d/apache2 stop
+
+# certificado https
+https://certbot.eff.org/lets-encrypt/ubuntuxenial-nginx.html
