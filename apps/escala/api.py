@@ -83,7 +83,7 @@ def delete_schedule(request, pk):
 
 
 def get_all_schedules(request):
-    schedules = Schedule.objects.all()
+    schedules = Schedule.objects.filter()
     result = []
 
     for schedule in schedules:

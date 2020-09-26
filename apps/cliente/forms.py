@@ -122,6 +122,12 @@ class MemberForm(CustomModelForm):
             })
         }
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(MemberForm, self).__init__(*args, **kwargs)
+        if user and user.is_coordinator:
+            self.fields['grupo'].queryset = Group.objects.filter(coordinator__cliente=user)
+
 
 class GroupForm(CustomModelForm):
 

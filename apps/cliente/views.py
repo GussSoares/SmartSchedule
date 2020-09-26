@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from django.db.models import Q
 from django.http import JsonResponse
 from .forms import ClientForm, SetPasswordForm, GroupForm, CoordForm, MemberForm
 from .models import Client, Coordinator, Member, Group
@@ -156,7 +157,7 @@ def delete_coord(request, pk):
 @user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
 def create_membro(request):
     form = ClientForm()
-    form_member = MemberForm()
+    form_member = MemberForm(user=request.user)
     password_form = SetPasswordForm()
     if request.method == 'POST':
         form = ClientForm(request.POST)
@@ -171,6 +172,9 @@ def create_membro(request):
             return redirect('member:create_member')
 
     members = Member.objects.filter(cliente__is_active=True)
+    if request.user.is_coordinator:
+        members = members.filter(Q(grupo__coordinator__cliente=request.user) | Q(grupo=None))
+
     context = {
         'form': form,
         'form_member': form_member,
@@ -184,7 +188,7 @@ def create_membro(request):
 @user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
 def update_membro(request, pk):
     instance = get_object_or_404(Member, pk=pk)
-    form_member = MemberForm(instance=instance)
+    form_member = MemberForm(instance=instance, user=request.user)
     form = ClientForm(instance=instance.cliente)
     if request.method == 'POST':
         form = ClientForm(request.POST, instance=instance.cliente)
@@ -217,7 +221,7 @@ def delete_membro(request, pk):
 
 # ---------------------- GRUPO ---------------------- #
 @login_required
-@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+@user_passes_test(lambda u: u.is_superuser)
 def create_grupo(request):
     form = GroupForm()
     if request.method == 'POST':
@@ -236,7 +240,7 @@ def create_grupo(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+@user_passes_test(lambda u: u.is_superuser)
 def update_grupo(request, pk):
     instance = get_object_or_404(Group, pk=pk)
     form = GroupForm(instance=instance)
