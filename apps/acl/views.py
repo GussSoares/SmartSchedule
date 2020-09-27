@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout, update_session_auth_hash
 from django.contrib import messages
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, LoginConfirmForm
 from ..cliente.forms import ClientForm, SetPasswordForm
-from ..cliente.models import Client
+from ..cliente.models import Client, Member
 
 
 def login(request):
@@ -77,6 +77,20 @@ def profile(request):
         'password_form': password_form
     }
     return render(request, 'profile/profile.html', context)
+
+
+def login_confirm(request):
+    form = LoginConfirmForm()
+    if request.method == "POST":
+        form = LoginConfirmForm(request.POST)
+        if form.is_valid():
+            try:
+                member = Member.objects.get(cliente__cpf_cnpj=form.cleaned_data.get('cpf'))
+                return render(request, 'confirm/confirm_notification.html', {'member': member})
+            except Exception as exc:
+                messages.error(request, 'Cadastro não localizado')
+                return redirect('acl:login_confirm')
+    return render(request, 'confirm/login_confirm_notification.html', {'form': form})
 
 
 def confirm(request):

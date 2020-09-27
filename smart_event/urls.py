@@ -37,6 +37,8 @@ urlpatterns = [
 
     url(r'^schedule/', include('apps.escala.urls', namespace="schedule")),
 
+    url(r'^notification/', include('apps.notification.urls', namespace="notification")),
+
     url(r'^OneSignalSDKWorker.js', cache_control(max_age=2592000)(TemplateView.as_view(
       template_name="onesignal/OneSignalSDKWorker.js",
       content_type='application/javascript',

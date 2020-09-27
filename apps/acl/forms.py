@@ -56,3 +56,12 @@ class RegisterForm(CustomModelForm):
                 'autocomplete': 'off'
             }),
         }
+
+
+class LoginConfirmForm(CustomForm):
+
+    cpf = forms.CharField(max_length=255, required=True, localize=True,
+                          widget=forms.TextInput(attrs={
+                              'class': 'form-control',
+                              'placeholder': 'CPF'
+                          }))
