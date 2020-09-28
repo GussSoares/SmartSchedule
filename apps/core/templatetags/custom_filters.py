@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 import json
 
 register = template.Library()
@@ -16,3 +17,8 @@ def get_type(value):
         message = value.message
 
     return message
+
+
+@register.simple_tag
+def settings_value(name):
+    return getattr(settings, name, "")

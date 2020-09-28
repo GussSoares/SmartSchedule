@@ -46,6 +46,7 @@ DEFAULT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'apps.acl',
     'apps.dashboard',
     'apps.cliente',
@@ -137,6 +138,8 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 # ##### DEBUG CONFIGURATION ###############################
 DEBUG = False
 
+# ONESIGNAL APP_ID
+ONESIGNAL_APP_ID = "ac46fd4e-3813-479a-b175-0149f9789d8f"
 
 # finally grab the SECRET KEY
 try:

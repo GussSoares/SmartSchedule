@@ -1,3 +1,4 @@
+{% load custom_filters %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
       OneSignal.init({
-        appId: "ac46fd4e-3813-479a-b175-0149f9789d8f",
+        appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
       });
 
       OneSignal.on('subscriptionChange', function (isSubscribed) {
