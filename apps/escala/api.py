@@ -22,7 +22,8 @@ def create_schedule(request):
                 schedule = Schedule(
                     inicio=timezone.localize(datetime.datetime.strptime(request.POST.get('start_date'), "%d/%m/%Y %H:%M:%S")),
                     fim=timezone.localize(datetime.datetime.strptime(request.POST.get('end_date'), "%d/%m/%Y %H:%M:%S")),
-                    descricao=request.POST.get('text')
+                    descricao=request.POST.get('text'),
+                    obs=request.POST.get('obs')
                 )
                 schedule.save()
 
@@ -50,6 +51,8 @@ def update_schedule(request, pk):
                 schedule.inicio = timezone.localize(datetime.datetime.strptime(request.POST.get('start_date'), "%d/%m/%Y %H:%M:%S"))
                 schedule.fim = timezone.localize(datetime.datetime.strptime(request.POST.get('end_date'), "%d/%m/%Y %H:%M:%S"))
                 schedule.descricao = request.POST.get('text')
+                schedule.obs = request.POST.get('obs')
+
                 schedule.save()
                 # remove os membros da escala
                 schedule_members.delete()
@@ -95,6 +98,7 @@ def get_all_schedules(request):
             'category': 'time',
             'id': str(schedule.id),
             'text': schedule.descricao,
+            'obs': schedule.obs,
             'membros': list(schedule.schedulemember_set.all().values_list('membro__cliente__first_name', flat=True))
         })
     return JsonResponse({'data': result}, status=200)

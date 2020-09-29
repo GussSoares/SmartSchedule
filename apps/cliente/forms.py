@@ -100,6 +100,8 @@ class SetPasswordForm(CustomForm):
 
 
 class CoordForm(CustomModelForm):
+    error_css_class = ' is-invalid'
+
     class Meta:
         model = Coordinator
         fields = ['grupo']
@@ -112,6 +114,8 @@ class CoordForm(CustomModelForm):
 
 
 class MemberForm(CustomModelForm):
+    error_css_class = ' is-invalid'
+
     class Meta:
         model = Member
         fields = ['grupo']

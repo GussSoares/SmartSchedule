@@ -14,11 +14,13 @@ class CustomForm(forms.Form):
             else:
                 self.add_error('password1', ValidationError("As senhas não coicidem!"))
                 self.add_error('password2', ValidationError("As senhas não coicidem!"))
+        return cleaned_data
 
+    def is_valid(self):
+        """Return True if the form has no errors, or False otherwise."""
         for field in self.errors:
             self[field].field.widget.attrs['class'] += ' is-invalid'
-
-        return cleaned_data
+        return self.is_bound and not self.errors
 
 
 class CustomModelForm(forms.ModelForm):
@@ -33,8 +35,10 @@ class CustomModelForm(forms.ModelForm):
             else:
                 self.add_error('password1', ValidationError("As senhas não coicidem!"))
                 self.add_error('password2', ValidationError("As senhas não coicidem!"))
+        return cleaned_data
 
+    def is_valid(self):
+        """Return True if the form has no errors, or False otherwise."""
         for field in self.errors:
             self[field].field.widget.attrs['class'] += ' is-invalid'
-
-        return cleaned_data
+        return self.is_bound and not self.errors

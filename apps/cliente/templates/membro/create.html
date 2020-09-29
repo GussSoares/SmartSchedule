@@ -19,6 +19,7 @@
                   <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                 </div>
                 {{ form.first_name }}
+                <span class="error invalid-feedback">asdasd</span>
                 {% if form.first_name.errors %}
                   {% for error in form.first_name.errors %}
                     <span class="error invalid-feedback">{{ error|escape }}</span>

@@ -170,6 +170,13 @@ def create_membro(request):
             Member.objects.create(cliente=cliente, grupo=form_member.cleaned_data.get('grupo'))
             messages.success(request, "Membro criado com sucesso!")
             return redirect('member:create_member')
+        # else:
+        #     for field in form.errors:
+        #         form[field].field.widget.attrs['class'] += ' is-invalid'
+        #     for field in password_form.errors:
+        #         password_form[field].field.widget.attrs['class'] += ' is-invalid'
+        #     for field in form_member.errors:
+        #         form_member[field].field.widget.attrs['class'] += ' is-invalid'
 
     members = Member.objects.filter(cliente__is_active=True)
     if request.user.is_coordinator:
@@ -199,7 +206,8 @@ def update_membro(request, pk):
             instance.save()
             messages.success(request, "Membro alterado com sucesso!")
             return redirect('member:create_member')
-
+        for field in form.errors:
+            form[field].field.widget.attrs['class'] += ' is-invalid'
     context = {
         'form': form,
         'form_member': form_member,
