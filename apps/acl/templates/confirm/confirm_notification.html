@@ -38,23 +38,25 @@
       function save_player_id () {
         OneSignal.getUserId().then(function(userId) {
           console.log("OneSignal User ID:", userId);
-          $.ajax({
-            url: '{% url 'notification:register_player_id' %}',
-            method: 'post',
-            async: false,
-            data: {
-              csrfmiddlewaretoken: '{{ csrf_token }}',
-              player_id: userId,
-              member_id: '{{ member.id }}'
-            }
-          })
+          if (userId) {
+            $.ajax({
+              url: '{% url 'notification:register_player_id' %}',
+              method: 'post',
+              async: false,
+              data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                player_id: userId,
+                member_id: '{{ member.id }}'
+              }
+            })
+          }
         });
       }
 
       OneSignal.on('subscriptionChange', function (isSubscribed) {
         save_player_id();
       });
-      if ('{{ member.cliente.player_id }}' === 'None') {
+      if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {
         setTimeout(function () {
           Swal.fire({
             icon: 'question',
