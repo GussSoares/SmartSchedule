@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css"%}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/sweetalert2/sweetalert2.min.css" %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="shortcut icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
@@ -32,8 +34,7 @@
         appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
       });
 
-      OneSignal.on('subscriptionChange', function (isSubscribed) {
-        console.log("The user's subscription state is now:",isSubscribed);
+      function save_player_id () {
         OneSignal.getUserId().then(function(userId) {
           console.log("OneSignal User ID:", userId);
           $.ajax({
@@ -46,9 +47,27 @@
               member_id: '{{ member.id }}'
             }
           })
-          // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
         });
+      }
+
+      OneSignal.on('subscriptionChange', function (isSubscribed) {
+        save_player_id();
       });
+      if ('{{ member.cliente.player_id }}' === 'None') {
+        setTimeout(function () {
+          Swal.fire({
+            icon: 'question',
+            title: 'Olá! 📅 Quer receber lembrete da escala?',
+            text: 'Basta clicar em "permitir" no popup que irá aparecer. 😎',
+            showCloseButton: false,
+            showCancelButton: false,
+            onClose: function () {
+              OneSignal.showSlidedownPrompt()
+              save_player_id();
+            }
+          })
+        }, 1000)
+      }
     });
   </script>
 </head>
@@ -101,6 +120,7 @@
 <!-- AdminLTE App -->
 <script src="{% static "dist/js/adminlte.min.js" %}"></script>
 <script src="{% static "plugins/bootbox/bootbox.all.min.js" %}"></script>
+<script src="{% static "plugins/sweetalert2/sweetalert2.all.min.js" %}"></script>
 
 <script>
 
