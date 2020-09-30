@@ -29,8 +29,8 @@ def run(*args):
         members = schedule.schedulemember_set.all()
         player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
 
-        msg = "Você está escalado para hoje às {}h.".format(schedule.inicio.time().strftime("%H:%M"))
-        title = "Eai! Cuida na Escala"
+        msg = "Você está escalado para hoje às {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))
+        title = "Eai! Cuida na Escala. 📅"
         header = get_header()
         # payload = get_payload(['5d10d117-f413-4cee-82c5-5724bd949125'], title, msg)
         payload = get_payload(player_ids, title, msg)
