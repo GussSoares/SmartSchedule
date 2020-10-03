@@ -33,7 +33,8 @@ class ClientForm(CustomModelForm):
             'cpf_cnpj': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'CPF',
-                'autocomplete': 'off'
+                'autocomplete': 'off',
+                'required': True
             }),
             'data_nascimento': forms.DateInput(attrs={
                 'class': 'form-control',

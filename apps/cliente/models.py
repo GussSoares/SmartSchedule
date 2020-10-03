@@ -13,7 +13,7 @@ class Client(DefaultModel, PermissionsMixin, AbstractBaseUser):
     first_name = models.CharField(_("Primeiro Nome"), max_length=50)
     last_name = models.CharField(_("Último Nome"), max_length=50, null=True, blank=True)
     email = models.EmailField(_("Email"), max_length=254, null=True, blank=True)
-    cpf_cnpj = models.CharField(_("CPF/CNPJ"), max_length=14, null=True, blank=True)
+    cpf_cnpj = models.CharField(_("CPF/CNPJ"), max_length=14, null=True, blank=False)
     telefone = models.CharField(_("Telefone"), max_length=13, null=True, blank=True)
     is_active = models.BooleanField(_("Ativo"), default=True, null=False, blank=True)
     logradouro = models.CharField(_("Endereço"), max_length=255, null=True, default=None, blank=True)

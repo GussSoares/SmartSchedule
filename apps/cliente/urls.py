@@ -21,6 +21,7 @@ urlpatterns = [
     # ---------------------- MEMBRO ---------------------- #
     url(r'^create-member/$', views.create_membro, name="create_member"),
     url(r'^update-member/(?P<pk>\d+)$', views.update_membro, name="update_member"),
+    url(r'^update-member/(?P<pk>\d+)/(?P<comment_id>\d+)$', views.update_membro, name="update_member_comment"),
     url(r'^delete-member/(?P<pk>\d+)$', views.delete_membro, name="delete_member"),
 
     # ---------------------- GRUPO ---------------------- #

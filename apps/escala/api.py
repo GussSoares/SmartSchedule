@@ -6,7 +6,7 @@ from django.conf import settings
 
 # from django.utils import timezone
 from .models import Schedule, ScheduleMember
-from ..cliente.models import Member
+from ..cliente.models import Member, Coordinator
 import datetime
 import pytz
 import json
@@ -17,11 +17,13 @@ timezone = pytz.timezone(settings.TIME_ZONE)
 @csrf_exempt
 def create_schedule(request):
     if request.method == 'POST':
+        start = request.POST.get('start_date')
+        end = request.POST.get('end_date')
         try:
             with transaction.atomic():
                 schedule = Schedule(
-                    inicio=timezone.localize(datetime.datetime.strptime(request.POST.get('start_date'), "%d/%m/%Y %H:%M:%S")),
-                    fim=timezone.localize(datetime.datetime.strptime(request.POST.get('end_date'), "%d/%m/%Y %H:%M:%S")),
+                    inicio=datetime.datetime.strptime(start, "%d/%m/%Y %H:%M:%S").astimezone(tz=timezone),
+                    fim=datetime.datetime.strptime(end, "%d/%m/%Y %H:%M:%S").astimezone(tz=timezone),
                     descricao=request.POST.get('text'),
                     obs=request.POST.get('obs')
                 )
@@ -46,10 +48,12 @@ def update_schedule(request, pk):
     if request.method == 'POST':
         schedule = get_object_or_404(Schedule, pk=pk)
         schedule_members = schedule.schedulemember_set.all()
+        start = request.POST.get('start_date')
+        end = request.POST.get('end_date')
         try:
             with transaction.atomic():
-                schedule.inicio = timezone.localize(datetime.datetime.strptime(request.POST.get('start_date'), "%d/%m/%Y %H:%M:%S"))
-                schedule.fim = timezone.localize(datetime.datetime.strptime(request.POST.get('end_date'), "%d/%m/%Y %H:%M:%S"))
+                schedule.inicio = datetime.datetime.strptime(start, "%d/%m/%Y %H:%M:%S").astimezone(tz=timezone)
+                schedule.fim = datetime.datetime.strptime(end, "%d/%m/%Y %H:%M:%S").astimezone(tz=timezone)
                 schedule.descricao = request.POST.get('text')
                 schedule.obs = request.POST.get('obs')
 
@@ -86,9 +90,19 @@ def delete_schedule(request, pk):
 
 
 def get_all_schedules(request):
-    schedules = Schedule.objects.filter()
-    result = []
+    # todo: precisa pegar as escalas cujo usuario é coordenador d
+    user = request.user
 
+    if user.is_coordinator:
+        group = Coordinator.objects.get(cliente=user).grupo
+        schedules = Schedule.objects.filter(schedulemember__membro__grupo=group)
+    elif user.is_member:
+        member = Member.objects.get(cliente=user)
+        schedules = Schedule.objects.filter(schedulemember__membro=member)
+    else:
+        schedules = Schedule.objects.all()
+
+    result = []
     for schedule in schedules:
         result.append({
             'owner': list(schedule.schedulemember_set.all().values_list('membro_id', flat=True)),

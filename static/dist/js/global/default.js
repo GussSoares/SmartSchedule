@@ -36,6 +36,30 @@ $('#id_cep').blur(function () {
     }
 })
 
+$("#ajax.modal").on('shown.bs.modal', function () {
+    let modal = $('#ajax.modal');
+    let modal_cep = modal.find('#id_cep');
+    let modal_logradouto = modal.find('#id_logradouro');
+    let modal_numero = modal.find('#id_numero');
+    let modal_bairro = modal.find('#id_bairro');
+    let modal_cidade = modal.find('#id_cidade');
+    let modal_uf = modal.find('#id_uf');
+    modal_cep.blur(function () {
+        if ($(this).val() !== "") {
+            $.ajax({
+                url: `https://viacep.com.br/ws/${$(this).val()}/json/`,
+            }).then(function (data) {
+                modal_logradouto.val(data.logradouro)
+                modal_numero.val(data.complemento)
+                modal_bairro.val(data.bairro)
+                modal_cidade.val(data.localidade)
+                modal_uf.val(data.uf)
+            })
+        }
+    })
+});
+
+
 
 // function to create element by html string passed
 function createElementFromHTML(htmlString) {
@@ -45,3 +69,11 @@ function createElementFromHTML(htmlString) {
     // Change this to div.childNodes to support multiple top-level nodes
     return div.firstChild;
 }
+
+// Toast Default
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});

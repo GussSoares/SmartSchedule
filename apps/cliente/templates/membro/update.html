@@ -5,7 +5,12 @@
   </button>
 </div>
 <div class="modal-body">
-  <form id="form_update" action="{% url 'member:update_member' pk=pk %}" method="POST">
+  {% if comment_id %}
+    <form id="form_update" action="{% url 'member:update_member_comment' pk=pk comment_id=comment_id %}" method="POST">
+  {% else %}
+    <form id="form_update" action="{% url 'member:update_member' pk=pk %}" method="POST">
+  {% endif %}
+
     {% csrf_token %}
     <div class="row">
       <div class="col-md-6">
@@ -197,22 +202,24 @@
           {% endif %}
         </div>
       </div>
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Grupo do Membro</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-users"></i></span>
+      {% if request.user.is_superuser %}
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Grupo do Membro</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-users"></i></span>
+              </div>
+              {{ form_member.grupo }}
+              {% if form_member.grupo.errors %}
+                {% for error in form_member.grupo.errors %}
+                  <span class="error invalid-feedback">{{ error|escape }}</span>
+                {% endfor %}
+              {% endif %}
             </div>
-            {{ form_member.grupo }}
-            {% if form_member.grupo.errors %}
-              {% for error in form_member.grupo.errors %}
-                <span class="error invalid-feedback">{{ error|escape }}</span>
-              {% endfor %}
-            {% endif %}
           </div>
         </div>
-      </div>
+      {% endif %}
     </div>
   </form>
 </div>

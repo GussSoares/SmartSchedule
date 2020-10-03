@@ -19,7 +19,6 @@
                   <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                 </div>
                 {{ form.first_name }}
-                <span class="error invalid-feedback">asdasd</span>
                 {% if form.first_name.errors %}
                   {% for error in form.first_name.errors %}
                     <span class="error invalid-feedback">{{ error|escape }}</span>
@@ -201,54 +200,56 @@
               {% endif %}
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Senha</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+{#          <div class="col-md-6">#}
+{#            <div class="form-group">#}
+{#              <label for="exampleInputEmail1">Senha</label>#}
+{#              <div class="input-group">#}
+{#                <div class="input-group-prepend">#}
+{#                  <span class="input-group-text"><i class="fas fa-lock"></i></span>#}
+{#                </div>#}
+{#                {{ password_form.password1 }}#}
+{#                {% if password_form.password1.errors %}#}
+{#                  {% for error in password_form.password1.errors %}#}
+{#                    <span class="error invalid-feedback">{{ error|escape }}</span>#}
+{#                  {% endfor %}#}
+{#                {% endif %}#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="col-md-6">#}
+{#            <div class="form-group">#}
+{#              <label for="exampleInputEmail1">Confirme a Senha</label>#}
+{#              <div class="input-group">#}
+{#                <div class="input-group-prepend">#}
+{#                  <span class="input-group-text"><i class="fas fa-lock"></i></span>#}
+{#                </div>#}
+{#                {{ password_form.password2 }}#}
+{#                {% if password_form.password2.errors %}#}
+{#                  {% for error in password_form.password2.errors %}#}
+{#                    <span class="error invalid-feedback">{{ error|escape }}</span>#}
+{#                  {% endfor %}#}
+{#                {% endif %}#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+          {% if request.user.is_superuser %}
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Grupo do Membro</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-users"></i></span>
+                  </div>
+                  {{ form_member.grupo }}
+                  {% if form_member.grupo.errors %}
+                    {% for error in form_member.grupo.errors %}
+                      <span class="error invalid-feedback">{{ error|escape }}</span>
+                    {% endfor %}
+                  {% endif %}
                 </div>
-                {{ password_form.password1 }}
-                {% if password_form.password1.errors %}
-                  {% for error in password_form.password1.errors %}
-                    <span class="error invalid-feedback">{{ error|escape }}</span>
-                  {% endfor %}
-                {% endif %}
               </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Confirme a Senha</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                </div>
-                {{ password_form.password2 }}
-                {% if password_form.password2.errors %}
-                  {% for error in password_form.password2.errors %}
-                    <span class="error invalid-feedback">{{ error|escape }}</span>
-                  {% endfor %}
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Grupo do Membro</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-users"></i></span>
-                </div>
-                {{ form_member.grupo }}
-                {% if form_member.grupo.errors %}
-                  {% for error in form_member.grupo.errors %}
-                    <span class="error invalid-feedback">{{ error|escape }}</span>
-                  {% endfor %}
-                {% endif %}
-              </div>
-            </div>
-          </div>
+          {% endif %}
           <div class="col-md-12">
             <div class="form-group">
               <button type="submit" class="btn btn-primary float-right"><i class="fas fa-check"></i> Salvar</button>
@@ -298,7 +299,7 @@
                     <td>
                       <div class="btn-group-sm btn-group">
                         <a title="Editar" class="btn btn-default" onclick="$('.modal-content').load('{% url "member:update_member" pk=member.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-pen"></i></a>
-                        <a title="Alterar Senha" class="btn btn-default" onclick="$('.modal-content').load('{% url "client:set_password" pk=member.cliente.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-lock"></i></a>
+{#<!--                        <a title="Alterar Senha" class="btn btn-default" onclick="$('.modal-content').load('{% url "client:set_password" pk=member.cliente.id %}')" data-target="#ajax" data-toggle="modal"><i class="fas fa-lock"></i></a>-->#}
                         <button onclick="deletar_member({{ member.cliente.id }})" title="Remover" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                       </div>
                     </td>

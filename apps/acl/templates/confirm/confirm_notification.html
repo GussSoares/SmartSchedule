@@ -127,22 +127,80 @@
 
 <script>
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+  function create_commentary(dados) {
+    $.ajax({
+      url: '{% url "notification:create_commentary" %}',
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        message: dados,
+        member_id: '{{ member.id }}'
+      },
+      success: function (data) {
+        Toast.fire({
+          icon: 'success',
+          title: data.msg
+        })
+      },
+      error: function () {
+        Toast.fire({
+          icon: 'error',
+          title: 'Erro ao Enviar!'
+        })
+      }
+    })
+  }
+
   function confirm(elem) {
-    bootbox.confirm({
+    bootbox.dialog({
       title: "Atenção!",
       message: "Todos os seus dados estão corretos?",
       buttons: {
-        cancel: {
-          label: '<i class="fa fa-times"></i> Não'
+        noclose: {
+          label: '<i class="fas fa-times"></i> Não',
+          className: 'btn-default',
+          callback: function(){
+            bootbox.dialog({
+              title: 'Dados',
+              message: `
+                <div class="row">
+                  <div class="col-md-12">
+                    <span>Informe os dados corretos</span>
+                    <textarea id='text' placeholder="Informações corretas..." class="form-control" />
+                  </div>
+                </div>
+              `,
+              buttons: {
+                confirm: {
+                  label: '<i class="fas fa-paper-plane"></i> Enviar',
+                  callback: function () {
+                    var dados = $('#text').val();
+                    if (dados !== "") {
+                      create_commentary(dados)
+                    } else {
+                      return false;
+                    }
+                  }
+                }
+              }
+            });
+            return true;
+          }
         },
-        confirm: {
-          label: '<i class="fa fa-check"></i> Sim',
-          className: 'btn-primary'
-        }
-      },
-      callback: function (result) {
-        if (result) {
-
+        ok: {
+          label: '<i class="fas fa-check"></i> Sim',
+          className: 'btn-primary',
+          callback: function(){
+            create_commentary(undefined)
+          }
         }
       }
     })

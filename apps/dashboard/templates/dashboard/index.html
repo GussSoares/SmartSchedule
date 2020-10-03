@@ -7,137 +7,145 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>{{ active_clients }}</h3>
+  <div class="col-md-12">
+  <div class="row">
+  {% if request.user.is_superuser %}
+    <div class="col-lg-4 col-4">
+  {% else %}
+    <div class="col-lg-6 col-6">
+  {% endif %}
+<!-- small box -->
+<div class="small-box bg-info">
+  <div class="inner">
+    <h3>{{ active_members }}</h3>
+    <p>Membros Ativos</p>
+  </div>
+  <div class="icon">
+    <i class="ion ion-person-add"></i>
+  </div>
+  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+  <!-- ./col -->
+  {% if request.user.is_superuser %}
+    <div class="col-lg-4 col-4">
+  {% else %}
+    <div class="col-lg-6 col-6">
+  {% endif %}
+<!-- small box -->
+<div class="small-box bg-success">
+  <div class="inner">
+    <h3>{{ schedules|length }}</h3>
+    <p>Escalas Elaboradas</p>
+  </div>
+  <div class="icon">
+    <i class="ion ion-calendar"></i>
+  </div>
+  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
+{% if request.user.is_superuser %}
+  <div class="col-lg-4 col-4">
+    <!-- small box -->
+    <div class="small-box bg-warning">
+      <div class="inner">
+        <h3>44</h3>
 
-              <p>Clientes Ativos</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-person-add"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-success">
-            <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
-              <p>Escalas Elaboradas</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-calendar"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>44</h3>
-
-              <p>Grupos Ativos</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-bag"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-danger">
-            <div class="inner">
-              <h3>65</h3>
-
-              <p>Unique Visitors</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
+        <p>Grupos Ativos</p>
       </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Últimos Membros</h3>
-
-              <div class="card-tools">
-                {% if last_members|length %}
-                  <span class="badge badge-danger">{{ last_members|length }} Novos Membros</span>
-                {% endif %}
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                  <i class="fas fa-expand"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <ul class="users-list clearfix">
-                {% for member in last_members %}
-                  <li>
-                    <img src="{{ MEDIA_URL }}{{ member.cliente.foto }}" class="user-image img-circle" height="80" width="80" alt="User Image">
-                    <span class="users-list-name">{{ member.cliente.full_name }}</span>
-                    <span class="users-list-date">{{ member.cliente.created_at|date:"d M" }}</span>
-                  </li>
-                {% endfor %}
-              </ul>
-              <!-- /.users-list -->
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer text-center">
-              <a href="{% url 'member:create_member' %}">Ver Todos</a>
-            </div>
-            <!-- /.card-footer -->
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card bg-success">
-            <div class="card-header border-0">
-
-              <h3 class="card-title">
-                <i class="far fa-calendar-alt"></i>
-                Calendar
-              </h3>
-              <!-- tools card -->
-              <div class="card-tools">
-                <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-success btn-sm" data-card-widget="maximize">
-                  <i class="fas fa-expand"></i>
-                </button>
-              </div>
-              <!-- /. tools -->
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body pt-0">
-              <!--The calendar -->
-              <div id="calendar" style="width: 100%"></div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-        </div>
+      <div class="icon">
+        <i class="ion ion-bag"></i>
       </div>
-      <div class="row">
+      <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+{% endif %}
+</div>
 
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Últimos Membros</h3>
+          <div class="card-tools">
+            {% if last_members|length %}
+              <span class="badge badge-danger">{{ last_members|length }} Novos Membros</span>
+            {% endif %}
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+          <ul class="users-list clearfix">
+            {% for member in last_members %}
+              <li>
+                <img src="{{ MEDIA_URL }}{{ member.cliente.foto }}" class="user-image img-circle elevation-2" height="80" width="80" alt="User Image">
+                <span class="users-list-name">{{ member.cliente.full_name }}</span>
+                <span class="users-list-date">{{ member.grupo.descricao|capfirst }} - {{ member.cliente.created_at|date:"d M" }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+          <!-- /.users-list -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer text-center">
+          <a href="{% url 'member:create_member' %}">Ver Todos</a>
+        </div>
+        <!-- /.card-footer -->
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+
+          <h3 class="card-title">
+            <i class="fas fa-chart-line"></i>
+            Timeline
+          </h3>
+          <!-- tools card -->
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+          <!-- /. tools -->
+        </div>
+        <!-- /.card-header -->
+        <div id="card_timeline" class="card-body" style="overflow-y: scroll; height: 340px">
+          <div class="container-fluid">
+
+            <!-- Timelime example  -->
+            <div class="row">
+              <div class="col-md-12">
+                <!-- The time line -->
+                <div id="timeline_content" class="timeline">
+                </div>
+              </div>
+              <!-- /.col -->
+            </div>
+          </div>
+          <!-- /.timeline -->
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="ajax" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <i class="fas fa-sync fa-spin loading-img"></i>
+          <span> &nbsp;&nbsp;Carregando…</span>
+        </div>
       </div>
     </div>
   </div>
@@ -151,6 +159,56 @@
       format: 'L',
       inline: true,
       autoApply: true
+    })
+
+    function corrigir_cadastro(id) {
+      alert('comentario de id: ' + id)
+    }
+
+    function create_timeline (commentaries) {
+      let html = "";
+      for (let [key, value] of Object.entries(commentaries)) {
+        html += `
+              <div class="time-label">
+                <span class="bg-red">${key}</span>
+              </div>
+            `
+        for (let comment of value) {
+          html += `
+                <div>
+                  ${comment.message ? '<i class="fas fa-exclamation-triangle bg-yellow"></i>' : '<i class="fas fa-user bg-success"></i>'}
+                  <div class="timeline-item elevation-2">
+                    <span class="time"><i class="fas fa-clock"></i> ${comment.time}</span>
+                    ${comment.message ? `
+                      <h3 class="timeline-header"><span class="text-primary text-bold">${comment.member}</span> enviou uma mensagem!</h3>
+                      <div class="timeline-body">
+                        ${comment.message}
+                      </div>
+                      <div class="timeline-footer">
+                        <a id="corrigir-cadastro_${comment.id}" class="btn btn-warning btn-sm" onclick="$('.modal-content').load('/member/update-member/${comment.member_id}/${comment.id}')" data-target="#ajax" data-toggle="modal">Corrigir cadastro <i class="fas fa-check"></i></a>
+                      </div>
+                    ` : `<h3 class="timeline-header"><span class="text-primary text-bold">${comment.member}</span> confirmou cadastro!</h3>`}
+                  </div>
+                </div>
+              `
+        }
+      }
+      return html;
+    }
+
+    $(document).ready(function () {
+
+      // clean timeline same date
+      $.ajax({
+        url: '{% url "notification:get_commentaries" %}',
+        success: function (data) {
+          let commentaries = data.data;
+          let html = create_timeline(commentaries);
+
+          $('#timeline_content').html(html)
+        }
+      })
+
     })
   </script>
 {% endblock %}

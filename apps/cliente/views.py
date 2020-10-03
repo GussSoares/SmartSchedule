@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
@@ -6,6 +7,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from .forms import ClientForm, SetPasswordForm, GroupForm, CoordForm, MemberForm
 from .models import Client, Coordinator, Member, Group
+from ..notification.models import Commentary
 
 
 @login_required
@@ -158,25 +160,19 @@ def delete_coord(request, pk):
 def create_membro(request):
     form = ClientForm()
     form_member = MemberForm(user=request.user)
-    password_form = SetPasswordForm()
     if request.method == 'POST':
         form = ClientForm(request.POST)
         form_member = MemberForm(request.POST)
-        password_form = SetPasswordForm(request.POST)
-        if form.is_valid() and password_form.is_valid() and form_member.is_valid():
+        if form.is_valid() and form_member.is_valid():
             cliente = form.save()
-            cliente.set_password(password_form.cleaned_data.get('password1'))
-            cliente.save()
-            Member.objects.create(cliente=cliente, grupo=form_member.cleaned_data.get('grupo'))
+            member = Member.objects.create(cliente=cliente, grupo=form_member.cleaned_data.get('grupo'))
+            # se usuario for coordenador, o grupo é selecionado automaticamente
+            if request.user.is_coordinator:
+                grupo = Coordinator.objects.get(cliente=request.user).grupo
+                member.grupo = grupo
+                member.save()
             messages.success(request, "Membro criado com sucesso!")
             return redirect('member:create_member')
-        # else:
-        #     for field in form.errors:
-        #         form[field].field.widget.attrs['class'] += ' is-invalid'
-        #     for field in password_form.errors:
-        #         password_form[field].field.widget.attrs['class'] += ' is-invalid'
-        #     for field in form_member.errors:
-        #         form_member[field].field.widget.attrs['class'] += ' is-invalid'
 
     members = Member.objects.filter(cliente__is_active=True)
     if request.user.is_coordinator:
@@ -185,7 +181,6 @@ def create_membro(request):
     context = {
         'form': form,
         'form_member': form_member,
-        'password_form': password_form,
         'members': members
     }
     return render(request, 'membro/create.html', context)
@@ -193,7 +188,7 @@ def create_membro(request):
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
-def update_membro(request, pk):
+def update_membro(request, pk, comment_id=None):
     instance = get_object_or_404(Member, pk=pk)
     form_member = MemberForm(instance=instance, user=request.user)
     form = ClientForm(instance=instance.cliente)
@@ -202,16 +197,28 @@ def update_membro(request, pk):
         form_member = MemberForm(request.POST, instance=instance)
         if form.is_valid() and form_member.is_valid():
             form.save()
-            instance.grupo = form_member.cleaned_data.get('grupo')
-            instance.save()
+            # se o usuario for admnistrador, pode alterar o grupo do membro
+            if request.user.is_superuser:
+                instance.grupo = form_member.cleaned_data.get('grupo')
+                instance.save()
             messages.success(request, "Membro alterado com sucesso!")
-            return redirect('member:create_member')
-        for field in form.errors:
-            form[field].field.widget.attrs['class'] += ' is-invalid'
+            # tenta redirecionar para a pagina que chamou a requisicao.
+            # se nao conseguir, por padrao redireciona para tela de membros
+            try:
+                with transaction.atomic():
+                    if comment_id:
+                        comment = Commentary.objects.get(id=comment_id)
+                        comment.checked = True
+                        comment.save()
+                return redirect(request.META['HTTP_REFERER'])
+            except:
+                return redirect('member:create_member')
+
     context = {
         'form': form,
         'form_member': form_member,
-        'pk': pk
+        'pk': pk,
+        'comment_id': comment_id
     }
     return render(request, 'membro/update.html', context)
 

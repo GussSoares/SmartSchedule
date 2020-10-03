@@ -34,6 +34,7 @@ def run(*args):
         header = get_header()
         # payload = get_payload(['5d10d117-f413-4cee-82c5-5724bd949125'], title, msg)
         payload = get_payload(player_ids, title, msg)
+        print('==> Sending Notification to {}...'.format(player_ids))
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req)
 

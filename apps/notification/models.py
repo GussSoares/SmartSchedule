@@ -12,3 +12,12 @@ class Notification(DefaultModel):
 
     class Meta:
         db_table = 'notificacao'
+
+
+class Commentary(DefaultModel):
+    message = models.TextField(null=True, blank=False)
+    membro = models.ForeignKey('cliente.Member', null=False, on_delete=models.CASCADE)
+    checked = models.BooleanField(default=False, null=False)
+
+    class Meta:
+        db_table = 'comentario'

@@ -24,3 +24,9 @@ class CreateScheduleForm(forms.Form):
         'data-placeholder': "Selecione os membros",
         'data-dropdown-css-class': "select2-primary"
     }))
+
+    def __init__(self, *args, **kwargs):
+        grupo = kwargs.pop('grupo', None)
+        super(CreateScheduleForm, self).__init__(*args, **kwargs)
+        if grupo:
+            self.fields['membro'].queryset = Member.objects.filter(grupo=grupo)
