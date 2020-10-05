@@ -356,8 +356,10 @@
           html += scheduler.templates.event_date(ev.start_date) + "</span>";
         }
         // displaying event's text
-        for (let member of ev.membros) {
-          html += "<span>" + member + "</span><br>"
+        if (ev.membros) {
+            for (let member of ev.membros) {
+              html += "<span>" + member + "</span><br>"
+            }
         }
 
         html += "</div>";
