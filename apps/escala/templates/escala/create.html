@@ -38,6 +38,10 @@
     .dhx_cal_select2 select{
       width: 400px;
     }
+    .dhx_body {
+      height: 100%;
+      width: 100%;
+    }
     #my_form {
       position: absolute;
       top: 100px;
@@ -107,13 +111,6 @@
       top: 27px;
     }
 
-    {% comment %}@media only screen and (max-width: 1000px){
-      .add_event_button{
-        bottom: 5vw;
-        right: 5vw;
-      }
-    }{% endcomment %}
-
   </style>
 {% endblock %}
 
@@ -130,6 +127,14 @@
             Escala
           </h2>
           <div class="card-tools">
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-share"></i>  Exportar
+              </button>
+              <ul class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(-21px, -85px, 0px); top: 0px; left: 0px; will-change: transform;">
+                <li><a class="dropdown-item" href="#" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Excel</a></li>
+                <li><a class="dropdown-item" href="#" onclick="exportToPDF()"><i class="fas fa-file-pdf"></i> PDF</a></li>
+              </ul>
+            </div>
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -138,59 +143,10 @@
         </div>
         <div class="card-body p-0">
           <!-- THE CALENDAR -->
-{#          <div id="menu">#}
-{#            <div class="btn-group">#}
-{#              <button type="button" class="btn btn-info">Visualização</button>#}
-{#              <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">#}
-{#                <span class="sr-only">Toggle Dropdown</span>#}
-{#                <div class="dropdown-menu" role="menu">#}
-{#                  <a class="dropdown-item" href="#" onclick="cal.changeView('month', true);">Mensal</a>#}
-{#                  <a class="dropdown-item" href="#" onclick="cal.changeView('week', true);">Semanal</a>#}
-{#                </div>#}
-{#              </button>#}
-{#            </div>#}
-{#            <span id="menu-navi">#}
-{#                          <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev" onclick="todayCalendar()">#}
-{#                              Hoje#}
-{#                          </button>#}
-{#                          <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev" onclick="prevCalendar()">#}
-{#                              <i class="fas fa-arrow-left" data-action="move-prev"></i>#}
-{#                          </button>#}
-{#                          <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next" onclick="nextCalendar(); ">#}
-{#                              <i class="fas fa-arrow-right" data-action="move-next"></i>#}
-{#                          </button>#}
-{#                      </span>#}
-{#            <span id="renderRange" class="render-range"></span>#}
-{#          </div>#}
-          {#          <div id="menu">#}
-          {#            <span id="menu-navi">#}
-          {#              <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>#}
-          {#              <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">#}
-          {#                <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>#}
-          {#              </button>#}
-          {#              <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">#}
-          {#                <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>#}
-          {#              </button>#}
-          {#            </span>#}
-          {#            <span id="renderRange" class="render-range"></span>#}
-          {#          </div>#}
-
-{#          <div id="calendar"></div>#}
           <div id="scheduler_here" style='width:100%; height:400px;'></div>
           <div id="my_form" class="dhx_cal_light dhx_cal_light_wide">
-{#            <select id="id_membro" class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-primary">#}
-{#              <option value="1">Alabama</option>#}
-{#              <option value="2">Alaska</option>#}
-{#              <option value="3">California</option>#}
-{#              <option value="4">Delaware</option>#}
-{#              <option>Tennessee</option>#}
-{#              <option>Texas</option>#}
-{#              <option>Washington</option>#}
-{#            </select>#}
             {{ form.membro }}
           </div>
-
-{#          <div class="add_event_button" data-tooltip="Create new event"><span></span></div>#}
         </div>
         <!-- /.card-body -->
       </div>
@@ -222,6 +178,7 @@
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_container_autoresize.js' %}"></script>
   <!-- Quick info extension -->
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_quick_info.js' %}" charset="utf-8"></script>
+  <script src="https://export.dhtmlx.com/scheduler/api.js"></script>
   <script src="{% static 'plugins/dhx-calendar/codebase/locale/locale_pt.js' %}"></script>
   <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
   <script src="{% static 'plugins/bootbox/bootbox.all.min.js' %}"></script>
@@ -365,6 +322,8 @@
       scheduler.config.details_on_create = true;
       scheduler.config.wide_form = true;
       scheduler.config.start_on_monday = false;
+
+      // ------- QUICK INFO CONTENTS --------
       scheduler.templates.quick_info_content = function(start, end, ev){
         return `
           <div>
@@ -373,6 +332,44 @@
           </div>
         `;
       };
+
+      // ------- EVENT TEXT --------
+      {% comment %}scheduler.templates.event_text = function(start,end,ev){
+        return `<span style="font-size: 10px;">${ev.membros}</span>`;
+      };{% endcomment %}
+
+      scheduler.renderEvent = function(container, ev) {
+        // your customizing code
+        var container_width = container.style.width; // e.g. "105px"
+        // move section
+        var html = "<div class='dhx_event_move my_event_move' style='width: " +
+                container_width + "'></div>";
+
+        // container for event's content
+        html+= "<div class='dhx_body'>";
+        html += "<span class='event_date'>";
+        //two options here:show only start date for short events or start+end for long
+        if ((ev.end_date - ev.start_date)/60000>40){//if event is longer than 40 minutes
+          html += scheduler.templates.event_header(ev.start_date, ev.end_date, ev);
+          html += "</span><br/>";
+        } else {
+          html += scheduler.templates.event_date(ev.start_date) + "</span>";
+        }
+        // displaying event's text
+        for (let member of ev.membros) {
+          html += "<span>" + member + "</span><br>"
+        }
+
+        html += "</div>";
+
+        // resize section
+        html += "<div class='dhx_event_resize my_event_resize' style='width: " +
+                container_width + "'></div>";
+
+        container.innerHTML = html;
+        return true; //required, true - to display a custom form, false - the default form
+      }
+
       scheduler.init('scheduler_here',new Date(),"week");
 
       // ------- HANDLE EVENTS --------
@@ -503,5 +500,31 @@
       })
 
     });
+
+    function exportToExcel() {
+      let start = scheduler.getState().min_date;
+      let end = scheduler.getState().max_date;
+      scheduler.templates.xml_format = scheduler.date.date_to_str("%d/%m/%Y %H:%i");
+      scheduler.exportToExcel({
+        name: `Escala.xlsx`,
+        columns:[
+          { id:"start_date",  header:"Escala", width:20 },
+          { id:"membros",  header:"Membros", width:30 },
+          {#{ id:"end_date",  header:"End date", width:20 }#}
+        ],
+        start: start,
+        end: end
+      });
+    }
+
+    function exportToPDF() {
+      scheduler.exportToPDF({
+        format: "A4",
+        name: "Escala.pdf",
+        zoom: 1,
+        orientation: "portrait",
+        header: 'Escala'
+      });
+    }
   </script>
 {% endblock %}
