@@ -30,10 +30,7 @@
   <script>
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
-      OneSignal.init({
-        appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
-        autoRegister: true
-      });
+
 
       function save_player_id () {
         OneSignal.getUserId().then(function(userId) {
@@ -53,9 +50,7 @@
         });
       }
 
-      OneSignal.on('subscriptionChange', function (isSubscribed) {
-        save_player_id();
-      });
+
       if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {
         setTimeout(function () {
           Swal.fire({
@@ -65,7 +60,18 @@
             showCloseButton: false,
             showCancelButton: false,
             onClose: function () {
-              OneSignal.showSlidedownPrompt()
+              {% comment %}OneSignal.init({
+                appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
+                autoRegister: true
+              });{% endcomment %}
+              OneSignal.registerForPushNotifications({
+                appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
+                modalPrompt: false
+              });
+              OneSignal.on('subscriptionChange', function (isSubscribed) {
+                save_player_id();
+              });
+              {#OneSignal.showSlidedownPrompt()#}
               {#save_player_id();#}
             }
           })
@@ -107,6 +113,9 @@
     </div>
     <div class="card-footer">
       <div class="text-right">
+        <a href="#" onclick="corrigir(this)" class="btn btn-sm btn-danger">
+          <i class="fas fa-pen"></i> Corrigir
+        </a>
         <a href="#" onclick="confirm(this)" class="btn btn-sm btn-primary">
           <i class="fas fa-check"></i> Confirmar
         </a>
@@ -159,18 +168,10 @@
     })
   }
 
-  function confirm(elem) {
+  function corrigir(elem) {
     bootbox.dialog({
-      title: "Atenção!",
-      message: "Todos os seus dados estão corretos?",
-      buttons: {
-        noclose: {
-          label: '<i class="fas fa-times"></i> Não',
-          className: 'btn-default',
-          callback: function(){
-            bootbox.dialog({
-              title: 'Dados',
-              message: `
+      title: 'Dados',
+      message: `
                 <div class="row">
                   <div class="col-md-12">
                     <span>Informe os dados corretos</span>
@@ -178,24 +179,32 @@
                   </div>
                 </div>
               `,
-              buttons: {
-                confirm: {
-                  label: '<i class="fas fa-paper-plane"></i> Enviar',
-                  callback: function () {
-                    var dados = $('#text').val();
-                    if (dados !== "") {
-                      create_commentary(dados)
-                    } else {
-                      return false;
-                    }
-                  }
-                }
-              }
-            });
-            return true;
+      buttons: {
+        confirm: {
+          label: '<i class="fas fa-paper-plane"></i> Enviar',
+          callback: function () {
+            var dados = $('#text').val();
+            if (dados !== "") {
+              create_commentary(dados)
+            } else {
+              return false;
+            }
           }
+        }
+      }
+    });
+  }
+
+  function confirm(elem) {
+    bootbox.dialog({
+      title: "Atenção!",
+      message: "Todos os seus dados estão corretos?",
+      buttons: {
+        cancel: {
+          label: '<i class="fas fa-times"></i> Não',
+          class: 'btn-danger',
         },
-        ok: {
+        confirm: {
           label: '<i class="fas fa-check"></i> Sim',
           className: 'btn-primary',
           callback: function(){
