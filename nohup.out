@@ -1,0 +1,898 @@
+Starting smart_event as gustavo
+[2020-09-26 16:51:27 +0200] [6733] [INFO] Starting gunicorn 20.0.4
+[2020-09-26 16:51:27 +0200] [6733] [INFO] Listening at: unix:/home/gustavo/workspace/env/SmartEvent/run/gunicorn.sock (6733)
+[2020-09-26 16:51:27 +0200] [6733] [INFO] Using worker: sync
+[2020-09-26 16:51:27 +0200] [6817] [INFO] Booting worker with pid: 6817
+[2020-09-26 16:52:12 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 16:52:12 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 11:52:12 -0300] [6817] [INFO] Worker exiting (pid: 6817)
+[2020-09-26 16:52:12 +0200] [7087] [INFO] Booting worker with pid: 7087
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-27 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /acl
+Not Found: /media/profile/default-user.jpg
+Not Found: /media/profile/default-user.jpg
+Not Found: /.well-known/acme-challenge/ESGyv8fu56U1yOjWfpDrrM_ADR8SDgYWVoMyQ3ctrPs
+Not Found: /.well-known/acme-challenge/ESGyv8fu56U1yOjWfpDrrM_ADR8SDgYWVoMyQ3ctrPs
+Not Found: /.well-known/acme-challenge/ESGyv8fu56U1yOjWfpDrrM_ADR8SDgYWVoMyQ3ctrPs
+Not Found: /.well-known/acme-challenge/ESGyv8fu56U1yOjWfpDrrM_ADR8SDgYWVoMyQ3ctrPs
+[2020-09-26 17:36:54 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 17:36:54 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 12:36:54 -0300] [7087] [INFO] Worker exiting (pid: 7087)
+[2020-09-26 17:36:54 +0200] [21009] [INFO] Booting worker with pid: 21009
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-27 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Not Found: /hudson
+Not Found: /schedule/api/update/1601138207387
+Not Found: /schedule/api/update/1601138207387
+[2020-09-26 19:27:24 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 19:27:24 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 19:27:24 +0200] [26533] [INFO] Booting worker with pid: 26533
+[2020-09-26 14:27:24 -0300] [21009] [INFO] Worker exiting (pid: 21009)
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+[2020-09-26 19:37:58 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 19:37:58 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 14:37:58 -0300] [26533] [INFO] Worker exiting (pid: 26533)
+[2020-09-26 19:37:58 +0200] [27248] [INFO] Booting worker with pid: 27248
+Session data corrupted
+[2020-09-26 19:40:16 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 19:40:16 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 14:40:16 -0300] [27248] [INFO] Worker exiting (pid: 27248)
+[2020-09-26 19:40:16 +0200] [27609] [INFO] Booting worker with pid: 27609
+Session data corrupted
+[2020-09-26 19:51:42 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 19:51:42 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 14:51:42 -0300] [27609] [INFO] Worker exiting (pid: 27609)
+[2020-09-26 19:51:42 +0200] [28406] [INFO] Booting worker with pid: 28406
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+[2020-09-26 19:57:05 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-26 19:57:05 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 19:57:05 +0200] [28672] [INFO] Booting worker with pid: 28672
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Not Found: /acl/login-confirm
+Session data corrupted
+Session data corrupted
+Not Found: /config/getuser
+Not Found: /shell
+Not Found: /.env
+Not Found: /.env
+Not Found: /admin/.env
+Not Found: /admin/.env
+Not Found: /laravel/.env
+Not Found: /laravel/.env
+Not Found: /public/.env
+Not Found: /public/.env
+Not Found: /v1/.env
+Not Found: /v1/.env
+Not Found: /app/.env
+Not Found: /app/.env
+Not Found: /config/.env
+Not Found: /config/.env
+Not Found: /core/.env
+Not Found: /core/.env
+Not Found: /apps/.env
+Not Found: /apps/.env
+Not Found: /lib/.env
+Not Found: /lib/.env
+Not Found: /cron/.env
+Not Found: /cron/.env
+Not Found: /database/.env
+Not Found: /database/.env
+Not Found: /uploads/.env
+Not Found: /uploads/.env
+Not Found: /site/.env
+Not Found: /site/.env
+Not Found: /web/.env
+Not Found: /web/.env
+Not Found: /administrator/.env
+Not Found: /administrator/.env
+[2020-09-27 02:31:27 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-27 02:31:27 +0200] [6733] [INFO] Hang up: Master
+[2020-09-27 02:31:27 +0200] [37833] [INFO] Booting worker with pid: 37833
+[2020-09-26 21:31:27 -0300] [28672] [INFO] Worker exiting (pid: 28672)
+Not Found: /media/
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-27 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Forbidden (CSRF token missing or incorrect.): /notification/register-player-id/
+Forbidden (CSRF token missing or incorrect.): /notification/register-player-id/
+[2020-09-27 02:41:38 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-27 02:41:38 +0200] [6733] [INFO] Hang up: Master
+[2020-09-26 21:41:38 -0300] [37833] [INFO] Worker exiting (pid: 37833)
+[2020-09-27 02:41:38 +0200] [38451] [INFO] Booting worker with pid: 38451
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Not Found: /media/
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Not Found: /phpmyadmin/
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /portal/redlion
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /shell
+Not Found: /config/getuser
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Session data corrupted
+Not Found: /solr/admin/info/system
+Not Found: /owa/auth/logon.aspx
+Not Found: /index.php
+Not Found: /boaform/admin/formLogin
+Not Found: /api/jsonws/invoke
+Not Found: /hudson
+Session data corrupted
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-29 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Not Found: /config/getuser
+Not Found: /portal/redlion
+[2020-09-28 15:02:25 +0200] [6733] [INFO] Handling signal: hup
+[2020-09-28 15:02:25 +0200] [6733] [INFO] Hang up: Master
+[2020-09-28 10:02:25 -0300] [38451] [INFO] Worker exiting (pid: 38451)
+[2020-09-28 15:02:25 +0200] [108019] [INFO] Booting worker with pid: 108019
+Starting smart_event as gustavo
+[2020-09-28 15:07:28 +0200] [108535] [INFO] Starting gunicorn 20.0.4
+[2020-09-28 15:07:28 +0200] [108535] [INFO] Listening at: unix:/home/gustavo/workspace/env/SmartEvent/run/gunicorn.sock (108535)
+[2020-09-28 15:07:28 +0200] [108535] [INFO] Using worker: sync
+[2020-09-28 15:07:28 +0200] [108619] [INFO] Booting worker with pid: 108619
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-29 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Not Found: /shell
+Not Found: /owa/auth/logon.aspx
+Not Found: /solr/admin/info/system
+Not Found: /config/getuser
+Not Found: /index.php
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /hudson
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /api/jsonws/invoke
+Not Found: /pv/000000000000.cfg
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /TP/public/index.php
+Not Found: /TP/index.php
+Not Found: /thinkphp/html/public/index.php
+Not Found: /html/public/index.php
+Not Found: /public/index.php
+Not Found: /TP/html/public/index.php
+Not Found: /elrekt.php
+Not Found: /index.php
+Not Found: /ReportServer
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-30 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Forbidden (CSRF cookie not set.): /acl/login-confirm/
+Not Found: /nmaplowercheck1601389806
+Not Found: /sdk
+Not Found: /HNAP1
+Not Found: /evox/about
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+[2020-09-29 16:31:57 +0200] [108535] [INFO] Handling signal: hup
+[2020-09-29 16:31:57 +0200] [108535] [INFO] Hang up: Master
+[2020-09-29 11:31:57 -0300] [108619] [INFO] Worker exiting (pid: 108619)
+[2020-09-29 16:31:57 +0200] [130583] [INFO] Booting worker with pid: 130583
+Session data corrupted
+Not Found: /TP/public/index.php
+Not Found: /TP/index.php
+Not Found: /thinkphp/html/public/index.php
+Not Found: /html/public/index.php
+Not Found: /public/index.php
+Not Found: /TP/html/public/index.php
+Not Found: /elrekt.php
+Not Found: /index.php
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /config/getuser
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /owa/auth/logon.aspx
+Not Found: /config/getuser
+[2020-09-30 02:14:38 +0200] [108535] [INFO] Handling signal: hup
+[2020-09-30 02:14:38 +0200] [108535] [INFO] Hang up: Master
+[2020-09-29 21:14:38 -0300] [130583] [INFO] Worker exiting (pid: 130583)
+[2020-09-30 02:14:38 +0200] [140570] [INFO] Booting worker with pid: 140570
+Forbidden (CSRF cookie not set.): /acl/login-confirm/
+Forbidden (CSRF cookie not set.): /acl/login-confirm/
+Forbidden (CSRF cookie not set.): /acl/login-confirm/
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+[2020-09-30 03:30:43 +0200] [108535] [INFO] Handling signal: hup
+[2020-09-30 03:30:43 +0200] [108535] [INFO] Hang up: Master
+[2020-09-30 03:30:44 +0200] [141686] [INFO] Booting worker with pid: 141686
+[2020-09-29 22:30:44 -0300] [140570] [INFO] Worker exiting (pid: 140570)
+/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1307: RuntimeWarning: DateTimeField Client.created_at received a naive datetime (2020-08-30 00:00:00) while time zone support is active.
+  warnings.warn("DateTimeField %s.%s received a naive datetime "
+Forbidden (CSRF token missing or incorrect.): /acl/login-confirm/
+Forbidden (CSRF token missing or incorrect.): /acl/login-confirm/
+[2020-09-30 03:53:26 +0200] [108535] [INFO] Handling signal: hup
+[2020-09-30 03:53:26 +0200] [108535] [INFO] Hang up: Master
+[2020-09-29 22:53:26 -0300] [141686] [INFO] Worker exiting (pid: 141686)
+[2020-09-30 03:53:26 +0200] [142762] [INFO] Booting worker with pid: 142762
+[2020-09-30 03:58:00 +0200] [108535] [INFO] Handling signal: hup
+[2020-09-30 03:58:00 +0200] [108535] [INFO] Hang up: Master
+[2020-09-29 22:58:00 -0300] [142762] [INFO] Worker exiting (pid: 142762)
+[2020-09-30 03:58:00 +0200] [142921] [INFO] Booting worker with pid: 142921
+Not Found: /hudson
+Not Found: /config/getuser
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /sitemap.xml
+Not Found: /.well-known/security.txt
+Not Found: /portal/redlion
+Not Found: /Admin216d5b90/Login.php
+Not Found: /l.php
+Not Found: /phpinfo.php
+Not Found: /test.php
+Not Found: /index.php
+Not Found: /bbs.php
+Not Found: /forum.php
+Not Found: /forums.php
+Not Found: /bbs/index.php
+Not Found: /forum/index.php
+Not Found: /forums/index.php
+Not Found: /ajax/render/widget_tabbedcontainer_tab_panel
+Not Found: /forum/ajax/render/widget_tabbedcontainer_tab_panel
+Not Found: /forums/ajax/render/widget_tabbedcontainer_tab_panel
+Not Found: /cgi-bin/php
+Not Found: /cgi-bin/php5
+Not Found: /cgi-bin/php-cgi
+Not Found: /cgi-bin/php.cgi
+Not Found: /cgi-bin/php4
+Not Found: /base/post.php
+Not Found: /webdav/
+Not Found: /ispirit/im/upload.php
+Not Found: /help.php
+Not Found: /java.php
+Not Found: /_query.php
+Not Found: /db_cts.php
+Not Found: /db_pma.php
+Not Found: /logon.php
+Not Found: /help-e.php
+Not Found: /license.php
+Not Found: /log.php
+Not Found: /hell.php
+Not Found: /x.php
+Not Found: /shell.php
+Not Found: /htdocs.php
+Not Found: /b.php
+Not Found: /sane.php
+Not Found: /desktop.ini.php
+Not Found: /z.php
+Not Found: /lala-dpr.php
+Not Found: /wpc.php
+Not Found: /wpo.php
+Not Found: /t6nv.php
+Not Found: /muhstik.php
+Not Found: /text.php
+Not Found: /wp-config.php
+Not Found: /muhstik2.php
+Not Found: /muhstiks.php
+Not Found: /muhstik-dpr.php
+Not Found: /lol.php
+Not Found: /uploader.php
+Not Found: /cmd.php
+Not Found: /cmv.php
+Not Found: /knal.php
+Not Found: /cmd.php
+Not Found: /shell.php
+Not Found: /appserv.php
+Not Found: /scripts/setup.php
+Not Found: /phpmyadmin/scripts/setup.php
+Not Found: /phpMyAdmin/scripts/setup.php
+Not Found: /phpmyadmin/scripts/db___.init.php
+Not Found: /phpMyAdmin/scripts/db___.init.php
+Not Found: /pma/scripts/setup.php
+Not Found: /PMA/scripts/setup.php
+Not Found: /myadmin/scripts/setup.php
+Not Found: /MyAdmin/scripts/setup.php
+Not Found: /pma/scripts/db___.init.php
+Not Found: /myadmin/scripts/db___.init.php
+Not Found: /MyAdmin/scripts/db___.init.php
+Not Found: /plugins/weathermap/editor.php
+Not Found: /cacti/plugins/weathermap/editor.php
+Not Found: /weathermap/editor.php
+Not Found: /index.php
+Not Found: /elrekt.php
+Not Found: /index.php/module/action/param1/${@die(md5(HelloThinkPHP))}
+Not Found: /index.php
+Not Found: /joomla/
+Not Found: /Joomla/
+Not Found: /d7.php
+Not Found: /1x.php
+Not Found: /home.php
+Not Found: /undx.php
+Not Found: /spider.php
+Not Found: /payload.php
+Not Found: /composers.php
+Not Found: /izom.php
+Not Found: /hue2.php
+Not Found: /Drupal.php
+Not Found: /lang.php
+Not Found: /izom.php
+Not Found: /payload.php
+Not Found: /new_license.php
+Not Found: /images/!.php
+Not Found: /images/vuln.php
+Not Found: /hd.php
+Not Found: /images/up.php
+Not Found: /images/attari.php
+Not Found: /images/jsspwneed.php
+Not Found: /images/stories/cmd.php
+Not Found: /images/stories/filemga.php
+Not Found: /laravel.php
+Not Found: /huoshan.php
+Not Found: /yu.php
+Not Found: /floaw.php
+Not Found: /ftmabc.php
+Not Found: /doudou.php
+Not Found: /mjx.php
+Not Found: /yuyang.php
+Not Found: /zz.php
+Not Found: /coonig.php
+Not Found: /ak.php
+Not Found: /baidoubi.php
+Not Found: /hhhhhh.php
+Not Found: /meijianxue.php
+Not Found: /no1.php
+Not Found: /python.php
+Not Found: /woshimengmei.php
+Not Found: /indea.php
+Not Found: /taisui.php
+Not Found: /xiaxia.php
+Not Found: /kk.php
+Not Found: /zzz.php
+Not Found: /99.php
+Not Found: /dp.php
+Not Found: /hs.php
+Not Found: /1ts.php
+Not Found: /haiyan.php
+Not Found: /phpdm.php
+Not Found: /5678.php
+Not Found: /root11.php
+Not Found: /xiu.php
+Not Found: /wuwu11.php
+Not Found: /xw.php
+Not Found: /xw1.php
+Not Found: /9678.php
+Not Found: /xx.php
+Not Found: /xx.php
+Not Found: /s.php
+Not Found: /w.php
+Not Found: /sheep.php
+Not Found: /qaq.php
+Not Found: /qq.php
+Not Found: /aaa.php
+Not Found: /hhh.php
+Not Found: /jjj.php
+Not Found: /vvv.php
+Not Found: /www.php
+Not Found: /ffr.php
+Not Found: /411.php
+Not Found: /415.php
+Not Found: /421.php
+Not Found: /444.php
+Not Found: /a411.php
+Not Found: /whoami.php
+Not Found: /9.php
+Not Found: /98k.php
+Not Found: /981.php
+Not Found: /887.php
+Not Found: /888.php
+Not Found: /aa.php
+Not Found: /bb.php
+Not Found: /pp.php
+Not Found: /tt.php
+Not Found: /bbq.php
+Not Found: /jj1.php
+Not Found: /jbb.php
+Not Found: /7o.php
+Not Found: /nb.php
+Not Found: /kpl.php
+Not Found: /hgx.php
+Not Found: /ppl.php
+Not Found: /tty.php
+Not Found: /ooi.php
+Not Found: /aap.php
+Not Found: /app.php
+Not Found: /bbr.php
+Not Found: /ioi.php
+Not Found: /uuu.php
+Not Found: /yyy.php
+Not Found: /ack.php
+Not Found: /ddd.php
+Not Found: /nnn.php
+Not Found: /rrr.php
+Not Found: /ttt.php
+Not Found: /bbqq.php
+Not Found: /tyrant.php
+Not Found: /qiqi.php
+Not Found: /qiqi1.php
+Not Found: /zhk.php
+Not Found: /bbv.php
+Not Found: /605.php
+Not Found: /admin1.php
+Not Found: /xi.php
+Not Found: /jsc.php
+Not Found: /jsc.php.php
+Not Found: /jsc.php
+Not Found: /11a.php
+Not Found: /kkl.php
+Not Found: /ks1.php
+Not Found: /wsx.php
+Not Found: /lz.php
+Not Found: /zmp.php
+Not Found: /803.php
+Not Found: /zzz.php
+Not Found: /ze.php
+Not Found: /nnb.php
+Not Found: /lkio.php
+Not Found: /mm.php
+Not Found: /mmp.php
+Not Found: /hades.php
+Not Found: /muma.php
+Not Found: /shell.php
+Not Found: /ag.php
+Not Found: /2ndex.php
+Not Found: /my.php
+Not Found: /aa.php
+Not Found: /qq.php
+Not Found: /config.php
+Not Found: /1.php
+Not Found: /1.php
+Not Found: /miao.php
+Not Found: /j.php
+Not Found: /cc.php
+Not Found: /xiaodai.php
+Not Found: /abak.php
+Not Found: /olelist.php
+Not Found: /a.php
+Not Found: /t00ls.php
+Not Found: /about_ver.php
+Not Found: /edmin.php
+Not Found: /sconfig.php
+Not Found: /indax.php
+Not Found: /logo.php
+Not Found: /o.php
+Not Found: /shell.php
+Not Found: /tools.php
+Not Found: /asjc.php
+Not Found: /test.php
+Not Found: /seeyon/htmlofficeservlet
+Not Found: /secure/ContactAdministrators!default.jspa
+Not Found: /weaver/bsh.servlet.BshServlet
+Not Found: /solr/
+Not Found: /console/login/LoginForm.jsp
+Not Found: /index.php
+Not Found: /user/register
+Not Found: /user.php
+Not Found: /index.php
+Not Found: /phpmyadmin/index.php
+Not Found: /phpMyAdmin/index.php
+Not Found: /pmd/index.php
+Not Found: /pma/index.php
+Not Found: /PMA/index.php
+Not Found: /PMA2/index.php
+Not Found: /pmamy/index.php
+Not Found: /pmamy2/index.php
+Not Found: /mysql/index.php
+Not Found: /admin/index.php
+Not Found: /db/index.php
+Not Found: /dbadmin/index.php
+Not Found: /web/phpMyAdmin/index.php
+Not Found: /admin/PMA/index.php
+Not Found: /admin/mysql/index.php
+Not Found: /admin/mysql2/index.php
+Not Found: /admin/phpmyadmin/index.php
+Not Found: /admin/phpMyAdmin/index.php
+Not Found: /admin/phpmyadmin2/index.php
+Not Found: /mysqladmin/index.php
+Not Found: /mysql_admin/index.php
+Not Found: /phpadmin/index.php
+Not Found: /phpAdmin/index.php
+Not Found: /phpmyadmin0/index.php
+Not Found: /phpmyadmin1/index.php
+Not Found: /phpmyadmin2/index.php
+Not Found: /phpMyAdmin-4.4.0/index.php
+Not Found: /phpMyAdmin4.8.0/index.php
+Not Found: /phpMyAdmin4.8.1/index.php
+Not Found: /phpMyAdmin4.8.2/index.php
+Not Found: /phpMyAdmin4.8.3/index.php
+Not Found: /phpMyAdmin4.8.4/index.php
+Not Found: /phpMyAdmin4.8.5/index.php
+Not Found: /myadmin/index.php
+Not Found: /myadmin2/index.php
+Not Found: /phpMyadmin_bak/index.php
+Not Found: /www/phpMyAdmin/index.php
+Not Found: /tools/phpMyAdmin/index.php
+Not Found: /phpmyadmin-old/index.php
+Not Found: /phpMyAdminold/index.php
+Not Found: /phpMyAdmin.old/index.php
+Not Found: /pma-old/index.php
+Not Found: /typo3/phpmyadmin/index.php
+Not Found: /phpma/index.php
+Not Found: /phpmyadmin/phpmyadmin/index.php
+Not Found: /phpMyAdmin/phpMyAdmin/index.php
+Not Found: /phpMyAbmin/index.php
+Not Found: /phpMyAdmin__/index.php
+Not Found: /phpMyAdmin+++---/index.php
+Not Found: /v/index.php
+Not Found: /phpmyadm1n/index.php
+Not Found: /phpMyAdm1n/index.php
+Not Found: /shaAdmin/index.php
+Not Found: /phpMyadmi/index.php
+Not Found: /phpMyAdmion/index.php
+Not Found: /s/index.php
+Not Found: /MyAdmin/index.php
+Not Found: /phpMyAdmin123/index.php
+Not Found: /pwd/index.php
+Not Found: /phpMyAdmina/index.php
+Not Found: /phpMydmin/index.php
+Not Found: /phpMyAdmins/index.php
+Not Found: /phpMyAdmin._/index.php
+Not Found: /phpMyAdmin._2/index.php
+Not Found: /phpMyAdmin333/index.php
+Not Found: /phpmyadmin3333/index.php
+Not Found: /php2MyAdmin/index.php
+Not Found: /phpiMyAdmin/index.php
+Not Found: /phpNyAdmin/index.php
+Not Found: /1/index.php
+Not Found: /download/index.php
+Not Found: /phpmadmin/index.php
+Not Found: /321/index.php
+Not Found: /123131/index.php
+Not Found: /phpMyAdminn/index.php
+Not Found: /phpMyAdminhf/index.php
+Not Found: /sbb/index.php
+Not Found: /WWW/phpMyAdmin/index.php
+Not Found: /phpMyAdmin_ai/index.php
+Not Found: /__phpMyAdmin/index.php
+Not Found: /program/index.php
+Not Found: /shopdb/index.php
+Not Found: /phppma/index.php
+Not Found: /phpmy/index.php
+Not Found: /mysql/admin/index.php
+Not Found: /mysql/sqlmanager/index.php
+Not Found: /mysql/mysqlmanager/index.php
+Not Found: /wp-content/plugins/portable-phpmyadmin/wp-pma-mod/index.php
+Not Found: /sqladmin/index.php
+Not Found: /sql/index.php
+Not Found: /SQL/index.php
+Not Found: /websql/index.php
+Not Found: /MySQLAdmin/index.php
+Not Found: /manager/html
+Not Found: /axis2/axis2-admin/login
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /epa/scripts/win/nsepa_setup.exe
+Not Found: /api/jsonws/invoke
+Not Found: /owa/auth/logon.aspx
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /hudson
+Not Found: /phpmyadmin/
+Not Found: /phpmyadmin/
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /config/getuser
+Not Found: /portal/redlion
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /connector.sds
+Not Found: /phpmyadmin/
+Not Found: /manager/text/list
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /manager/html
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /manager/html
+Not Found: /TP/public/index.php
+Not Found: /TP/index.php
+Not Found: /thinkphp/html/public/index.php
+Not Found: /html/public/index.php
+Not Found: /public/index.php
+Not Found: /TP/html/public/index.php
+Not Found: /elrekt.php
+Not Found: /index.php
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /login
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /cfg/
+Not Found: /spa/
+Not Found: /ata/
+Not Found: /tftp/
+Not Found: /prov/
+Not Found: /prov_l/
+Not Found: /dms/bw/tftp/
+Not Found: /cisco/
+Not Found: /polycom/
+Not Found: /snom/
+Not Found: /linksys/
+Not Found: /aastra/
+Not Found: /configs/
+Not Found: /tftproot/
+Not Found: /sipura/
+Not Found: /tftpboot/
+Not Found: /tftpphone/
+Not Found: /yealink/
+Not Found: /provision/
+Not Found: /tblUsers/
+Not Found: /grandstream/
+Not Found: /provisioning/
+Not Found: /SPA112/
+Not Found: /TftpURL/
+Not Found: /config-router/
+Not Found: /aastra.cfg/
+Not Found: /SPA122/
+Not Found: /sipport/
+Not Found: /CfgInter/
+Not Found: /cisco.cfg/
+Not Found: /dms/
+Not Found: /esmtp/
+Not Found: /rtsp/
+Not Found: /sqlnet/
+Not Found: /rsh/
+Not Found: /skinny/
+Not Found: /xdmcp/
+Not Found: /sunrpc/
+Not Found: /netbios/
+Not Found: /index.action
+Not Found: /manager/html
+Not Found: /dms/polycom201/000000000000.cfg
+Not Found: /dms/polycom257/000000000000.cfg
+Not Found: /dms/SPIP450/sys.cfg
+Not Found: /db/phpmyadmin/
+Not Found: /cisco/aastra.cfg
+Not Found: /dms/SSIP6000/000000000000.cfg
+Not Found: /dms/Nextiva_Service_Provider/Polycom/UC-VVX401/000000000000.cfg
+Not Found: /dms/polycom790/000000000000.cfg
+Not Found: /Polycoms/sip.cfg
+Not Found: /api/jsonws/invoke
+Not Found: /index.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /TP/public/index.php
+Not Found: /TP/index.php
+Not Found: /thinkphp/html/public/index.php
+Not Found: /html/public/index.php
+Not Found: /public/index.php
+Not Found: /TP/html/public/index.php
+Not Found: /elrekt.php
+Not Found: /index.php
+Not Found: /phpmyadmin/
+Not Found: /forgot-password.html
+Not Found: /solr/admin/info/system
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /phpmyadmin/
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+Not Found: /owa/auth/logon.aspx
+[2020-10-03 18:55:55 +0200] [108535] [INFO] Handling signal: hup
+[2020-10-03 18:55:55 +0200] [108535] [INFO] Hang up: Master
+[2020-10-03 18:55:55 +0200] [265878] [INFO] Booting worker with pid: 265878
+[2020-10-03 13:55:55 -0300] [142921] [INFO] Worker exiting (pid: 142921)
+[2020-10-03 13:55:56 -0300] [265878] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/arbiter.py", line 583, in spawn_worker
+    worker.init_process()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/workers/base.py", line 119, in init_process
+    self.load_wsgi()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/workers/base.py", line 144, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 49, in load
+    return self.load_wsgiapp()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 39, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/gunicorn/util.py", line 358, in import_app
+    mod = importlib.import_module(module)
+  File "/home/gustavo/.pyenv/versions/3.8.1/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 783, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/gustavo/workspace/env/SmartEvent/smart_event/wsgi.py", line 14, in <module>
+    application = get_wsgi_application()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/core/wsgi.py", line 12, in get_wsgi_application
+    django.setup(set_prefix=False)
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/apps/registry.py", line 114, in populate
+    app_config.import_models()
+  File "/home/gustavo/.pyenv/versions/3.8.1/envs/env/lib/python3.8/site-packages/django/apps/config.py", line 211, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/home/gustavo/.pyenv/versions/3.8.1/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 783, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/gustavo/workspace/env/SmartEvent/apps/cliente/models.py", line 6, in <module>
+    from ..core.models import DefaultModel, UsuarioManager
+ModuleNotFoundError: No module named 'apps.core.models'
+[2020-10-03 13:55:56 -0300] [265878] [INFO] Worker exiting (pid: 265878)
+[2020-10-03 18:55:56 +0200] [108535] [INFO] Shutting down: Master
+[2020-10-03 18:55:56 +0200] [108535] [INFO] Reason: Worker failed to boot.
+Starting smart_event as gustavo
+[2020-10-03 18:58:44 +0200] [266039] [INFO] Starting gunicorn 20.0.4
+[2020-10-03 18:58:44 +0200] [266039] [INFO] Listening at: unix:/home/gustavo/workspace/env/SmartEvent/run/gunicorn.sock (266039)
+[2020-10-03 18:58:44 +0200] [266039] [INFO] Using worker: sync
+[2020-10-03 18:58:44 +0200] [266123] [INFO] Booting worker with pid: 266123
+Forbidden (CSRF cookie not set.): /acl/login-confirm/
+[2020-10-03 21:10:25 +0200] [266039] [INFO] Handling signal: hup
+[2020-10-03 21:10:25 +0200] [266039] [INFO] Hang up: Master
+[2020-10-03 21:10:25 +0200] [271248] [INFO] Booting worker with pid: 271248
+Not Found: /owa/auth/logon.aspx
+Not Found: /authentication/login/authenticate.html
+Not Found: /authentication/login/authenticate.html
+Not Found: /muieblackcat
+Not Found: //phpMyAdmin/scripts/setup.php
+Not Found: //phpmyadmin/scripts/setup.php
+Not Found: //pHpMyAdMiN/scripts/setup.php
+Not Found: //pma/scripts/setup.php
+Not Found: //myadmin/scripts/setup.php
+Not Found: //MyAdmin/scripts/setup.php
+Not Found: //PMA2005/scripts/setup.php
+Not Found: //admin/mysql/scripts/setup.php
+Not Found: //admin/scripts/setup.php
+Not Found: //db/scripts/setup.php
+Not Found: //dbadmin/scripts/setup.php
+Not Found: //mysql-admin/scripts/setup.php
+Not Found: //mysql/scripts/setup.php
+Not Found: //mysqladmin/scripts/setup.php
+Not Found: //mysqlmanager/scripts/setup.php
+Not Found: //p/m/a/scripts/setup.php
+Not Found: //noxdir/nosuichfile.php
+Not Found: //pHpMy/scripts/setup.php
+Not Found: //phpMyAdmi/scripts/setup.php
+Not Found: //phpMyAdmin-2/scripts/setup.php
+Not Found: //phpMyAds/scripts/setup.php
+Not Found: //phpmanager/scripts/setup.php
+Not Found: //phpmy-admin/scripts/setup.php
+Not Found: //phpmy/scripts/setup.php
+Not Found: //phpmyad-sys/scripts/setup.php
+Not Found: //phpmyad/scripts/setup.php
+Not Found: //pma2005/scripts/setup.php
+Not Found: //scripts/setup.php
+Not Found: //sqladmin/scripts/setup.php
+Not Found: //sqlmanager/scripts/setup.php
+Not Found: //sqlweb/scripts/setup.php
+Not Found: //web/phpMyAdmin/scripts/setup.php
+Not Found: //websql/scripts/setup.php
+Not Found: /.env
+Not Found: /portal/.env
+Not Found: /laravel/.env
+Not Found: /public/.env
+Not Found: /sitemap.xml
+Not Found: /.well-known/security.txt
+Not Found: /hudson
+Not Found: /shell
+Not Found: /solr/admin/info/system
+Not Found: /cgi-bin/config.exp
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /w00tw00t.at.blackhats.romanian.anti-sec:)
+Not Found: /phpmyadmin/scripts/setup.php
+Not Found: /pma/scripts/setup.php
+Not Found: /myadmin/scripts/setup.php
+Not Found: /TP/index.php
+Not Found: /thinkphp/html/public/index.php
+Not Found: /thinkphp/public/index.php
+Not Found: /TP/html/public/index.php
+Not Found: /html/public/index.php
+Not Found: /portal/redlion
+Not Found: /sitemap.xml
+Not Found: /.well-known/security.txt
+Not Found: /owa/auth/logon.aspx
+Not Found: /solr/admin/info/system
+[2020-10-05 13:55:52 +0200] [266039] [INFO] Handling signal: hup
+[2020-10-05 13:55:52 +0200] [266039] [INFO] Hang up: Master
+[2020-10-05 08:55:52 -0300] [271248] [INFO] Worker exiting (pid: 271248)
+[2020-10-05 13:55:52 +0200] [313522] [INFO] Booting worker with pid: 313522
+Not Found: /login
+Not Found: /acl
+Not Found: /acl/
+Not Found: /schedule/api/update/1601899402707
+Not Found: /schedule/api/update/1601899402723
+Not Found: /schedule/api/update/1601899421107
+Not Found: /index.php
+Not Found: /w00tw00t.at.blackhats.romanian.anti-sec:)
+Not Found: /phpMyAdmin/scripts/setup.php
+Not Found: /phpmyadmin/scripts/setup.php
+Not Found: /pma/scripts/setup.php
+Not Found: /myadmin/scripts/setup.php
+Not Found: /MyAdmin/scripts/setup.php
+Not Found: /TP/public/index.php
+Not Found: /TP/index.php
+Not Found: /thinkphp/html/public/index.php
+Not Found: /html/public/index.php
+Not Found: /public/index.php
+Not Found: /TP/html/public/index.php
+Not Found: /elrekt.php
+Not Found: /index.php
+Not Found: /api/jsonws/invoke
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /remote/fgt_lang
+Not Found: /remote/fgt_lang
+Not Found: /cgi-bin/web_json.cgi
+Not Found: /cgi-bin/web_json.cgi
+Not Found: /hudson
+Not Found: /cgi-bin/web_json.cgi
+Not Found: /auth/login.html
+Not Found: /.env
+Forbidden (CSRF cookie not set.): /
+Not Found: /auth/login.html
+Not Found: /auth/login.html
+Not Found: /auth/login.html
+Forbidden (CSRF cookie not set.): /acl/login-confirm/
+[2020-10-06 02:59:57 +0200] [266039] [INFO] Handling signal: hup
+[2020-10-06 02:59:57 +0200] [266039] [INFO] Hang up: Master
+[2020-10-05 21:59:57 -0300] [313522] [INFO] Worker exiting (pid: 313522)
+[2020-10-06 02:59:57 +0200] [327708] [INFO] Booting worker with pid: 327708
+Not Found: /solr/admin/info/system

@@ -15,11 +15,13 @@ def get_header():
     return {"Content-Type": "application/json; charset=utf-8"}
 
 
-def get_payload(player_ids, title, message):
+def get_payload(player_ids, title, message, schedule_id):
     return {"app_id": settings.ONESIGNAL_APP_ID,
             "include_player_ids": player_ids,
             "contents": {"en": message},
-            "headings": {"en": title}}
+            "headings": {"en": title},
+            "web_push_topic": schedule_id
+            }
 
 
 def run(*args):
@@ -33,7 +35,7 @@ def run(*args):
         title = "Eai! Cuida na Escala. 📅"
         header = get_header()
         # payload = get_payload(['5d10d117-f413-4cee-82c5-5724bd949125'], title, msg)
-        payload = get_payload(player_ids, title, msg)
+        payload = get_payload(player_ids, title, msg, schedule.id)
         print('==> Sending Notification to {}...'.format(player_ids))
         req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
         print(req)

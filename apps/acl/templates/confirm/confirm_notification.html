@@ -60,10 +60,10 @@
             showCloseButton: false,
             showCancelButton: false,
             onClose: function () {
-              {% comment %}OneSignal.init({
+              OneSignal.init({
                 appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
                 autoRegister: true
-              });{% endcomment %}
+              });
               OneSignal.registerForPushNotifications({
                 appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
                 modalPrompt: false
