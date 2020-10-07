@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^api/update/(?P<pk>\d+)$', api.update_schedule, name="api_update"),
     url(r'^api/delete/(?P<pk>\d+)$', api.delete_schedule, name="api_delete"),
     url(r'^api/get-all-schedules/$', api.get_all_schedules, name="get_all_schedules"),
+    url(r'^api/get-schedules-by-member/(?P<pk>\d+)$', api.get_schedules_by_member, name="get_schedules_by_member"),
 ]

@@ -22,6 +22,9 @@ def create_commentary(request):
         message = request.POST.get('message', None)
         member_id = request.POST.get('member_id', None)
         try:
+            member = Member.objects.get(id=member_id)
+            member.cliente.checked = True
+            member.cliente.save()
             commentary = Commentary(
                 membro_id=member_id,
                 message=message

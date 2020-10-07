@@ -116,3 +116,23 @@ def get_all_schedules(request):
             'membros': list(schedule.schedulemember_set.all().values_list('membro__cliente__first_name', flat=True))
         })
     return JsonResponse({'data': result}, status=200)
+
+
+def get_schedules_by_member(request, pk):
+    member = Member.objects.get(id=pk)
+    schedules = Schedule.objects.filter(schedulemember__membro=member)
+
+    result = []
+    for schedule in schedules:
+        result.append({
+            'owner': list(schedule.schedulemember_set.all().values_list('membro_id', flat=True)),
+            'start_date': schedule.inicio,
+            'end_date': schedule.fim,
+            'calendarId': '1',
+            'category': 'time',
+            'id': str(schedule.id),
+            'text': schedule.descricao,
+            'obs': schedule.obs,
+            'membros': list(schedule.schedulemember_set.all().values_list('membro__cliente__first_name', flat=True))
+        })
+    return JsonResponse({'data': result}, status=200)

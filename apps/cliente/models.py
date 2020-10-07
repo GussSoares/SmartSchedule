@@ -26,6 +26,7 @@ class Client(DefaultModel, PermissionsMixin, AbstractBaseUser):
     data_nascimento = models.DateField(_("Data de Nascimento"), null=True, blank=True)
     foto = models.ImageField(_("Foto de Perfil"), null=True, blank=True, upload_to="profile/", default="profile/default-user.jpg")
     player_id = models.TextField(null=True, blank=True)
+    checked = models.BooleanField(null=False, default=False)
 
     objects = UsuarioManager()
 

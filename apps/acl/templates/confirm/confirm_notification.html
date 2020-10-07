@@ -26,6 +26,7 @@
   <link rel="shortcut icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <link rel="icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'dist/css/global/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'plugins/dhx-calendar/codebase/dhtmlxscheduler_material.css' %}" type="text/css" charset="utf-8">
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script>
     window.OneSignal = window.OneSignal || [];
@@ -113,17 +114,44 @@
     </div>
     <div class="card-footer">
       <div class="text-right">
-        <a href="#" onclick="corrigir(this)" class="btn btn-sm btn-danger">
-          <i class="fas fa-pen"></i> Corrigir
-        </a>
-        <a href="#" onclick="confirm(this)" class="btn btn-sm btn-primary">
-          <i class="fas fa-check"></i> Confirmar
-        </a>
+        {% if not member.cliente.checked %}
+          <a href="#" onclick="corrigir(this)" class="btn btn-sm btn-danger">
+            <i class="fas fa-pen"></i> Corrigir
+          </a>
+          <a href="#" onclick="confirm(this)" class="btn btn-sm btn-primary">
+            <i class="fas fa-check"></i> Confirmar
+          </a>
+        {% else %}
+          <a href="#" data-target="#modal-xl" data-toggle="modal" class="btn btn-sm btn-primary">
+            <i class="fas fa-calendar-alt"></i> Escala
+          </a>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
 <!-- /.login-box -->
+
+<div class="modal fade" id="modal-xl">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="fas fa-calendar-alt"></i> Escala</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="scheduler_here" style='width:100%; height:400px;'></div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 <!-- jQuery -->
 <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
@@ -132,6 +160,15 @@
 <!-- AdminLTE App -->
 <script src="{% static "dist/js/adminlte.min.js" %}"></script>
 <script src="{% static "plugins/bootbox/bootbox.all.min.js" %}"></script>
+<script src="{% static 'plugins/dhx-calendar/codebase/dhtmlxscheduler.js' %}" charset="utf-8"></script>
+<script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_editors.js' %}"></script>
+<script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_recurring.js' %}" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+<script src="https://cdn.dhtmlx.com/scheduler/edge/ext/dhtmlxscheduler_minical.js"></script>
+<script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_container_autoresize.js' %}"></script>
+<script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_quick_info.js' %}" charset="utf-8"></script>
+<script src="https://export.dhtmlx.com/scheduler/api.js"></script>
+<script src="{% static 'plugins/dhx-calendar/codebase/locale/locale_pt.js' %}"></script>
 <script src="{% static "plugins/sweetalert2/sweetalert2.all.min.js" %}"></script>
 
 <script>
@@ -214,6 +251,121 @@
       }
     })
   }
+
+  // calendar
+  window.addEventListener("DOMContentLoaded", function(){
+    // different configs for different screen sizes
+    var compactView = {
+      xy: {
+        nav_height: 80
+      },
+      config: {
+        header: {
+          rows: [
+            {
+              cols: [
+                "prev",
+                "date",
+                "next",
+              ]
+            },
+            {
+              cols: [
+                "day",
+                "week",
+                "month",
+                "spacer",
+                "today"
+              ]
+            }
+          ]
+        }
+      },
+      templates: {
+        month_scale_date: scheduler.date.date_to_str("%D"),
+        week_scale_date: scheduler.date.date_to_str("%D, %j"),
+        event_bar_date: function(start,end,ev) {
+          return "";
+        }
+
+      }
+    };
+    var fullView = {
+      xy: {
+        nav_height: 80
+      },
+      config: {
+        header: [
+          "day",
+          "week",
+          "month",
+          "date",
+          "prev",
+          "today",
+          "next"
+        ]
+      },
+      templates: {
+        month_scale_date: scheduler.date.date_to_str("%l"),
+        week_scale_date: scheduler.date.date_to_str("%l, %F %j"),
+        event_bar_date: function(start,end,ev) {
+          return "• <b>"+scheduler.templates.event_date(start)+"</b> ";
+        }
+      }
+    };
+
+    function resetConfig(){
+      var settings;
+      if(window.innerWidth < 1000){
+        settings = compactView;
+      }else{
+        settings = fullView;
+
+      }
+      scheduler.utils.mixin(scheduler.config, settings.config, true);
+      scheduler.utils.mixin(scheduler.templates, settings.templates, true);
+      scheduler.utils.mixin(scheduler.xy, settings.xy, true);
+      return true;
+    }
+
+    scheduler.config.responsive_lightbox = true;
+    resetConfig();
+    scheduler.attachEvent("onBeforeViewChange", resetConfig);
+    scheduler.attachEvent("onSchedulerResize", resetConfig);
+    scheduler.config.readonly = true;
+    scheduler.config.start_on_monday = false;
+    scheduler.config.icons_select = []
+
+    scheduler.renderEvent = function(container, ev) {
+      var container_width = container.style.width;
+      var html = "<div class='' style='width: " + container_width + "'></div>";
+      html+= "<div class='dhx_body'>";
+      html += "<span class='event_date'>";
+      if ((ev.end_date - ev.start_date)/60000>40){
+        html += scheduler.templates.event_header(ev.start_date, ev.end_date, ev);
+        html += "</span><br/>";
+      } else {
+        html += scheduler.templates.event_date(ev.start_date) + "</span>";
+      }
+      if (ev.membros) {
+        html += "<span>" + ev.membros + "</span>";
+      }
+      html += "</div>";
+      container.innerHTML = html;
+      return true;
+    }
+    scheduler.templates.quick_info_content = function(start, end, ev){
+      return `
+          <div>
+          <p>${ev.text}</p>
+          <p>${ev.membros.join(', ') || ""}</p>
+          </div>
+        `;
+    };
+
+    scheduler.load("{% url 'escala:get_schedules_by_member' pk=member.id %}");
+    scheduler.init('scheduler_here',new Date(),"week");
+  })
 </script>
 
 </body>
