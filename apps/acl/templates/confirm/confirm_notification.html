@@ -52,7 +52,7 @@
       }
 
 
-      if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {
+      {% comment %}if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {{% endcomment %}
         setTimeout(function () {
           Swal.fire({
             icon: 'question',
@@ -77,7 +77,7 @@
             }
           })
         }, 1000)
-      }
+      {% comment %}}{% endcomment %}
     });
   </script>
 </head>
