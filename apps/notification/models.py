@@ -21,3 +21,6 @@ class Commentary(DefaultModel):
 
     class Meta:
         db_table = 'comentario'
+
+    def __str__(self):
+        return "{} - {}".format(self.membro.cliente.first_name, self.message)

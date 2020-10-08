@@ -38,7 +38,7 @@ def create_commentary(request):
 def get_commentaries(request):
     # comentarios dos ultimos 15 dias
     result = {}
-    for c in Commentary.objects.filter(created_at__gte=today()-datetime.timedelta(days=15), checked=False):
+    for c in Commentary.objects.filter(created_at__gte=today()-datetime.timedelta(days=15), checked=False).order_by('-created_at'):
         if result.get(c.created_at.astimezone(timezone).strftime("%d %b. %y")):
             result[c.created_at.astimezone(timezone).strftime("%d %b. %y")].append({
                 'message': c.message,
