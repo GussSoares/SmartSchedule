@@ -279,6 +279,7 @@
                 <thead>
                 <tr>
                   <th class="all">Nome</th>
+                  <th class="all">Grupo</th>
                   <th>Email</th>
                   <th>CPF/CNPJ</th>
                   <th>Data de Nascimento</th>
@@ -291,6 +292,7 @@
                 {% for coord in coords %}
                   <tr>
                     <td>{{ coord.cliente.full_name }}</td>
+                    <td>{{ coord.grupo.descricao|default_if_none:'--' }}</td>
                     <td>{{ coord.cliente.email|default_if_none:'--' }}</td>
                     <td>{{ coord.cliente.cpf_cnpj|default_if_none:'--' }}</td>
                     <td>{{ coord.cliente.data_nascimento|date:'d/m/Y' }}</td>

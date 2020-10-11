@@ -53,6 +53,11 @@
 
 
       {% comment %}if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {{% endcomment %}
+        /*
+        * Sempre que esta página for acessada, após 1 segundo, apresentará um modal
+        * que avisará sobre as notificações. Ao permitir, serão enviadas notificações
+        * para o ultimo dispositivo cuja autorização foi dada.
+        */
         setTimeout(function () {
           Swal.fire({
             icon: 'question',
@@ -198,6 +203,9 @@
           icon: 'success',
           title: data.msg
         })
+        setTimeout(function () {
+          location.reload()
+        }, 500)
       },
       error: function () {
         Toast.fire({
