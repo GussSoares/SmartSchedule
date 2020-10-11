@@ -69,9 +69,12 @@
                 appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
                 modalPrompt: false
               });
-              OneSignal.on('subscriptionChange', function (isSubscribed) {
+
+              save_player_id();
+
+              {% comment %}OneSignal.on('subscriptionChange', function (isSubscribed) {
                 save_player_id();
-              });
+              });{% endcomment %}
               {#OneSignal.showSlidedownPrompt()#}
               {#save_player_id();#}
             }
