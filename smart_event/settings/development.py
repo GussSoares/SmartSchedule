@@ -35,6 +35,14 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432'
+    },
+    'smart_event': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'smart_event',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 # ##### APPLICATION CONFIGURATION #########################

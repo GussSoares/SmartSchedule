@@ -26,6 +26,11 @@ STATICFILES_DIRS = [
     join(PROJECT_ROOT, 'static'),
 ]
 
+# db routers
+DATABASE_ROUTERS = [
+    'smart_event.settings.routers.TenantRouter'
+]
+
 # look for templates here
 # This is an internal setting, used in the TEMPLATES directive
 PROJECT_TEMPLATES = [
@@ -57,6 +62,7 @@ DEFAULT_APPS = [
 
 # Middlewares
 MIDDLEWARE = [
+    'smart_event.settings.middleware.multidb_middleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
