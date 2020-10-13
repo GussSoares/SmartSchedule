@@ -1,4 +1,3 @@
-import argparse
 import requests
 import json
 import datetime
@@ -27,24 +26,29 @@ def get_payload(player_ids, title, message, schedule_id):
 
 def run(*args):
     print("[{}] - RUN ==> Running Script Send Notifications...".format(datetime.datetime.now()))
-    schedules = Schedule.objects.filter(inicio__gte=default_ini, fim__lte=default_end)
-
-    for schedule in schedules:
+    print("\n")
+    for db, conf_db in settings.DATABASES.items():
         try:
-            members = schedule.schedulemember_set.all()
-            player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
+            print("[{}] - TRY ==> ACCESSING DATABASE <{}>...".format(datetime.datetime.now(), db))
+            schedules = Schedule.objects.using(db).filter(inicio__gte=default_ini, fim__lte=default_end)
 
-            msg = "Você está escalado para hoje às {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))
-            title = "Eai! Cuida na Escala. 📅"
-            header = get_header()
-            # payload = get_payload(['5d10d117-f413-4cee-82c5-5724bd949125'], title, msg)
-            payload = get_payload(player_ids, title, msg, schedule.id)
-            print('[{}] - NOTIFY ==> Sending Notification to {}...'.format(datetime.datetime.now(), player_ids))
-            req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-            print(req)
+            for schedule in schedules:
+                try:
+                    members = schedule.schedulemember_set.all()
+                    player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
 
-            # todo: salvar log no banco de dados para cada notificacao enviada
+                    msg = "Você está escalado para hoje às {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))
+                    title = "Eai! Cuida na Escala. 📅"
+                    header = get_header()
+                    # payload = get_payload(['5d10d117-f413-4cee-82c5-5724bd949125'], title, msg)
+                    payload = get_payload(player_ids, title, msg, schedule.id)
+                    print('\t[{}] - NOTIFY ==> SENDING NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
+                    req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+                    print(req)
+
+                    # todo: salvar log no banco de dados para cada notificacao enviada
+                except Exception as exc:
+                    print("\t[{}] - ERROR ==> ERROR TO SEND NOTIFICATION: {}".format(datetime.datetime.now(), str(exc)))
         except Exception as exc:
-            print("[{}] - ERROR ==> Erro ao enviar notificacao: {}".format(datetime.datetime.now(), str(exc)))
-
+            print("[{}] - ERROR ==> CONNECTION ERROR <{}>".format(datetime.datetime.now(), db))
 
