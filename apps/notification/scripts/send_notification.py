@@ -34,7 +34,7 @@ def run(*args):
 
             for schedule in schedules:
                 try:
-                    members = schedule.schedulemember_set.all()
+                    members = schedule.schedulemember_set.using(db).all()
                     player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
 
                     msg = "Você está escalado para hoje às {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))
