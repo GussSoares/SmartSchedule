@@ -342,7 +342,7 @@
         // your customizing code
         var container_width = container.style.width; // e.g. "105px"
         // move section
-        var html = "<div class='dhx_event_move my_event_move' style='width: " +
+        var html = "<div class='dhx_event_move' style='width: " +
                 container_width + "'></div>";
 
         // container for event's content
@@ -364,7 +364,7 @@
 
         html += "</div>";
         // resize section
-        html += "<div class='dhx_event_resize my_event_resize' style='width: " +
+        html += "<div class='dhx_event_resize dhx_footer' style='width: " +
                 container_width + "'></div>";
 
         container.innerHTML = html;
