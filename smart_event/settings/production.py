@@ -4,15 +4,31 @@ from .development import *
 # turn off all debugging
 DEBUG = False
 
+# Extra databases
+DATABASES_EXTRAS = [
+    'teste',
+    'teste2'
+]
+
+for DB_NAME in DATABASES_EXTRAS:
+    DATABASES[DB_NAME] = {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': DB_NAME,
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+
 # You will have to determine, which hostnames should be served by Django
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [db + ".smartschedule.ml" for db in DATABASES_EXTRAS]
 
 # ##### SECURITY CONFIGURATION ############################
 
 # TODO: Make sure, that sensitive information uses https
 # TODO: Evaluate the following settings, before uncommenting them
 # redirects all requests to https
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 # session cookies will only be set, if https is used
 # SESSION_COOKIE_SECURE = True
 # how long is a session cookie valid?
