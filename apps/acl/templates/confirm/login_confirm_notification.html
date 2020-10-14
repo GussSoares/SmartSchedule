@@ -46,10 +46,9 @@
           {% endfor %}
         </div>
       {% endif %}
-      <p class="login-box-msg">Informe seu CPF para confirmar seu cadastro</p>
-      <form action="{% url 'acl:login_confirm' %}" method="post">
+      <p class="login-box-msg">Informe seu CPF para visualizar sua escala</p>
+      <form action="{% url 'acl:schedule_view' %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{next}}" />
         <div class="input-group mb-3">
           {% comment %} <input type="text" class="form-control" placeholder="Login"> {% endcomment %}
           {{form.cpf}}

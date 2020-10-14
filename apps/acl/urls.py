@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^register/$', views.register, name="register"),
     url(r'^profile/$', views.profile, name="profile"),
     url(r'^login-confirm/$', views.login_confirm, name="login_confirm"),
+    url(r'^schedule-view/$', views.login_confirm, name="schedule_view"),
     url(r'^confirm/$', views.confirm, name="confirm"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
