@@ -8,6 +8,7 @@ from ..cliente.models import Client, Member
 
 def login(request):
     form = LoginForm()
+    next = request.GET.get('next')
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -25,6 +26,7 @@ def login(request):
 
     context = {
         'form': form,
+        'next': next
     }
     return render(request, 'login/login.html', context)
 
