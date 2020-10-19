@@ -91,7 +91,7 @@
 </head>
 
 <body class="hold-transition login-page background">
-<div class="container login login-box" style="width: 50%;">
+<div class="container login login-box" style="width: 80%">
   <div class="login-logo">
     <a href="#">
       <img alt="logotipo" src="{% static "dist/img/logotipo/275x100.png" %}" />
@@ -102,7 +102,7 @@
     <div class="card-header text-muted border-bottom-0"></div>
     <div class="card-body pt-0">
       <div class="row">
-        <div class="col-8">
+        <div class="col-8 col-md-8 col-sm-8">
           <h3 class="">{{ member.cliente.full_name }}</h3>
           <br>
 
@@ -115,8 +115,8 @@
             <li class="small"><h6><span class="fa-li"><i class="fas  fa-phone"></i></span> <strong>Telefone:</strong> {{ member.cliente.telefone }}</h6></li>
           </ul>
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-2 ">
+        <div class="col-2 col-md-2 col-sm-2"></div>
+        <div class="col-2 col-md-2 col-sm-2">
           <img src="{{ MEDIA_URL }}{{ member.cliente.foto }}" alt="" class="img-circle img-fluid">
         </div>
       </div>
