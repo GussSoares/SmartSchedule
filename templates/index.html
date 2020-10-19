@@ -196,6 +196,7 @@
   }else{
     elem = $('a[href$="'+window.location.pathname+'"]').closest('.nav-item');
     elem.parents("li.nav-item").addClass('menu-open').find('a.nav-link').addClass('active')
+    elem.find('a.nav-link').addClass('active')
   }
 
   $('.alert').not('.alert-always').delay(2500).fadeOut(2000);

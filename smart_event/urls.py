@@ -39,6 +39,8 @@ urlpatterns = [
 
     url(r'^notification/', include('apps.notification.urls', namespace="notification")),
 
+    url(r'^support/', include('apps.support.urls', namespace="support")),
+
     url(r'^OneSignalSDKWorker.js', cache_control(max_age=2592000)(TemplateView.as_view(
       template_name="onesignal/OneSignalSDKWorker.js",
       content_type='application/javascript',

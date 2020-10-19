@@ -58,6 +58,7 @@ DEFAULT_APPS = [
     'apps.core',
     'apps.escala',
     'apps.notification',
+    'apps.support',
 ]
 
 # Middlewares
