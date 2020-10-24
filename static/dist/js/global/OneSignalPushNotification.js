@@ -1,5 +1,9 @@
 window.OneSignal = window.OneSignal || [];
 OneSignal.push(function() {
+    OneSignal.init({
+        appId: ONESIGNAL_APP_ID,
+        autoRegister: true
+    });
 
 
     function save_player_id () {
@@ -42,10 +46,7 @@ OneSignal.push(function() {
                     showCloseButton: false,
                     showCancelButton: false,
                     onClose: function () {
-                        OneSignal.init({
-                            appId: ONESIGNAL_APP_ID,
-                            autoRegister: true
-                        });
+
                         OneSignal.registerForPushNotifications({
                             appId: ONESIGNAL_APP_ID,
                             modalPrompt: false
