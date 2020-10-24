@@ -57,7 +57,7 @@
         });
       }
 
-      OneSignal.getUserId().then(function (userId) {
+      {% comment %}OneSignal.getUserId().then(function (userId) {{% endcomment %}
         console.log('antes do if ', userId)
         /*
         * Verifica se o playerid recebido é diferente do cadastrado para o usuário.
@@ -93,7 +93,7 @@
             })
           }, 1000)
         {% comment %}}{% endcomment %}
-      });
+      {% comment %}});{% endcomment %}
     });
 
 
