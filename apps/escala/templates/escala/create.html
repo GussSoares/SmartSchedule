@@ -173,6 +173,7 @@
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_recurring.js' %}" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
   <script src="https://cdn.dhtmlx.com/scheduler/edge/ext/dhtmlxscheduler_minical.js"></script>
+  <script src="https://docs.dhtmlx.com/scheduler/codebase/ext/dhtmlxscheduler_multiselect.js"></script>
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_container_autoresize.js' %}"></script>
   <!-- Quick info extension -->
   <script src="{% static 'plugins/dhx-calendar/codebase/ext/dhtmlxscheduler_quick_info.js' %}" charset="utf-8"></script>
@@ -278,7 +279,6 @@
           // ev - event object
           // config - section configuration object
           if (typeof ev.owner === typeof []) {
-            console.log(ev)
             {#$(node).find('#id_membro').val(ev.owner.split(','))#}
             $(node).find('#id_membro').val(ev.owner)
           } else {
@@ -310,16 +310,70 @@
         { name: "owner", height: 32, map_to: "owner", type: "selectmultiple", required: true},
         { name: "time", height: 40, type: "time", map_to: "auto" },
         { name: "obs", height: 70, map_to: "obs", type: "textarea", lines: 3 },
-
       ];
-
-      scheduler.load("{% url 'escala:get_all_schedules' %}");
-
 
       scheduler.config.details_on_dblclick = true;
       scheduler.config.details_on_create = true;
       scheduler.config.wide_form = true;
       scheduler.config.start_on_monday = false;
+      scheduler.config.buttons_right = ["dhx_save_btn", "dhx_cancel_btn"];
+      scheduler.config.buttons_left = ["presence_bnt", "dhx_delete_btn"];
+      scheduler.locale.labels['presence_bnt'] = "Presença";
+
+      scheduler.attachEvent("onLightboxButton", function(button_id, node, e){
+        $.ajax({
+          'url': '{% url 'schedule:get_member_by_schedule_html_form' %}',
+          'method': 'GET',
+          'async': false,
+          'data': {
+            'dhx_crosslink_presence': scheduler.getState().lightbox_id
+          }
+        }).then(function (response) {
+          if(button_id == "presence_bnt"){
+            bootbox.dialog({
+              title: '<i class="fas fa-calendar-check"></i> Presença',
+              message: '<h5>Informe os membros presentes</h5>' + response.data,
+              buttons: {
+                cancel: {
+                  label: 'Cancelar'
+                },
+                confirm: {
+                  label: '<i class="fas fa-check"></i> Salvar',
+                  callback: function (result) {
+                    if (result) {
+                      let presence = $('.form-check-input:checkbox:checked').map(function() {return this.value}).get();
+                      let unpresence = $('.form-check-input:checkbox').not(':checked').map(function() {return this.value}).get()
+                      $.ajax({
+                        url: '{% url 'schedule:set_presence' %}',
+                        method: 'POST',
+                        data: {
+                          csrfmiddlewaretoken: '{{ csrf_token }}',
+                          schedule_id: scheduler.getState().lightbox_id,
+                          presence: JSON.stringify(presence),
+                          unpresence: JSON.stringify(unpresence)
+                        },
+                        success: function (data) {
+                          Toast.fire({
+                            icon: 'success',
+                            title: data.data
+                          })
+                        },
+                        error: function (data) {
+                          Toast.fire({
+                            icon: 'success',
+                            title: data.messageJSON.data
+                          })
+                        }
+                      })
+                    }
+                  }
+                }
+              }
+            })
+          }
+        })
+
+      });
 
       // ------- QUICK INFO CONTENTS --------
       scheduler.templates.quick_info_content = function(start, end, ev){
@@ -372,9 +426,9 @@
       scheduler.init('scheduler_here',new Date(),"week");
 
       // ------- HANDLE EVENTS --------
-      scheduler.attachEvent('onLightbox', function () {
+      scheduler.attachEvent('onLightbox', function (id, ev) {
         // inicializa os inputs aqui
-        $('#id_membro').select2()
+        $('#id_membro').select2();
       })
 
       // ------------ CREATE SCHEDULE ------------
@@ -484,7 +538,7 @@
         })
 
         return true
-      })
+      });
 
       // ------------ VALIDATION SCHEDULE ------------
       scheduler.attachEvent('onEventSave', function (id, ev) {
@@ -499,6 +553,8 @@
       })
 
     });
+
+    scheduler.load("{% url 'escala:get_all_schedules' %}");
 
     function exportToExcel() {
       let start = scheduler.getState().min_date;

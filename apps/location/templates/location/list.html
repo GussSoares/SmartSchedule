@@ -1,0 +1,283 @@
+{% extends "index.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block title_page %}
+  {{ request.resolver_match.app_name.capitalize }}
+{% endblock %}
+
+{% block css %}
+  <link href="{% static 'plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Dúvidas Frequentes</h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div id="mapid" style="height: 350px;"></div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'plugins/sweetalert2/sweetalert2.all.js' %}"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+          integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+          crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+  <script>
+    var markers = {};
+    var marker_POI = {};
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: '{% settings_value "MAPBOX_KEY" %}'
+    }).addTo(mymap);
+
+    let easy_add = L.easyButton({
+      states: [
+        {
+          stateName: 'Adicionar',
+          icon: 'fa fa-map-marker-alt text-primary fa-lg',
+          title: 'Criar Local',
+          onClick: function() {
+            enable_add(this);
+          }
+        },
+        {
+          stateName: 'Cancelar',
+          icon: 'fa fa-times text-danger fa-lg',
+          title: 'Cancelar',
+          onClick: function() {
+            disable_add(this);
+          }
+        }
+      ]
+    }).addTo(mymap);
+
+    function enable_add (button) {
+      mymap.on('click', create_form_POI)
+      button.state('Cancelar');
+      $('.leaflet-container').css('cursor','crosshair');
+    }
+
+    function disable_add (button) {
+      button.state('Adicionar')
+      mymap.off('click')
+      $('.leaflet-container').css('cursor','grab');
+      mymap.removeLayer(marker_POI);
+      marker_POI = null;
+      mymap.closePopup();
+    }
+
+    $.ajax({
+      'url': '{% url 'location:get_all_locations' %}',
+      'method': 'GET',
+      success: function (data) {
+        var locations = data.data;
+        var marker;
+        for (let location of locations) {
+          marker = L.marker({lat: location.latitude, lng: location.longitude}).addTo(mymap);
+          markers[location.id] = marker;
+          marker.bindPopup(`
+            <div class="row" style="width: 300px;">
+              <div class="col-12">
+                <form id="save_location_form" method="post">
+                  <div class="form-group">
+                    <label>Descrição</label>
+                    <div class="input-group input-group-sm">
+                      <input id="id_descricao" type="text" value="${location.descricao}" placeholder="Insira uma descrição" required class="form-control">
+                      <span class="input-group-append">
+                        <button type="button" class="btn btn-success btn-flat" onclick="update_location(${location.id})"><i class="fas fa-check"></i></button>
+                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${location.id})"><i class="fas fa-trash"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          `)
+        }
+      }
+    })
+
+    function create_form_POI (event) {
+      marker_POI = L.marker(event.latlng).addTo(mymap);
+      marker_POI.bindPopup(`
+       <div class="row" style="width: 300px;">
+        <div class="col-12">
+          <form id="save_location_form" method="post">
+            <div class="form-group">
+              <label>Descrição</label>
+              <div class="input-group input-group-sm">
+                <input id="id_descricao" type="text" placeholder="Insira uma descrição" required class="form-control">
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-success btn-flat" onclick="create_location(${event.latlng.lat}, ${event.latlng.lng})"><i class="fas fa-check"></i></button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+     `, {maxWidth: 600}).openPopup();
+
+      marker_POI.on('popupclose', function (ev) {
+        mymap.removeLayer(marker_POI);
+      })
+    }
+
+    function create_location(lat, lng) {
+      $.ajax({
+        'url': '{% url 'location:create_api' %}',
+        'method': 'POST',
+        'data': {
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+          'latitude': lat,
+          'longitude': lng,
+          'descricao': $('#id_descricao').val()
+        },
+        success: function (data) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Localização salva com sucesso!'
+          })
+          let id = data.data.id;
+
+          let marker = L.marker({lat: data.data.latitude, lng: data.data.longitude}).addTo(mymap).bindPopup(`
+             <div class="row" style="width: 300px;">
+              <div class="col-12">
+                <form id="save_location_form" method="post">
+                  <div class="form-group">
+                    <label>Descrição</label>
+                    <div class="input-group input-group-sm">
+                      <input id="id_descricao" type="text" value="${data.data.descricao}" placeholder="Insira uma descrição" required class="form-control">
+                      <span class="input-group-append">
+                        <button type="button" class="btn btn-success btn-flat" onclick="update_location(${data.data.id})"><i class="fas fa-check"></i></button>
+                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${data.data.id})"><i class="fas fa-trash"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+           `, {maxWidth: 600})
+
+          markers[id] = marker;
+          disable_add(easy_add);
+        },
+        error: function (data) {
+          Toast.fire({
+            icon: 'error',
+            title: 'Falha ao salvar localização!'
+          })
+        }
+      })
+    }
+    function update_location(pk) {
+      $.ajax({
+        'url': `/location/api/update/${pk}`,
+        'method': 'POST',
+        'data': {
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+          'descricao': $('#id_descricao').val()
+        },
+        success: function (data) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Localização atualizada com sucesso!'
+          })
+          mymap.closePopup();
+          markers[pk].getPopup().setContent(`
+            <div class="row" style="width: 300px;">
+              <div class="col-12">
+                <form id="save_location_form" method="post">
+                  <div class="form-group">
+                    <label>Descrição</label>
+                    <div class="input-group input-group-sm">
+                      <input id="id_descricao" type="text" value="${data.data.descricao}" placeholder="Insira uma descrição" required class="form-control">
+                      <span class="input-group-append">
+                        <button type="button" class="btn btn-success btn-flat" onclick="update_location(${data.data.id})"><i class="fas fa-check"></i></button>
+                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${data.data.id})"><i class="fas fa-trash"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          `)
+          markers[pk].closePopup();
+        },
+        error: function (data) {
+          Toast.fire({
+            icon: 'error',
+            title: 'Falha ao atualizar localização!'
+          })
+        }
+      })
+    }
+    function delete_location(pk) {
+      $.ajax({
+        'url': `/location/api/delete/${pk}`,
+        'method': 'POST',
+        'data': {
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function (data) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Localização deletada com sucesso!'
+          })
+          mymap.closePopup();
+          mymap.removeLayer(markers[pk]);
+        },
+        error: function (data) {
+          Toast.fire({
+            icon: 'error',
+            title: 'Falha ao deletar localização!'
+          })
+        }
+      })
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+
+                {#var capa = document.getElementById("capa");#}
+                {#var marker = L.marker([latitude, longitude]).addTo(mymap);#}
+                {#var latLngs = [ marker.getLatLng() ];#}
+                var markerBounds = L.latLngBounds([{lat: latitude, lng: longitude}]);
+                mymap.fitBounds(markerBounds);
+              },
+              function error(msg) {alert('Please enable your GPS position feature.');},
+              {maximumAge:10000, timeout:5000, enableHighAccuracy: true});
+    } else {
+      alert("Geolocation API is not supported in your browser.");
+    }
+  </script>
+{% endblock %}

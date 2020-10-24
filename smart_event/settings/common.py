@@ -59,6 +59,7 @@ DEFAULT_APPS = [
     'apps.escala',
     'apps.notification',
     'apps.support',
+    'apps.location',
 ]
 
 # Middlewares
@@ -147,6 +148,12 @@ DEBUG = False
 
 # ONESIGNAL APP_ID
 ONESIGNAL_APP_ID = "ac46fd4e-3813-479a-b175-0149f9789d8f"
+
+# MAPBOX Key
+MAPBOX_KEY = 'pk.eyJ1IjoiZ3VzdGF2bzU4NTUiLCJhIjoiY2s0M2R3NnhsMDN0cTNqcWszZGU0YmZtaCJ9.pJWczUcicY45uQZ4IeoKYQ'
+
+# IPSTACK Key
+IPSTACK_KEY = 'b23be60d5e84503c80c6fee49a62317e'
 
 # finally grab the SECRET KEY
 try:

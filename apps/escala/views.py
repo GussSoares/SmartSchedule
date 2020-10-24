@@ -16,3 +16,7 @@ def create(request):
         'form': form
     }
     return render(request, 'escala/create.html', context)
+
+
+def confirmar_presenca(request):
+    return render(request, 'confirmar_presenca/confirmar_presenca.html')

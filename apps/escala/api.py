@@ -118,6 +118,66 @@ def get_all_schedules(request):
     return JsonResponse({'data': result}, status=200)
 
 
+def get_member_by_schedule(request):
+    pk = request.GET.get('dhx_crosslink_presence')
+    if request.GET.get('uid', None):
+        return JsonResponse([], safe=False, status=200)
+    try:
+        schedule = Schedule.objects.get(pk=pk)
+    except Exception as exc:
+        return JsonResponse([], safe=False, status=200)
+    return JsonResponse([{"value": str(x.membro.id), "label": x.membro.cliente.first_name} for x in schedule.schedulemember_set.all()], safe=False, status=200)
+
+
+def get_member_by_schedule_html_form(request):
+    pk = request.GET.get('dhx_crosslink_presence')
+    if request.GET.get('uid', None):
+        return JsonResponse([], safe=False, status=200)
+    try:
+        schedule = Schedule.objects.get(pk=pk)
+        html = """
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+        """
+        for schedulemember in schedule.schedulemember_set.all():
+            html += """
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" value={value} {checked} type="checkbox">{name}
+                </label>
+            </div>
+            """.format(value=schedulemember.membro.id, name=schedulemember.membro.cliente.full_name, checked="checked" if schedulemember.presenca else "")
+        html += """
+                </div>
+            </div>
+        </div>
+        """
+    except:
+        return JsonResponse({'data': ""}, status=200)
+    return JsonResponse({'data': html}, safe=False, status=200)
+
+
+def set_presence(request):
+    schedule_id = request.POST.get('schedule_id', None)
+    presence = json.loads(request.POST.get('presence', '[]'))
+    unpresence = json.loads(request.POST.get('unpresence', '[]'))
+    try:
+        with transaction.atomic():
+            if schedule_id:
+                schedulemembers = ScheduleMember.objects.filter(escala_id=schedule_id)
+                for schedulemember in schedulemembers:
+                    if str(schedulemember.membro.id) in presence:
+                        schedulemember.presenca = True
+                    if str(schedulemember.membro.id) in unpresence:
+                        schedulemember.presenca = False
+                    schedulemember.save()
+                return JsonResponse({"data": "Presença registrada com sucesso!"}, status=200)
+            else:
+                return JsonResponse({"data": "Escala não Identificada"}, status=404)
+    except Exception as exc:
+        return JsonResponse({"data": "Erro ao registrar presenca"}, status=500)
+
 def get_schedules_by_member(request, pk):
     member = Member.objects.get(id=pk)
     schedules = Schedule.objects.filter(schedulemember__membro=member)
