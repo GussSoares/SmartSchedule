@@ -21,12 +21,14 @@ OneSignal.push(function() {
     }
 
     OneSignal.getUserId().then(function (userId) {
+        console.log('antes do if ', userId)
         /*
         * Verifica se o playerid recebido é diferente do cadastrado para o usuário.
         * Se o playerid salvo nao bater com o recebido, pergunta se quer receber notificacao
         * e salva o playerid
         */
-        if (member_player_id != userId || !membe_player_id || !userId) {
+        if (member_player_id != userId || !member_player_id || !userId) {
+            console.log('entrou no if')
             /*
             * Sempre que esta página for acessada, após 1 segundo, apresentará um modal
             * que avisará sobre as notificações. Ao permitir, serão enviadas notificações
