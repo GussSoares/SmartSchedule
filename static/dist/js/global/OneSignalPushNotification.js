@@ -26,7 +26,7 @@ OneSignal.push(function() {
         * Se o playerid salvo nao bater com o recebido, pergunta se quer receber notificacao
         * e salva o playerid
         */
-        if (member_player_id != userId || membe_player_id == '' || userId == null) {
+        if (member_player_id != userId || !membe_player_id || !userId) {
             /*
             * Sempre que esta página for acessada, após 1 segundo, apresentará um modal
             * que avisará sobre as notificações. Ao permitir, serão enviadas notificações
