@@ -29,65 +29,14 @@
   <link rel="stylesheet" href="{% static 'plugins/dhx-calendar/codebase/dhtmlxscheduler_material.css' %}" type="text/css" charset="utf-8">
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-
-
-      function save_player_id () {
-        OneSignal.getUserId().then(function(userId) {
-          console.log("OneSignal User ID:", userId);
-          if (userId) {
-            $.ajax({
-              url: '{% url 'notification:register_player_id' %}',
-              method: 'post',
-              async: false,
-              data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                player_id: userId,
-                member_id: '{{ member.id }}'
-              }
-            })
-          }
-        });
-      }
-
-
-      {% comment %}if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {{% endcomment %}
-        /*
-        * Sempre que esta página for acessada, após 1 segundo, apresentará um modal
-        * que avisará sobre as notificações. Ao permitir, serão enviadas notificações
-        * para o ultimo dispositivo cuja autorização foi dada.
-        */
-        setTimeout(function () {
-          Swal.fire({
-            icon: 'question',
-            title: 'Olá! 📅 Quer receber lembrete da escala?',
-            text: 'Basta clicar em "permitir" no popup que irá aparecer. 😎',
-            showCloseButton: false,
-            showCancelButton: false,
-            onClose: function () {
-              OneSignal.init({
-                appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
-                autoRegister: true
-              });
-              OneSignal.registerForPushNotifications({
-                appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
-                modalPrompt: false
-              });
-
-              save_player_id();
-
-              {% comment %}OneSignal.on('subscriptionChange', function (isSubscribed) {
-                save_player_id();
-              });{% endcomment %}
-              {#OneSignal.showSlidedownPrompt()#}
-              {#save_player_id();#}
-            }
-          })
-        }, 1000)
-      {% comment %}}{% endcomment %}
-    });
+    var ONESIGNAL_APP_ID = "{% settings_value "ONESIGNAL_APP_ID" %}";
+    var url_register_player_id = '{% url 'notification:register_player_id' %}';
+    var csrf_token = '{{ csrf_token }}';
+    var member_id = '{{ member.id }}';
+    var member_player_id = '{{ member.cliente.player_id }}';
   </script>
+  <script src="{% static 'dist/js/global/OneSignalPushNotification.js' %}"></script>
+
 </head>
 
 <body class="hold-transition login-page background">
@@ -123,9 +72,9 @@
     </div>
     <div class="card-footer">
       <div class="text-right">
-          <a href="#" data-target="#modal-ajuda" data-toggle="modal" class="btn btn-sm btn-primary float-left">
-            <i class="fas fa-question"></i> Ajuda
-          </a>
+        <a href="#" data-target="#modal-ajuda" data-toggle="modal" class="btn btn-sm btn-primary float-left">
+          <i class="fas fa-question"></i> Ajuda
+        </a>
         {% if not member.cliente.checked %}
           <a href="#" onclick="corrigir(this)" class="btn btn-sm btn-danger">
             <i class="fas fa-pen"></i> Corrigir
