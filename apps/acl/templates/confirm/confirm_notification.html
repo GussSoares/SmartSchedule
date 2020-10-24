@@ -64,7 +64,7 @@
         * Se o playerid salvo nao bater com o recebido, pergunta se quer receber notificacao
         * e salva o playerid
         */
-        if (member_player_id != userId || !member_player_id || !userId) {
+        {% comment %}if (member_player_id != userId || !member_player_id || !userId) {{% endcomment %}
           console.log('entrou no if')
           /*
           * Sempre que esta página for acessada, após 1 segundo, apresentará um modal
@@ -92,7 +92,7 @@
               }
             })
           }, 1000)
-        }
+        {% comment %}}{% endcomment %}
       });
     });
 
