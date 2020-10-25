@@ -1,8 +1,10 @@
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.cliente.models import Coordinator
+from apps.core.utils import get_subdomain
 from apps.escala.models import Schedule
 from apps.location.models import Location
 
@@ -26,22 +28,27 @@ def get_all_api(request):
         })
     return JsonResponse({'data': result})
 
+
 @csrf_exempt
 def create_api(request):
     latitude = request.POST.get('latitude', None)
     longitude = request.POST.get('longitude', None)
     descricao = request.POST.get('descricao', None)
+    active = True if request.POST.get('active', False) == 'true' else False
     group = None
     if request.user.is_coordinator:
         group = Coordinator.objects.get(cliente=request.user).grupo
 
     if latitude and longitude:
         try:
+            if active:
+                Location.objects.filter(grupo=group).update(active=False)
             location = Location.objects.create(
                 latitude=float(latitude),
                 longitude=float(longitude),
                 descricao=descricao,
-                grupo=group
+                grupo=group,
+                active=active
             )
             location_json = {
                 'id': location.id,
@@ -80,3 +87,22 @@ def delete_api(request, pk):
     except Exception as exc:
         return JsonResponse({'msg': 'Erro ao deletar localização!'}, status=500)
     return JsonResponse({'msg': 'Localização deletada com sucesso!'}, status=200)
+
+
+@csrf_exempt
+def active_api(request, pk):
+    try:
+        with transaction.atomic(using=get_subdomain(request)):
+            location = get_object_or_404(Location, pk=pk)
+
+            # tenta desativar todas as outras localizacoes para manter a concistencia
+            try:
+                grupo = location.grupo
+                Location.objects.filter(grupo=grupo).update(active=False)
+            except:
+                pass
+            location.active = True
+            location.save()
+    except Exception as exc:
+        return JsonResponse({'msg': 'Erro ao ativar localização!'}, status=500)
+    return JsonResponse({'msg': 'Localização ativada com sucesso!'}, status=200)

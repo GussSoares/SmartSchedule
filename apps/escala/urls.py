@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^api/get-member-by-schedule/$', api.get_member_by_schedule, name="get_member_by_schedule"),
     url(r'^api/get-member-by-schedule-html-form/$', api.get_member_by_schedule_html_form, name="get_member_by_schedule_html_form"),
     url(r'^api/set-presence/$', api.set_presence, name="set_presence"),
+    url(r'^api/confirm-presence/$', api.confirm_presence_api, name="confirm_presence_api"),
 
     # criado especialmente para o dhxscheduler
     url(r'^create/api/get-member-by-schedule/$', api.get_member_by_schedule, name="get_member_by_schedule"),

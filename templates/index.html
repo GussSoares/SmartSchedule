@@ -80,13 +80,13 @@
           <div class="alert alert-{{ message.tags }}" role="alert">
             <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h5>
-              {% if message.tags == 'success' %}
+              {% if 'success' in message.tags %}
                 <i class="fa-lg fas fa-check"></i>
                 Sucesso!
-              {% elif message.tags == 'warning' %}
+              {% elif 'warning' in message.tags %}
                 <i class="fa-lg fas fa-exclamation-triangle"></i>
                 Atenção!
-              {% elif message.tags == 'error' %}
+              {% elif 'error' in message.tags %}
                 <i class="fa-lg fas fa-times-circle"></i>
                 Erro!
               {% endif %}
@@ -202,7 +202,6 @@
   $('.alert').not('.alert-always').delay(2500).fadeOut(2000);
 
   $('form').on('submit', function (ev) {
-    console.log('te')
     $(this).validate()
   })
 </script>

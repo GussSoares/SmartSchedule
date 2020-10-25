@@ -28,17 +28,34 @@ def run(*args):
                     player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
 
                     header = get_header()
+                    # ====================== Reminding Notification ======================
                     payload = {
                         "app_id": settings.ONESIGNAL_APP_ID,
                         "include_player_ids": player_ids,
                         "contents": {"en": "Você está escalado para hoje às {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
                         "headings": {"en": "Eai! Cuida na Escala. 📅"},
                         "web_push_topic": schedule.id,
-                        "url": "https://{}.smartschedule.ml/acl/login-confirm".format(db)
+                        "url": "https://{}.smartschedule.ml/acl/schedule-view/".format(db)
                     }
-                    print('\t[{}] - NOTIFY ==> SENDING NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
+                    print('\t[{}] - NOTIFY ==> SENDING REMINDING NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
                     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-                    print(req)
+                    print('\t ↳ [STATUS] => {}'.format(str(req)))
+
+                    # ====================== Presence Confirm Notification ======================
+                    # Esta precisa ser individual pois cada membro receberá seu player_id na URL da notificação!!
+                    for player_id in player_ids:
+                        payload.update({
+                            "app_id": settings.ONESIGNAL_APP_ID,
+                            "include_player_ids": player_ids,
+                            "contents": {"en": "Clique aqui para marcar presença na sua escala de {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
+                            "headings": {"en": "Confirme sua Presença! 📅"},
+                            "web_push_topic": schedule.id,
+                            "send_after": datetime.datetime.strftime(schedule.inicio.astimezone(), '%Y-%m-%d %H:%M:%S GMT%z'),
+                            "url": "https://{subdomain}.smartschedule.ml/schedule/confirm-presence/?player_id={player_id}&schedule_id={schedule_id}".format(subdomain=db, player_id=player_id, schedule_id=schedule.id)
+                        })
+                        print('\t[{}] - NOTIFY ==> SENDING CONFIRM PRESENCE NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
+                        req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+                        print('\t ↳ [STATUS] => {}'.format(str(req)))
 
                     # todo: salvar log no banco de dados para cada notificacao enviada
                 except Exception as exc:

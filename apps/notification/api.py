@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from .models import Commentary
-from ..cliente.models import Member
+from ..cliente.models import Member, Client
 from ..core.utils import today, timezone
 import datetime
 
@@ -10,6 +10,11 @@ def register_player_id(request):
         player_id = request.POST.get('player_id')
         member_id = request.POST.get('member_id')
         member = Member.objects.get(id=member_id)
+        # tenta apagar o player_id de quaisquer outros cadastros em que ele esteja para não haver inconscistencia
+        try:
+            Client.objects.filter(player_id=player_id).update(player_id=None)
+        except:
+            pass
         member.cliente.player_id = player_id
         member.cliente.save()
     except Exception as exc:

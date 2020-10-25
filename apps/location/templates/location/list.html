@@ -19,7 +19,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Dúvidas Frequentes</h3>
+          <h3 class="card-title">Cadastre o local das suas Escalas</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
@@ -111,8 +111,9 @@
                     <div class="input-group input-group-sm">
                       <input id="id_descricao" type="text" value="${location.descricao}" placeholder="Insira uma descrição" required class="form-control">
                       <span class="input-group-append">
-                        <button type="button" class="btn btn-success btn-flat" onclick="update_location(${location.id})"><i class="fas fa-check"></i></button>
-                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${location.id})"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-primary btn-flat" onclick="update_location(${location.id})" title="Salvar"><i class="fas fa-save"></i></button>
+                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${location.id})" title="Apagar"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-success btn-flat" onclick="active_location(${location.id})"><i class="fas fa-check"></i></button>
                       </span>
                     </div>
                   </div>
@@ -135,7 +136,7 @@
               <div class="input-group input-group-sm">
                 <input id="id_descricao" type="text" placeholder="Insira uma descrição" required class="form-control">
                 <span class="input-group-append">
-                  <button type="button" class="btn btn-success btn-flat" onclick="create_location(${event.latlng.lat}, ${event.latlng.lng})"><i class="fas fa-check"></i></button>
+                  <button type="button" class="btn btn-primary btn-flat" onclick="create_location(${event.latlng.lat}, ${event.latlng.lng})" title="Salvar"><i class="fas fa-save"></i></button>
                 </span>
               </div>
             </div>
@@ -150,23 +151,39 @@
     }
 
     function create_location(lat, lng) {
-      $.ajax({
-        'url': '{% url 'location:create_api' %}',
-        'method': 'POST',
-        'data': {
-          'csrfmiddlewaretoken': '{{ csrf_token }}',
-          'latitude': lat,
-          'longitude': lng,
-          'descricao': $('#id_descricao').val()
+      bootbox.confirm({
+        title: "Atenção!",
+        message: "Deseja tornar essa localização ativa para ser utilizada como local de confirmação da presença de seus membros?",
+        closeButton: false,
+        buttons: {
+          confirm: {
+            label: 'Sim',
+            className: 'btn-primary'
+          },
+          cancel: {
+            label: 'Não',
+            className: 'btn-default'
+          }
         },
-        success: function (data) {
-          Toast.fire({
-            icon: 'success',
-            title: 'Localização salva com sucesso!'
-          })
-          let id = data.data.id;
+        callback: function (result) {
+          $.ajax({
+            'url': '{% url 'location:create_api' %}',
+            'method': 'POST',
+            'data': {
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+              'latitude': lat,
+              'longitude': lng,
+              'active': result,
+              'descricao': $('#id_descricao').val()
+            },
+            success: function (data) {
+              Toast.fire({
+                icon: 'success',
+                title: 'Localização salva com sucesso!'
+              })
+              let id = data.data.id;
 
-          let marker = L.marker({lat: data.data.latitude, lng: data.data.longitude}).addTo(mymap).bindPopup(`
+              let marker = L.marker({lat: data.data.latitude, lng: data.data.longitude}).addTo(mymap).bindPopup(`
              <div class="row" style="width: 300px;">
               <div class="col-12">
                 <form id="save_location_form" method="post">
@@ -175,8 +192,9 @@
                     <div class="input-group input-group-sm">
                       <input id="id_descricao" type="text" value="${data.data.descricao}" placeholder="Insira uma descrição" required class="form-control">
                       <span class="input-group-append">
-                        <button type="button" class="btn btn-success btn-flat" onclick="update_location(${data.data.id})"><i class="fas fa-check"></i></button>
-                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${data.data.id})"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-primary btn-flat" onclick="update_location(${data.data.id})" title="Salvar"><i class="fas fa-save"></i></button>
+                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${data.data.id})" title="Apagar"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-success btn-flat" onclick="active_location(${data.data.id})"><i class="fas fa-check"></i></button>
                       </span>
                     </div>
                   </div>
@@ -185,13 +203,15 @@
             </div>
            `, {maxWidth: 600})
 
-          markers[id] = marker;
-          disable_add(easy_add);
-        },
-        error: function (data) {
-          Toast.fire({
-            icon: 'error',
-            title: 'Falha ao salvar localização!'
+              markers[id] = marker;
+              disable_add(easy_add);
+            },
+            error: function (data) {
+              Toast.fire({
+                icon: 'error',
+                title: 'Falha ao salvar localização!'
+              })
+            }
           })
         }
       })
@@ -219,8 +239,9 @@
                     <div class="input-group input-group-sm">
                       <input id="id_descricao" type="text" value="${data.data.descricao}" placeholder="Insira uma descrição" required class="form-control">
                       <span class="input-group-append">
-                        <button type="button" class="btn btn-success btn-flat" onclick="update_location(${data.data.id})"><i class="fas fa-check"></i></button>
-                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${data.data.id})"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-primary btn-flat" onclick="update_location(${data.data.id})" title="Salvar"><i class="fas fa-save"></i></button>
+                        <button type="button" class="btn btn-danger btn-flat" onclick="delete_location(${data.data.id})" title="Apagar"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-success btn-flat" onclick="active_location(${data.data.id})"><i class="fas fa-check"></i></button>
                       </span>
                     </div>
                   </div>
@@ -257,6 +278,29 @@
           Toast.fire({
             icon: 'error',
             title: 'Falha ao deletar localização!'
+          })
+        }
+      })
+    }
+
+    function active_location(pk) {
+      $.ajax({
+        'url': `/location/api/active/${pk}`,
+        'method': 'POST',
+        'data': {
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        success: function (data) {
+          Toast.fire({
+            icon: 'success',
+            title: 'Localização ativada com sucesso!'
+          })
+          mymap.closePopup();
+        },
+        error: function (data) {
+          Toast.fire({
+            icon: 'error',
+            title: 'Falha ao ativar localização!'
           })
         }
       })
