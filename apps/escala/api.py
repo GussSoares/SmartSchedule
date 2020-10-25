@@ -213,31 +213,37 @@ def confirm_presence_api(request):
             member = Member.objects.get(cliente__player_id=player_id)
             schedule_member = ScheduleMember.objects.get(escala=schedule_id, membro=member)
             location_active = Location.objects.get(grupo=member.grupo, active=True)
-            user_location = (float(lat), float(lng))
-            schedule_location = (location_active.latitude, location_active.longitude)
-
-            distance = haversine(user_location, schedule_location, unit=Unit.METERS)
-            if distance <= float(100):
-                schedule_member.presenca = True
-                schedule_member.save()
-
+            if schedule_member.presenca:
                 context.update({
-                    'message': 'Utilizamos sua localização para verificar que você realmente está em <strong>{}</strong> 📍.'.format(location_active.descricao),
-                    'title': 'Presença Confirmada 😉',
+                    'message': 'Já identificamos sua presença em <strong>{}</strong>📍.'.format(location_active.descricao),
+                    'title': 'Presença já Confirmada 😉',
                     'status': 'success'
                 })
             else:
-                schedule_member.presenca = False
-                schedule_member.save()
+                user_location = (float(lat), float(lng))
+                schedule_location = (location_active.latitude, location_active.longitude)
 
-                context.update({
-                    'message': 'Utilizamos sua localização para verificar que você realmente está em <strong>{}</strong> 📍.'.format(location_active.descricao),
-                    'title': 'Parece que você não está no local correto 😔',
-                    'status': 'error'
-                })
+                if haversine(user_location, schedule_location, unit=Unit.METERS) <= float(100):
+                    schedule_member.presenca = True
+                    schedule_member.save()
+
+                    context.update({
+                        'message': 'Utilizamos sua localização para verificar que você realmente está em <strong>{}</strong> 📍.'.format(location_active.descricao),
+                        'title': 'Presença Confirmada 😉',
+                        'status': 'success'
+                    })
+                else:
+                    schedule_member.presenca = False
+                    schedule_member.save()
+
+                    context.update({
+                        'message': 'Se estiver realmente em {}, atualize a página ou vá para um local aberto.'.format(location_active.descricao),
+                        'title': 'Parece que você não está no local correto 😔',
+                        'status': 'error'
+                    })
         else:
             context.update({
-                'message': 'Não conseguimos identificar sua localização.📍',
+                'message': 'Não conseguimos identificar sua localização📍. Você pode tentar atualizar a página.',
                 'title': 'Sentimos Muito 😔',
                 'status': 'error'
             })
@@ -250,6 +256,12 @@ def confirm_presence_api(request):
     except (ScheduleMember.DoesNotExist, ScheduleMember.MultipleObjectsReturned) as exc:
         context.update({
             'message': 'Não conseguimos identificar esta Escala.',
+            'title': 'Sentimos Muito 😔',
+            'status': 'error'
+        })
+    except Exception as exc:
+        context.update({
+            'message': 'Não conseguimos identificar sua localização📍. Você pode tentar atualizar a página.',
             'title': 'Sentimos Muito 😔',
             'status': 'error'
         })
