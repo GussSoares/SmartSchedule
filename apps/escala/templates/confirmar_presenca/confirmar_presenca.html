@@ -114,12 +114,19 @@
                     }).fadeIn(500)
                   },
                   error: function () {
-                    alert('Ocorreu um erro ao verificar sua localização. 😪')
+                    alert('Ocorreu um erro ao verificar sua localização. 😪');
                   }
                 })
               },
               function () {
                 alert('Por favor, habilite a localização no seu dispositivo e atualize a página! 😊');
+                $('#svg_content').fadeOut(500, function () {
+                  $(this).html(`
+                      <img alt height="50%" width="50%" src="{% static 'dist/img/logotipo/location_marker.svg' %}" />
+                      <br>
+                      <h3 class="text-center text-danger">Habilite a localização!</h3>
+                    `)
+                }).fadeIn(500)
               }
       );
     } else {

@@ -4,9 +4,10 @@ import datetime
 import pytz
 from django.conf import settings
 from apps.escala.models import Schedule
+from apps.location.models import Location
 
 timezone = pytz.timezone(settings.TIME_ZONE)
-default_ini = timezone.localize(datetime.datetime.now().replace(hour=0, minute=0, second=0))
+default_ini = timezone.localize(datetime.datetime.now())
 default_end = timezone.localize(datetime.datetime.now().replace(hour=23, minute=59, second=59))
 
 
@@ -26,6 +27,11 @@ def run(*args):
                 try:
                     members = schedule.schedulemember_set.using(db).all()
                     player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
+                    try:
+                        grupo = members.first().grupo
+                        location = Location.objects.using(db).get(grupo=grupo, active=True)
+                    except Exception as exc:
+                        location = None
 
                     header = get_header()
                     # ====================== Reminding Notification ======================
@@ -43,19 +49,20 @@ def run(*args):
 
                     # ====================== Presence Confirm Notification ======================
                     # Esta precisa ser individual pois cada membro receberá seu player_id na URL da notificação!!
-                    for player_id in player_ids:
-                        payload.update({
-                            "app_id": settings.ONESIGNAL_APP_ID,
-                            "include_player_ids": player_ids,
-                            "contents": {"en": "Clique aqui para marcar presença na sua escala de {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
-                            "headings": {"en": "Confirme sua Presença! 📅"},
-                            "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(), "%Y%m%d%H%M")),
-                            "send_after": datetime.datetime.strftime(schedule.inicio.astimezone(), '%Y-%m-%d %H:%M:%S GMT%z'),
-                            "url": "https://{subdomain}.smartschedule.ml/schedule/confirm-presence/?player_id={player_id}&schedule_id={schedule_id}".format(subdomain=db, player_id=player_id, schedule_id=schedule.id)
-                        })
-                        print('\t[{}] - NOTIFY ==> SENDING CONFIRM PRESENCE NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
-                        req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-                        print('\t ↳ [STATUS] => {}'.format(str(req)))
+                    if location:
+                        for player_id in player_ids:
+                            payload.update({
+                                "app_id": settings.ONESIGNAL_APP_ID,
+                                "include_player_ids": player_ids,
+                                "contents": {"en": "Clique aqui para marcar presença na sua escala de {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
+                                "headings": {"en": "Confirme sua Presença! 📅"},
+                                "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(), "%Y%m%d%H%M")),
+                                "send_after": datetime.datetime.strftime(schedule.inicio.astimezone(), '%Y-%m-%d %H:%M:%S GMT%z'),
+                                "url": "https://{subdomain}.smartschedule.ml/schedule/confirm-presence/?player_id={player_id}&schedule_id={schedule_id}".format(subdomain=db, player_id=player_id, schedule_id=schedule.id)
+                            })
+                            print('\t[{}] - NOTIFY ==> SENDING CONFIRM PRESENCE NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
+                            req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+                            print('\t ↳ [STATUS] => {}'.format(str(req)))
 
                     # todo: salvar log no banco de dados para cada notificacao enviada
                 except Exception as exc:
