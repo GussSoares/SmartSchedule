@@ -2,7 +2,7 @@
 from .development import *
 
 # turn off all debugging
-DEBUG = False
+DEBUG = True
 
 # Extra databases
 DATABASES_EXTRAS = [
@@ -28,7 +28,7 @@ ALLOWED_HOSTS = [db + ".smartschedule.ml" for db in DATABASES_EXTRAS]
 # TODO: Make sure, that sensitive information uses https
 # TODO: Evaluate the following settings, before uncommenting them
 # redirects all requests to https
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 # session cookies will only be set, if https is used
 # SESSION_COOKIE_SECURE = True
 # how long is a session cookie valid?

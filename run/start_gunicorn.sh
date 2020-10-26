@@ -6,7 +6,7 @@ SOCKFILE=/home/gustavo/workspace/env/SmartEvent/run/gunicorn.sock        # we wi
 USER=gustavo                                       # the user to run as (*)
 GROUP=webdata                                     # the group to run as (*)
 NUM_WORKERS=1                                     # how many worker processes should Gunicorn spawn (*)
-DJANGO_SETTINGS_MODULE=smart_event.settings.development             # which settings file should Django use (*)
+DJANGO_SETTINGS_MODULE=smart_event.settings.production             # which settings file should Django use (*)
 DJANGO_WSGI_MODULE=smart_event.wsgi                     # WSGI module name (*)
 
 echo "Starting $NAME as `whoami`"

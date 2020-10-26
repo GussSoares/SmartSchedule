@@ -28,7 +28,7 @@ def run(*args):
                     members = schedule.schedulemember_set.using(db).all()
                     player_ids = list(members.values_list('membro__cliente__player_id', flat=True))
                     try:
-                        grupo = members.first().grupo
+                        grupo = members.using(db).first().membro.grupo
                         location = Location.objects.using(db).get(grupo=grupo, active=True)
                     except Exception as exc:
                         location = None
@@ -53,7 +53,7 @@ def run(*args):
                         for player_id in player_ids:
                             payload.update({
                                 "app_id": settings.ONESIGNAL_APP_ID,
-                                "include_player_ids": player_ids,
+                                "include_player_ids": player_id,
                                 "contents": {"en": "Clique aqui para marcar presença na sua escala de {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
                                 "headings": {"en": "Confirme sua Presença! 📅"},
                                 "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(), "%Y%m%d%H%M")),
