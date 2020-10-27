@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from .forms import ClientForm, SetPasswordForm, GroupForm, CoordForm, MemberForm
 from .models import Client, Coordinator, Member, Group
+from ..core.utils import get_subdomain
 from ..notification.models import Commentary
 
 
@@ -205,7 +206,7 @@ def update_membro(request, pk, comment_id=None):
             # tenta redirecionar para a pagina que chamou a requisicao.
             # se nao conseguir, por padrao redireciona para tela de membros
             try:
-                with transaction.atomic():
+                with transaction.atomic(using=get_subdomain(request)):
                     if comment_id:
                         comment = Commentary.objects.get(id=comment_id)
                         comment.checked = True

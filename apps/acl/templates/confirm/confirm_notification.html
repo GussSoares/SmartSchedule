@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Smart Schedule | Confirmar Cadastro</title>
+  <title>Smart Schedule | Visualizar Escala</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -29,70 +29,19 @@
   <link rel="stylesheet" href="{% static 'plugins/dhx-calendar/codebase/dhtmlxscheduler_material.css' %}" type="text/css" charset="utf-8">
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-
-
-      function save_player_id () {
-        OneSignal.getUserId().then(function(userId) {
-          console.log("OneSignal User ID:", userId);
-          if (userId) {
-            $.ajax({
-              url: '{% url 'notification:register_player_id' %}',
-              method: 'post',
-              async: false,
-              data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                player_id: userId,
-                member_id: '{{ member.id }}'
-              }
-            })
-          }
-        });
-      }
-
-
-      {% comment %}if ('{{ member.cliente.player_id }}' === 'None' || '{{ member.cliente.player_id }}' === '') {{% endcomment %}
-        /*
-        * Sempre que esta página for acessada, após 1 segundo, apresentará um modal
-        * que avisará sobre as notificações. Ao permitir, serão enviadas notificações
-        * para o ultimo dispositivo cuja autorização foi dada.
-        */
-        setTimeout(function () {
-          Swal.fire({
-            icon: 'question',
-            title: 'Olá! 📅 Quer receber lembrete da escala?',
-            text: 'Basta clicar em "permitir" no popup que irá aparecer. 😎',
-            showCloseButton: false,
-            showCancelButton: false,
-            onClose: function () {
-              OneSignal.init({
-                appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
-                autoRegister: true
-              });
-              OneSignal.registerForPushNotifications({
-                appId: "{% settings_value "ONESIGNAL_APP_ID" %}",
-                modalPrompt: false
-              });
-
-              save_player_id();
-
-              {% comment %}OneSignal.on('subscriptionChange', function (isSubscribed) {
-                save_player_id();
-              });{% endcomment %}
-              {#OneSignal.showSlidedownPrompt()#}
-              {#save_player_id();#}
-            }
-          })
-        }, 1000)
-      {% comment %}}{% endcomment %}
-    });
+    var ONESIGNAL_APP_ID = "{% settings_value "ONESIGNAL_APP_ID" %}";
+    var url_register_player_id = '{% url 'notification:register_player_id' %}';
+    var csrf_token = '{{ csrf_token }}';
+    var member_id = '{{ member.id }}';
+    var member_player_id = '{{ member.cliente.player_id }}';
   </script>
+  <script src="{% static 'dist/js/global/OneSignalPushNotification.js' %}"></script>
+
 </head>
 
 <body class="hold-transition login-page background">
-<div class="container login login-box">
-  <div class="login-logo" style="margin: 50px;">
+<div class="container login login-box" style="width: 80%">
+  <div class="login-logo">
     <a href="#">
       <img alt="logotipo" src="{% static "dist/img/logotipo/275x100.png" %}" />
     </a>
@@ -102,7 +51,7 @@
     <div class="card-header text-muted border-bottom-0"></div>
     <div class="card-body pt-0">
       <div class="row">
-        <div class="col-8">
+        <div class="col-8 col-md-8 col-sm-8">
           <h3 class="">{{ member.cliente.full_name }}</h3>
           <br>
 
@@ -115,13 +64,17 @@
             <li class="small"><h6><span class="fa-li"><i class="fas  fa-phone"></i></span> <strong>Telefone:</strong> {{ member.cliente.telefone }}</h6></li>
           </ul>
         </div>
-        <div class="col-4 text-center">
+        <div class="col-2 col-md-2 col-sm-2"></div>
+        <div class="col-2 col-md-2 col-sm-2">
           <img src="{{ MEDIA_URL }}{{ member.cliente.foto }}" alt="" class="img-circle img-fluid">
         </div>
       </div>
     </div>
     <div class="card-footer">
       <div class="text-right">
+        <a href="#" data-target="#modal-ajuda" data-toggle="modal" class="btn btn-sm btn-primary float-left">
+          <i class="fas fa-question"></i> Ajuda
+        </a>
         {% if not member.cliente.checked %}
           <a href="#" onclick="corrigir(this)" class="btn btn-sm btn-danger">
             <i class="fas fa-pen"></i> Corrigir
@@ -139,6 +92,48 @@
   </div>
 </div>
 <!-- /.login-box -->
+
+<div class="modal fade" id="modal-ajuda">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="fas fa-question"></i> Ajuda</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="accordion">
+          <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->
+          <div class="card ">
+            <div class="card-header">
+              <h4 class="card-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                  1- Por que não recebo as notificações no meu celular?
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse in collapse" style="">
+              <div class="card-body">
+                <p>Para receber as notificações das sua escala em seu celular, é preciso acessar este <a target="_blank" href="https://{{ request.META.HTTP_HOST }}/acl/schedule-view">link</a> e clicar em <b>permitir</b>.</p>
+                <p>Se você seguiu os passos acima e mesmo assim não recebe a notificação, certifique-se de que o seu navegador tem <b>permissão de mostrar notificações</b> em seu celular. Acesse as configurações do celular, procure seu navegador na lista de aplicativos instalados e <b>habilite as notificações</b>.</p>
+                <h5><b>Importante!</b></h5>
+                <ul>
+                  <li>Em sistemas <b>Android</b>, seguindo esses passos as notificações devem funcionar normalmente.</li>
+                  <li>Em sistemas <b>IOS (iPhone)</b>, pode ser que o comportamento seja um pouco diferente.</li>
+                  <li>Para uma melhor experiência de uso, acesse o sistema de preferência pelos navegadores: <b>Google Chrome, Mozilla Firefox, Opera, Microsoft Edge</b></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="modal-xl">
   <div class="modal-dialog modal-xl">

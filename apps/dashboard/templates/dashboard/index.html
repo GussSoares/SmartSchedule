@@ -21,9 +21,9 @@
     <p>Membros Ativos</p>
   </div>
   <div class="icon">
-    <i class="ion ion-person-add"></i>
+    <i class="fas fa-user-plus"></i>
   </div>
-  <a href="{% url 'member:create_member' %}" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+  <a href="{% url 'member:create_member' %}" class="small-box-footer">Mais <i class="fas fa-arrow-circle-right"></i></a>
 </div>
 </div>
   <!-- ./col -->
@@ -41,7 +41,7 @@
   <div class="icon">
     <i class="ion ion-calendar"></i>
   </div>
-  <a href="{% url 'schedule:create' %}" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+  <a href="{% url 'schedule:create' %}" class="small-box-footer">Mais <i class="fas fa-arrow-circle-right"></i></a>
 </div>
 </div>
 <!-- ./col -->
@@ -55,14 +55,21 @@
         <p>Grupos Ativos</p>
       </div>
       <div class="icon">
-        <i class="ion ion-bag"></i>
+        <i class="fas fa-users"></i>
       </div>
-      <a href="{% url 'group:create_group' %}" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+      <a href="{% url 'group:create_group' %}" class="small-box-footer">Mais <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
 {% endif %}
 </div>
-
+  <div class="row">
+    <div class="col-md-12">
+      <div class="callout callout-success">
+        <h5>🗓️ Compartilhe com os Membros! 😎</h5>
+        <p>Envie o link >> <a target="_blank" class="text-info" href="https://{{ request.META.HTTP_HOST }}/acl/schedule-view">https://{{ request.META.HTTP_HOST }}/acl/schedule-view <i class="fas fa-external-link-alt"></i></a> << para os membros do seu grupo. Assim eles terão acesso a ver suas escalas e receber as notificações!</p>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-6">
       <div class="card">
@@ -151,8 +158,16 @@
   </div>
 {% endblock %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static "plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/sweetalert2/sweetalert2.min.css" %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+{% endblock %}
+
 {% block js %}
+  <script src="{% static "plugins/sweetalert2/sweetalert2.all.min.js" %}"></script>
   <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
   <script>
     // The Calender
     $('#calendar').datetimepicker({
@@ -208,6 +223,94 @@
           $('#timeline_content').html(html)
         }
       })
+
+      if (!Cookies.get('hide_tutorial')) {
+
+        var progress = ('{{ request.user.is_superuser }}' === 'True') ? ['1', '2', '3', '4'] : ['1', '2'];
+        var queues = ('{{ request.user.is_superuser }}' === 'True') ? [
+          {
+            title: 'Cadastre um grupo',
+            imageUrl: '{% static 'dist/img/screenshots/grupos.png' %}',
+            imageAlt: 'Custom image',
+          },
+          {
+            title: 'Cadastre os Coordenadores',
+            imageUrl: '{% static 'dist/img/screenshots/coordenadores.png' %}',
+            imageAlt: 'Custom image',
+          },
+          {
+            title: 'Cadastre os Membros',
+            imageUrl: '{% static 'dist/img/screenshots/membros.png' %}',
+            imageAlt: 'Custom image',
+          },
+          {
+            title: 'Crie suas as Escalas',
+            imageUrl: '{% static 'dist/img/screenshots/escalas.png' %}',
+            imageAlt: 'Custom image',
+            confirmButtonText: 'Pronto <i class="fas fa-check"></i>',
+            preConfirm: function () {
+              return new Promise(function(resolve) {
+                $(".swal2-popup").removeClass('animate__fadeInRight');
+                $(".swal2-popup").addClass('');
+                setTimeout(function() {
+                  resolve();
+                },300);
+              });
+            },
+            input: 'checkbox',
+            inputPlaceholder: '<span>Não mostrar mais</span>',
+          }
+        ] : [
+          {
+            title: 'Cadastre os Membros',
+            imageUrl: '{% static 'dist/img/screenshots/membros_coord.png' %}',
+            imageAlt: 'Custom image',
+          },
+          {
+            title: 'Crie suas as Escalas',
+            imageUrl: '{% static 'dist/img/screenshots/escala_coord.png' %}',
+            imageAlt: 'Custom image',
+            confirmButtonText: 'Pronto <i class="fas fa-check"></i>',
+            preConfirm: function () {
+              return new Promise(function(resolve) {
+                $(".swal2-popup").removeClass('animate__fadeInRight');
+                $(".swal2-popup").addClass('');
+                setTimeout(function() {
+                  resolve();
+                },300);
+              });
+            },
+            input: 'checkbox',
+            inputPlaceholder: '<span>Não mostrar mais</span>',
+          }
+        ];
+
+        (async () => {
+          const {value: accept} = await Swal.mixin({
+            showClass: {
+              popup: 'animate__animated animate__fadeInRight',
+            },
+            preConfirm: function () {
+              return new Promise(function(resolve) {
+                $(".swal2-popup").removeClass('animate__fadeInRight');
+                $(".swal2-popup").addClass('animate__fadeOutLeft');
+                setTimeout(function() {
+                  resolve();
+                },600);
+              });
+            },
+            confirmButtonText: 'Próximo <i class="fas fa-arrow-right"></i>',
+            showCancelButton: false,
+            imageWidth: 400,
+            imageHeight: 200,
+            progressSteps: progress
+          }).queue(queues)
+
+          if (accept && accept[accept.length - 1]) {
+            Cookies.set('hide_tutorial', true, {expires: 365})
+          }
+        })()
+      }
 
     })
   </script>

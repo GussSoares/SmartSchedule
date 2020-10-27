@@ -80,13 +80,13 @@
           <div class="alert alert-{{ message.tags }}" role="alert">
             <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h5>
-              {% if message.tags == 'success' %}
+              {% if 'success' in message.tags %}
                 <i class="fa-lg fas fa-check"></i>
                 Sucesso!
-              {% elif message.tags == 'warning' %}
+              {% elif 'warning' in message.tags %}
                 <i class="fa-lg fas fa-exclamation-triangle"></i>
                 Atenção!
-              {% elif message.tags == 'error' %}
+              {% elif 'error' in message.tags %}
                 <i class="fa-lg fas fa-times-circle"></i>
                 Erro!
               {% endif %}
@@ -176,7 +176,6 @@
 <script src="{% static "plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js" %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static "dist/js/adminlte.js" %}"></script>
-
 <script src="{% static "dist/js/ui-modals/ui-modals.min.js" %}"></script>
 <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
 <script src="{% static "plugins/bootbox/bootbox.all.min.js" %}"></script>
@@ -197,12 +196,12 @@
   }else{
     elem = $('a[href$="'+window.location.pathname+'"]').closest('.nav-item');
     elem.parents("li.nav-item").addClass('menu-open').find('a.nav-link').addClass('active')
+    elem.find('a.nav-link').addClass('active')
   }
 
   $('.alert').not('.alert-always').delay(2500).fadeOut(2000);
 
   $('form').on('submit', function (ev) {
-    console.log('te')
     $(this).validate()
   })
 </script>

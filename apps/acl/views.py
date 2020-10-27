@@ -8,6 +8,7 @@ from ..cliente.models import Client, Member
 
 def login(request):
     form = LoginForm()
+    next = request.GET.get('next')
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -25,6 +26,7 @@ def login(request):
 
     context = {
         'form': form,
+        'next': next
     }
     return render(request, 'login/login.html', context)
 
@@ -89,7 +91,7 @@ def login_confirm(request):
                 return render(request, 'confirm/confirm_notification.html', {'member': member})
             except Exception as exc:
                 messages.error(request, 'Cadastro não localizado')
-                return redirect('acl:login_confirm')
+                return redirect('acl:schedule_view')
     return render(request, 'confirm/login_confirm_notification.html', {'form': form})
 
 

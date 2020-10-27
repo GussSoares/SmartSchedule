@@ -23,6 +23,7 @@ pytz==2020.1
 sqlparse==0.3.1
 toml==0.10.1
 Pillow==7.2.0
+haversine==2.3.0
 django-extensions
 gunicorn
 requests

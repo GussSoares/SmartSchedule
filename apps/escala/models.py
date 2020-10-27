@@ -29,6 +29,7 @@ class Schedule(DefaultModel):
 class ScheduleMember(DefaultModel):
     escala = models.ForeignKey('escala.Schedule', null=False, blank=False, on_delete=models.CASCADE)
     membro = models.ForeignKey('cliente.Member', null=False, blank=False, on_delete=models.CASCADE)
+    presenca = models.BooleanField(default=False, null=False, blank=True)
 
     class Meta:
         db_table = 'escala_membro'

@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block title_page %}
+  {{ request.resolver_match.app_name.capitalize }}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Dúvidas Frequentes</h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div id="accordion">
+            <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                    1- Por que não recebo as notificações no meu celular?
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse in collapse" style="">
+                <div class="card-body">
+                  <p>Para receber as notificações das sua escala em seu celular, é preciso acessar este <a target="_blank" href="https://{{ request.META.HTTP_HOST }}/acl/schedule-view">link</a> (que deve ser disponibilizado para os membros do grupo) e clicar em <b>permitir</b>.</p>
+                  <p>Se você seguiu os passos acima e mesmo assim não recebe a notificação, certifique-se de que o seu navegador tem <b>permissão de mostrar notificações</b> em seu celular. Acesse as configurações do celular, procure seu navegador na lista de aplicativos instalados e <b>habilite as notificações</b>.</p>
+                  <h5><b>Importante!</b></h5>
+                  <ul>
+                    <li>Em sistemas <b>Android</b>, seguindo esses passos as notificações devem funcionar normalmente.</li>
+                    <li>Em sistemas <b>IOS (iPhone)</b>, pode ser que o comportamento seja um pouco diferente.</li>
+                    <li>Para uma melhor experiência de uso, acesse o sistema de preferência pelos navegadores: <b>Google Chrome, Mozilla Firefox, Opera, Microsoft Edge</b></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock %}

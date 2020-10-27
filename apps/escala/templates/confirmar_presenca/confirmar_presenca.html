@@ -1,0 +1,139 @@
+{% load custom_filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Smart Schedule | Confirmar Presença</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static "plugins/fontawesome-free/css/all.min.css" %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css"%}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/sweetalert2/sweetalert2.min.css" %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
+  <link rel="icon" href="{% static 'dist/img/logotipo/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'dist/css/global/styles.css' %}" />
+  <link rel="stylesheet/less" href="{% static 'dist/css/global/svg_check.less' %}" />
+</head>
+
+<body class="hold-transition login-page">
+<div class="container login login-box">
+  <div class="login-logo">
+    <a href="#">
+      <img alt="logotipo" src="{% static "dist/img/logotipo/275x100.png" %}" />
+    </a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card bg-light elevation-3">
+    {#    <div class="card-header text-muted border-bottom-0"></div>#}
+    <div class="card-body pt-0" style="text-align: center">
+      <!--[if lte IE 9]>
+      <style>
+        .path {stroke-dasharray: 0 !important;}
+      </style>
+      <![endif]-->
+      <div id="svg_content">
+        <svg version="1.1" id="L3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+          <circle fill="none" stroke="#ccc" stroke-width="4" cx="50" cy="50" r="44" style="opacity:0.5;"/>
+            <circle fill="#fff" stroke="#28a745" stroke-width="3" cx="8" cy="54" r="6" >
+              <animateTransform attributeName="transform" dur="2s" type="rotate" from="0 50 48" to="360 50 52" repeatCount="indefinite" />
+            </circle>
+          </svg>
+          <span>Aguarde...</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static "dist/js/adminlte.min.js" %}"></script>
+<script src="{% static "plugins/bootbox/bootbox.all.min.js" %}"></script>
+<script src="{% static "plugins/sweetalert2/sweetalert2.all.min.js" %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+              function (position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                $.ajax({
+                  'url': '{% url 'schedule:confirm_presence_api' %}',
+                  'method': 'post',
+                  'data': {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    lat: lat,
+                    lng: lng,
+                    player_id: '{{ player_id }}',
+                    schedule_id: '{{ schedule_id }}',
+                    schedulermember_id: '{{ schedulemember_id }}'
+                  },
+                  success: function (data) {
+                    $('#svg_content').fadeOut(500, function () {
+                      $(this).html(`
+                    ${ data.status == 'success' ?
+                              `
+                      <svg height="100" width="100" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                        <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                        <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+                      </svg>
+                      <br>
+                      <h3 class="text-center text-success">${data.title}</h3>
+                      <span>${data.message}</span>
+                      ` :
+                              `
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                        <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                        <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+                        <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+                      </svg>
+                      <br>
+                      <h3 class="text-center text-danger">${data.title}</h3>
+                      <span>${data.message}</span>
+                      `}
+                    `)
+                    }).fadeIn(500)
+                  },
+                  error: function () {
+                    alert('Ocorreu um erro ao verificar sua localização. 😪');
+                  }
+                })
+              },
+              function () {
+                alert('Por favor, habilite a localização no seu dispositivo e atualize a página! 😊');
+                $('#svg_content').fadeOut(500, function () {
+                  $(this).html(`
+                      <img alt height="50%" width="50%" src="{% static 'dist/img/logotipo/location_marker.svg' %}" />
+                      <br>
+                      <h3 class="text-center text-danger">Habilite a localização!</h3>
+                    `)
+                }).fadeIn(500)
+              }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  })
+</script>
+</body>
+</html>
