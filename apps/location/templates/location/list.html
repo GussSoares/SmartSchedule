@@ -17,6 +17,12 @@
 {% block content %}
   <div class="row">
     <div class="col-md-12">
+        <div class="callout callout-success">
+          <h5><i class="fas fa-map-marker-alt text-primary"></i> Importante!</h5>
+          <p>Você deve criar um ponto no mapa indicando o local onde as escalas deverão ser cumpridas. Quando os membros estiverem no local, receberão notificações para confirmar presença! A presença será confirmada se o membro estiver dentro de um raio de 100 metros do ponto marcado.</p>
+      </div>
+    </div>
+    <div class="col-md-12">
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Cadastre o local das suas Escalas</h3>
@@ -46,7 +52,7 @@
   <script>
     var markers = {};
     var marker_POI = {};
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    var mymap = L.map('mapid').setView([-3.7897468, -38.6590365], 11);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -106,6 +112,7 @@
             <div class="row" style="width: 300px;">
               <div class="col-12">
                 <form id="save_location_form" method="post">
+                  <h4>${location.grupo}</h4>
                   <div class="form-group">
                     <label>Descrição</label>
                     <div class="input-group input-group-sm">
@@ -187,6 +194,7 @@
              <div class="row" style="width: 300px;">
               <div class="col-12">
                 <form id="save_location_form" method="post">
+                  <h4>${data.data.grupo}</h4>
                   <div class="form-group">
                     <label>Descrição</label>
                     <div class="input-group input-group-sm">
@@ -234,6 +242,7 @@
             <div class="row" style="width: 300px;">
               <div class="col-12">
                 <form id="save_location_form" method="post">
+                  <h4>${data.data.grupo}</h4>
                   <div class="form-group">
                     <label>Descrição</label>
                     <div class="input-group input-group-sm">

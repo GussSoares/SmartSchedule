@@ -24,7 +24,8 @@ def get_all_api(request):
             'id': location.id,
             'descricao': location.descricao,
             'latitude': location.latitude,
-            'longitude': location.longitude
+            'longitude': location.longitude,
+            'grupo': location.grupo.descricao
         })
     return JsonResponse({'data': result})
 
@@ -54,7 +55,8 @@ def create_api(request):
                 'id': location.id,
                 'latitude': location.latitude,
                 'longitude': location.longitude,
-                'descricao': location.descricao
+                'descricao': location.descricao,
+                'grupo': location.grupo.descricao
             }
         except Exception as exc:
             return JsonResponse({'msg': 'Erro ao salvar localização!'}, status=500)
@@ -73,7 +75,8 @@ def update_api(request, pk):
             'id': location.id,
             'latitude': location.latitude,
             'longitude': location.longitude,
-            'descricao': location.descricao
+            'descricao': location.descricao,
+            'grupo': location.grupo.descricao
         }
     except Exception as exc:
         return JsonResponse({'msg': 'Erro ao atualizar localização!'}, status=500)
