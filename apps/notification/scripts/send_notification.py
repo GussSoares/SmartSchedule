@@ -52,7 +52,7 @@ def run(*args):
                     if location:
                         for player_id in player_ids:
                             payload.update({
-                                "include_player_ids": player_id,
+                                "include_player_ids": [player_id],
                                 "contents": {"en": "Clique aqui para marcar presença na sua escala de {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
                                 "headings": {"en": "Confirme sua Presença! 📅"},
                                 "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(timezone), "%Y%m%d%H%M")),
