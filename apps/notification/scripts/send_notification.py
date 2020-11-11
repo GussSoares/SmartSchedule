@@ -40,7 +40,7 @@ def run(*args):
                         "include_player_ids": player_ids,
                         "contents": {"en": "Você está escalado para hoje às {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
                         "headings": {"en": "Lembrete da Escala 📅"},
-                        "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(), "%Y%m%d%H%M")),
+                        "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(timezone), "%Y%m%d%H%M")),
                         "url": "https://{}.smartschedule.ml/acl/schedule-view/".format(db)
                     }
                     print('\t[{}] - NOTIFY ==> SENDING REMINDING NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
@@ -52,12 +52,11 @@ def run(*args):
                     if location:
                         for player_id in player_ids:
                             payload.update({
-                                "app_id": settings.ONESIGNAL_APP_ID,
                                 "include_player_ids": player_id,
                                 "contents": {"en": "Clique aqui para marcar presença na sua escala de {}h.".format(schedule.inicio.astimezone(timezone).strftime("%H:%M"))},
                                 "headings": {"en": "Confirme sua Presença! 📅"},
-                                "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(), "%Y%m%d%H%M")),
-                                "send_after": datetime.datetime.strftime(schedule.inicio.astimezone(), '%Y-%m-%d %H:%M:%S GMT%z'),
+                                "web_push_topic": "{}{}".format(schedule.id, datetime.datetime.strftime(datetime.datetime.now().astimezone(timezone), "%Y%m%d%H%M")),
+                                "send_after": datetime.datetime.strftime(schedule.inicio.astimezone(timezone), '%Y-%m-%d %H:%M:%S GMT%z'),
                                 "url": "https://{subdomain}.smartschedule.ml/schedule/confirm-presence/?player_id={player_id}&schedule_id={schedule_id}".format(subdomain=db, player_id=player_id, schedule_id=schedule.id)
                             })
                             print('\t[{}] - NOTIFY ==> SENDING CONFIRM PRESENCE NOTIFICATION {}...'.format(datetime.datetime.now(), player_ids))
