@@ -46,13 +46,14 @@ class Client(DefaultModel, PermissionsMixin, AbstractBaseUser):
 
     @property
     def full_address(self):
-        return "{} {} {} {} {} {}".format(self.logradouro, self.numero, self.complemento, self.bairro, self.cidade,
-                                          self.uf)
-
-    @property
-    def full_address_humanized(self):
-        return"{} {} - {}, {}, {} - {}".format(self.logradouro or "", self.numero or "", self.complemento or "",
-                                               self.bairro or "", self.cidade or "", self.uf or "")
+        return " ".join({
+            self.logradouro or '',
+            self.numero or '',
+            self.complemento or '',
+            self.bairro or '',
+            self.cidade or '',
+            self.uf or ''
+        })
 
     @property
     def cidade_uf(self):
