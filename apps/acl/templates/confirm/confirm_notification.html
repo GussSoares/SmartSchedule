@@ -56,12 +56,12 @@
           <br>
 
           <ul class="ml-4 mb-0 fa-ul text-muted">
-            <li class="small"><h6><span class="fa-li"><i class="fas  fa-users"></i></span> <strong>Grupo:</strong> {{ member.grupo.descricao|capfirst }}</h6></li>
-            <li class="small"><h6><span class="fa-li"><i class="fas  fa-user-alt"></i></span> <strong>CPF:</strong> {{ member.cliente.cpf_cnpj }}</h6></li>
-            <li class="small"><h6><span class="fa-li"><i class="fas  fa-birthday-cake"></i></span> <strong>Data de Nascimento:</strong> {{ member.cliente.data_nascimento|date:'d/m/Y' }}</h6></li>
-            <li class="small"><h6><span class="fa-li"><i class="fas  fa-envelope"></i></span> <strong>Email:</strong> {{ member.cliente.email }}</h6></li>
-            <li class="small"><h6><span class="fa-li"><i class="fas  fa-home"></i></span> <strong>Endereço:</strong> {{ member.cliente.full_address_humanized }}</h6></li>
-            <li class="small"><h6><span class="fa-li"><i class="fas  fa-phone"></i></span> <strong>Telefone:</strong> {{ member.cliente.telefone }}</h6></li>
+            <li class="small"><h6><span class="fa-li"><i class="fas  fa-users"></i></span> <strong>Grupo:</strong> {{ member.grupo.descricao|capfirst|default_if_none:'-' }}</h6></li>
+            <li class="small"><h6><span class="fa-li"><i class="fas  fa-user-alt"></i></span> <strong>CPF:</strong> {{ member.cliente.cpf_cnpj|default_if_none:'-' }}</h6></li>
+            <li class="small"><h6><span class="fa-li"><i class="fas  fa-birthday-cake"></i></span> <strong>Data de Nascimento:</strong> {{ member.cliente.data_nascimento|default_if_none:'-'|date:'d/m/y' }}</h6></li>
+            <li class="small"><h6><span class="fa-li"><i class="fas  fa-envelope"></i></span> <strong>Email:</strong> {{ member.cliente.email|default_if_none:'-' }}</h6></li>
+            <li class="small"><h6><span class="fa-li"><i class="fas  fa-home"></i></span> <strong>Endereço:</strong> {{ member.cliente.full_address|default_if_none:'-' }}</h6></li>
+            <li class="small"><h6><span class="fa-li"><i class="fas  fa-phone"></i></span> <strong>Telefone:</strong> {{ member.cliente.telefone|default_if_none:'-' }}</h6></li>
           </ul>
         </div>
         <div class="col-2 col-md-2 col-sm-2"></div>

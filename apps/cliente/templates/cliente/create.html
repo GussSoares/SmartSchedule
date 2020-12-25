@@ -276,7 +276,7 @@
                     <td>{{ cliente.email|default_if_none:'--' }}</td>
                     <td>{{ cliente.cpf_cnpj|default_if_none:'--' }}</td>
                     <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
-                    <td>{{ cliente.full_address_humanized|default_if_none:'--' }}</td>
+                    <td>{{ cliente.full_address|default_if_none:'--' }}</td>
                     <td>{{ cliente.telefone|default_if_none:'--' }}</td>
                     <td>
                       <div class="btn-group-sm btn-group">
