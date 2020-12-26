@@ -21,6 +21,10 @@ $('.select2').select2({
     allowClear: true
 })
 
+$('#id_data_nascimento').inputmask('99/99/9999', { 'placeholder': 'dd/mm/yyyy' })
+$('#id_cpf_cnpj').inputmask('999.999.999-99')
+// $('#id_telefone').inputmask('(99) 99999-9999')
+
 // autocomplete CEP
 $('#id_cep').blur(function () {
     if ($(this).val() !== "") {

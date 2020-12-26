@@ -9,7 +9,7 @@ from .forms import ClientForm, SetPasswordForm, GroupForm, CoordForm, MemberForm
 from .models import Client, Coordinator, Member, Group
 from ..core.utils import get_subdomain
 from ..notification.models import Commentary
-
+import re
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
@@ -165,7 +165,10 @@ def create_membro(request):
         form = ClientForm(request.POST)
         form_member = MemberForm(request.POST)
         if form.is_valid() and form_member.is_valid():
-            cliente = form.save()
+            cliente = form.save(commit=False)
+            cliente.telefone = re.sub(r'\D', '', cliente.telefone)
+            cliente.cpf_cnpj = re.sub(r'\D', '', cliente.cpf_cnpj)
+            cliente.save()
             member = Member.objects.create(cliente=cliente, grupo=form_member.cleaned_data.get('grupo'))
             # se usuario for coordenador, o grupo é selecionado automaticamente
             if request.user.is_coordinator:
