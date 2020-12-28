@@ -14,10 +14,12 @@
 # See http://flake8.pycqa.org/en/latest/index.html
 #flake8
 
+wheel
 asgiref==3.2.10
 autopep8==1.5.3
 Django==3.0.8
 psycopg2==2.8.5
+psycopg2-binary
 pycodestyle==2.6.0
 pytz==2020.1
 sqlparse==0.3.1

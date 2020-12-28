@@ -42,6 +42,7 @@ def register(request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             cliente = register_form.save()
+            cliente.is_superuser = True
             cliente.set_password(register_form.cleaned_data.get('password1'))
             cliente.save()
             django_login(request, cliente)

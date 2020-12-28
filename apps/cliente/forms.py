@@ -5,6 +5,12 @@ from ..core.forms import CustomForm, CustomModelForm
 
 class ClientForm(CustomModelForm):
 
+    telefone = forms.CharField(required=False, max_length=17, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Telefone',
+        'autocomplete': 'off'
+    }))
+
     class Meta:
         model = Client
         fields = ['first_name', 'last_name', 'login', 'email', 'cpf_cnpj', 'data_nascimento', 'telefone', 'cep',
@@ -41,11 +47,11 @@ class ClientForm(CustomModelForm):
                 'placeholder': '__/__/__',
                 'autocomplete': 'off'
             }),
-            'telefone': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Telefone',
-                'autocomplete': 'off'
-            }),
+            # 'telefone': forms.TextInput(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Telefone',
+            #     'autocomplete': 'off'
+            # }),
             'cep': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'CEP',
