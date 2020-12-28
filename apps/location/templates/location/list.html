@@ -139,9 +139,13 @@
         <div class="col-12">
           <form id="save_location_form" method="post">
             <div class="form-group">
+              {% if request.user.is_superuser %}
+                <label>Grupo</label>
+                {{ form.grupo }}
+              {% endif %}
               <label>Descrição</label>
               <div class="input-group input-group-sm">
-                <input id="id_descricao" type="text" placeholder="Insira uma descrição" required class="form-control">
+                <input id="id_descricao" type="text" placeholder="Insira uma descrição" required class="form-control"><br>
                 <span class="input-group-append">
                   <button type="button" class="btn btn-primary btn-flat" onclick="create_location(${event.latlng.lat}, ${event.latlng.lng})" title="Salvar"><i class="fas fa-save"></i></button>
                 </span>
@@ -173,6 +177,16 @@
           }
         },
         callback: function (result) {
+
+          let grupo_id = $('#id_grupo').val();
+          if (grupo_id === '') {
+            Toast.fire({
+                icon: 'warning',
+                title: 'Selecione um grupo!'
+              })
+            return
+          }
+
           $.ajax({
             'url': '{% url 'location:create_api' %}',
             'method': 'POST',
@@ -181,7 +195,8 @@
               'latitude': lat,
               'longitude': lng,
               'active': result,
-              'descricao': $('#id_descricao').val()
+              'descricao': $('#id_descricao').val(),
+              'grupo_id': null ? grupo_id === undefined : grupo_id
             },
             success: function (data) {
               Toast.fire({

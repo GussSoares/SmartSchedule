@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
-from apps.cliente.models import Coordinator
+from apps.cliente.models import Coordinator, Group
 from apps.core.utils import get_subdomain
 from apps.escala.models import Schedule
 from apps.location.models import Location
@@ -36,9 +36,13 @@ def create_api(request):
     longitude = request.POST.get('longitude', None)
     descricao = request.POST.get('descricao', None)
     active = True if request.POST.get('active', False) == 'true' else False
-    group = None
+    group_id = request.POST.get('grupo_id', None)
     if request.user.is_coordinator:
         group = Coordinator.objects.get(cliente=request.user).grupo
+    elif request.user.is_superuser:
+        group = Group.objects.get(id=group_id)
+    else:
+        group = None
 
     if latitude and longitude:
         try:
