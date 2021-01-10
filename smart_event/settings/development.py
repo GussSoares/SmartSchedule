@@ -33,7 +33,7 @@ DATABASES = {
         'NAME': 'smart_event',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432'
     },
     'teste2': {
@@ -41,7 +41,7 @@ DATABASES = {
         'NAME': 'teste2',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432'
     },
     'teste': {
@@ -49,7 +49,7 @@ DATABASES = {
         'NAME': 'teste',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432'
     }
 }

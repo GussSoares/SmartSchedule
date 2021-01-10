@@ -23,7 +23,7 @@ MEDIA_ROOT = join(PROJECT_ROOT, 'run', 'media')
 
 # look for static assets here
 STATICFILES_DIRS = [
-    join(PROJECT_ROOT, 'static'),
+    join(PROJECT_ROOT, 'static/'),
 ]
 
 # db routers

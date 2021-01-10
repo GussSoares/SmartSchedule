@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:12.5
+    container_name: 'postgres_container'
+    volumes:
+      - ./database-data:/var/lib/postgres/data
+    # command: "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=smart_event
+    ports:
+      - 5431:5432
+
+  # web-static:
+  #   image: smartschedule
+  #   # build: .
+  #   volumes:
+  #     - .:/home/project/.
+  #   # env_file: .env
+  #   command: python /home/project/manage.py collectstatic --noinput
+
+  server:
+    build: .
+    image: smartschedule
+    container_name: 'smartschedule_container'
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - .:/home/project/workspace/SmartEvent/.
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+      # - 5432:5432
