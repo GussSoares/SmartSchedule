@@ -111,7 +111,7 @@
           marker.bindPopup(`
             <div class="row" style="width: 300px;">
               <div class="col-12">
-                <form id="save_location_form" method="post">
+                <form id="save_location_form" onsubmit = "event.preventDefault();" method="post">
                   <h4>${location.grupo}</h4>
                   <div class="form-group">
                     <label>Descrição</label>
@@ -137,7 +137,7 @@
       marker_POI.bindPopup(`
        <div class="row" style="width: 300px;">
         <div class="col-12">
-          <form id="save_location_form" method="post">
+          <form id="save_location_form" onsubmit = "event.preventDefault();" method="post">
             <div class="form-group">
               {% if request.user.is_superuser %}
                 <label>Grupo</label>
@@ -208,7 +208,7 @@
               let marker = L.marker({lat: data.data.latitude, lng: data.data.longitude}).addTo(mymap).bindPopup(`
              <div class="row" style="width: 300px;">
               <div class="col-12">
-                <form id="save_location_form" method="post">
+                <form id="save_location_form" onsubmit = "event.preventDefault();" method="post">
                   <h4>${data.data.grupo}</h4>
                   <div class="form-group">
                     <label>Descrição</label>
@@ -256,7 +256,7 @@
           markers[pk].getPopup().setContent(`
             <div class="row" style="width: 300px;">
               <div class="col-12">
-                <form id="save_location_form" method="post">
+                <form id="save_location_form" onsubmit = "event.preventDefault();" method="post">
                   <h4>${data.data.grupo}</h4>
                   <div class="form-group">
                     <label>Descrição</label>
@@ -347,5 +347,10 @@
     } else {
       alert("Geolocation API is not supported in your browser.");
     }
+
+  $('#save_location_form').on('submit', function (ev) {
+    ev.preventDefault();
+    return;
+  })
   </script>
 {% endblock %}
