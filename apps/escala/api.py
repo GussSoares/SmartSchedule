@@ -62,6 +62,7 @@ def update_schedule(request, pk):
 
                 schedule.save()
                 # remove os membros da escala
+                aux_presenca = {str(x.membro_id): x.presenca for x in schedule_members}
                 schedule_members.delete()
 
                 # coloca novamente os membros na escala
@@ -70,7 +71,8 @@ def update_schedule(request, pk):
                 for m in members_list:
                     schedules_members.append(ScheduleMember(
                         escala=schedule,
-                        membro=Member.objects.get(id=m)
+                        membro=Member.objects.get(id=m),
+                        presenca=aux_presenca[m]
                     ))
                 ScheduleMember.objects.bulk_create(schedules_members)
 
