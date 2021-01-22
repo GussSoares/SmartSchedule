@@ -2,17 +2,17 @@
 $("#ajax.modal").on('hidden.bs.modal', function () {
     $(this).find('.modal-content')
         .html("<div class=\"modal-body\">\n" +
-        "          <i class=\"fas fa-sync fa-spin loading-img\"></i>\n" +
-        "          <span> &nbsp;&nbsp;Carregando…</span>\n" +
-        "        </div>")
+            "          <i class=\"fas fa-sync fa-spin loading-img\"></i>\n" +
+            "          <span> &nbsp;&nbsp;Carregando…</span>\n" +
+            "        </div>")
 });
 
 // all datepickers
 $('.date').datepicker({
-  daysOfWeekHighlighted: '06',
-  format: 'dd/mm/yyyy',
-  todayHighlight: true,
-  autoclose: true
+    daysOfWeekHighlighted: '06',
+    format: 'dd/mm/yyyy',
+    todayHighlight: true,
+    autoclose: true
 });
 
 // all select2
@@ -21,24 +21,7 @@ $('.select2').select2({
     allowClear: true
 })
 
-$('#id_data_nascimento').inputmask('99/99/9999', { 'placeholder': 'dd/mm/yyyy' })
-$('#id_cpf_cnpj').inputmask('999.999.999-99')
-// $('#id_telefone').inputmask('(99) 99999-9999')
 
-// autocomplete CEP
-$('#id_cep').blur(function () {
-    if ($(this).val() !== "") {
-        $.ajax({
-            url: `https://viacep.com.br/ws/${$(this).val()}/json/`,
-        }).then(function (data) {
-            $('#id_logradouro').val(data.logradouro)
-            $('#id_numero').val(data.complemento)
-            $('#id_bairro').val(data.bairro)
-            $('#id_cidade').val(data.localidade)
-            $('#id_uf').val(data.uf)
-        })
-    }
-})
 
 $("#ajax.modal").on('shown.bs.modal', function () {
     let modal = $('#ajax.modal');
@@ -81,3 +64,42 @@ const Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000
 });
+
+
+var InitializeMask = (function () {
+
+    var masks = function () {
+        $('#id_data_nascimento').inputmask('99/99/9999', { 'placeholder': 'dd/mm/yyyy' })
+        $('#id_cpf_cnpj').inputmask('999.999.999-99')
+        $('#id_cep').inputmask('99999-999')
+
+        // autocomplete CEP
+        $('#id_cep').blur(function () {
+            if ($(this).val() !== "") {
+                $.ajax({
+                    url: `https://viacep.com.br/ws/${$(this).val()}/json/`,
+                }).then(function (data) {
+                    $('#id_logradouro').val(data.logradouro)
+                    // $('#id_numero').val(data.complemento)
+                    $('#id_bairro').val(data.bairro)
+                    $('#id_cidade').val(data.localidade)
+                    $('#id_uf').val(data.uf)
+                })
+            }
+        })
+    }
+
+    var maskOnModal = function () {
+        $("#ajax.modal").on('shown.bs.modal', function () {
+          masks();
+        })
+    }
+
+    return {
+        init: masks,
+        initOnModal: maskOnModal
+    };
+})();
+
+InitializeMask.init();
+InitializeMask.initOnModal();
