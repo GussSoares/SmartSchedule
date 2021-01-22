@@ -51,7 +51,7 @@
         {% csrf_token %}
         <div class="input-group mb-3">
           {% comment %} <input type="text" class="form-control" placeholder="Login"> {% endcomment %}
-          {{form.cpf}}
+          {{form.cpf_cnpj}}
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -87,5 +87,12 @@
 <script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static "dist/js/adminlte.min.js" %}"></script>
+<!-- datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="{% static 'plugins/inputmask/min/jquery.inputmask.bundle.min.js' %}"></script>
+<script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+<script src="{% static "plugins/sweetalert2/sweetalert2.all.min.js" %}"></script>
+<!-- Default init JS -->
+<script src="{% static "dist/js/global/default.js" %}"></script>
 </body>
 </html>
