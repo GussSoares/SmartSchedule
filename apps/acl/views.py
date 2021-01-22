@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout, update_session_auth_hash
 from django.contrib import messages
@@ -88,7 +89,8 @@ def login_confirm(request):
         form = LoginConfirmForm(request.POST)
         if form.is_valid():
             try:
-                member = Member.objects.get(cliente__cpf_cnpj=form.cleaned_data.get('cpf'))
+                cpf = re.sub(r'\D', '', form.cleaned_data.get('cpf_cnpj'))
+                member = Member.objects.get(cliente__cpf_cnpj=cpf)
                 return render(request, 'confirm/confirm_notification.html', {'member': member})
             except Exception as exc:
                 messages.error(request, 'Cadastro não localizado')
