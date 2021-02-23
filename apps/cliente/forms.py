@@ -42,7 +42,7 @@ class ClientForm(CustomModelForm):
                 'autocomplete': 'off',
                 'required': True
             }),
-            'data_nascimento': forms.DateInput(attrs={
+            'data_nascimento': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': '__/__/__',
                 'autocomplete': 'off'
