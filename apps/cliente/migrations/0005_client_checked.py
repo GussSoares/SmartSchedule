@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='client',
-            name='checked',
+            name='confirmado',
             field=models.BooleanField(default=False),
         ),
     ]

@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^delete-coord/(?P<pk>\d+)$', views.delete_coord, name="delete_coord"),
 
     # ---------------------- MEMBRO ---------------------- #
+    url(r'^member/$', views.list_membro, name="list_member"),
     url(r'^create-member/$', views.create_membro, name="create_member"),
     url(r'^update-member/(?P<pk>\d+)$', views.update_membro, name="update_member"),
     url(r'^update-member/(?P<pk>\d+)/(?P<comment_id>\d+)$', views.update_membro, name="update_member_comment"),

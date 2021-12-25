@@ -158,6 +158,23 @@ def delete_coord(request, pk):
 # ---------------------- MEMBRO ---------------------- #
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
+def list_membro(request):
+    form = ClientForm()
+    form_member = MemberForm(user=request.user)
+    members = Member.objects.filter(cliente__is_active=True)
+    if request.user.is_coordinator:
+        members = members.filter(Q(grupo__coordinator__cliente=request.user) | Q(grupo=None))
+
+    context = {
+        'form': form,
+        'form_member': form_member,
+        'members': members
+    }
+    return render(request, 'membro/create.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.is_coordinator)
 def create_membro(request):
     form = ClientForm()
     form_member = MemberForm(user=request.user)
@@ -176,7 +193,7 @@ def create_membro(request):
                 member.grupo = grupo
                 member.save()
             messages.success(request, "Membro criado com sucesso!")
-            return redirect('member:create_member')
+            return redirect('member:list_member')
 
     members = Member.objects.filter(cliente__is_active=True)
     if request.user.is_coordinator:
@@ -187,7 +204,7 @@ def create_membro(request):
         'form_member': form_member,
         'members': members
     }
-    return render(request, 'membro/create.html', context)
+    return render(request, 'membro/modals/create.html', context)
 
 
 @login_required

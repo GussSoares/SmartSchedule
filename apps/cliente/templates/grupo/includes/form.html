@@ -1,0 +1,26 @@
+<form action="{% url 'group:create_group' %}" method="POST">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Descrição</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+          </div>
+          {{ form.descricao }}
+          {% if form.descricao.errors %}
+            {% for error in form.descricao.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary float-right"><i class="fas fa-check"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+</form>

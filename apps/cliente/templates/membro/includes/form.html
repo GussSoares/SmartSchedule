@@ -1,0 +1,249 @@
+<form action="{% url 'member:create_member' %}" method="POST">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nome <span class="text-danger" title="Obrigatório">*</span></label></label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+          </div>
+          {{ form.first_name }}
+          {% if form.first_name.errors %}
+            {% for error in form.first_name.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Sobrenome</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+          </div>
+          {{ form.last_name }}
+          {% if form.last_name.errors %}
+            {% for error in form.last_name.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Login <span class="text-danger" title="Obrigatório">*</span></label></label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+          </div>
+          {{ form.login }}
+          {% if form.login.errors %}
+            {% for error in form.login.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          </div>
+          {{ form.email }}
+          {% if form.email.errors %}
+            {% for error in form.email.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="exampleInputEmail1">CPF <span class="text-danger" title="Obrigatório">*</span></label></label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+          </div>
+          {{ form.cpf_cnpj }}
+          {% if form.cpf_cnpj.errors %}
+            {% for error in form.cpf_cnpj.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="{{ form.data_nascimento.label }}">Data de Nasc.</label>
+        <div class="input-group date" data-provide="datepicker">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+          </div>
+          {{ form.data_nascimento }}
+          {% if form.data_nascimento.errors %}
+            {% for error in form.data_nascimento.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Telefone</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+          </div>
+          {{ form.telefone }}
+          {% if form.telefone.errors %}
+            {% for error in form.telefone.errors %}
+              <span class="error invalid-feedback">{{ error|escape }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">CEP</label>
+        {{ form.cep }}
+        {% if form.cep.errors %}
+          {% for error in form.cep.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Endereço</label>
+        {{ form.logradouro }}
+        {% if form.logradouro.errors %}
+          {% for error in form.logradouro.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Número</label>
+        {{ form.numero }}
+        {% if form.numero.errors %}
+          {% for error in form.numero.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Complemento</label>
+        {{ form.complemento }}
+        {% if form.complemento.errors %}
+          {% for error in form.complemento.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Bairro</label>
+        {{ form.bairro }}
+        {% if form.bairro.errors %}
+          {% for error in form.bairro.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Cidade</label>
+        {{ form.cidade }}
+        {% if form.cidade.errors %}
+          {% for error in form.cidade.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">UF</label>
+        {{ form.uf }}
+        {% if form.uf.errors %}
+          {% for error in form.uf.errors %}
+            <span class="error invalid-feedback">{{ error|escape }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    {#          <div class="col-md-6">#}
+    {#            <div class="form-group">#}
+    {#              <label for="exampleInputEmail1">Senha</label>#}
+    {#              <div class="input-group">#}
+    {#                <div class="input-group-prepend">#}
+    {#                  <span class="input-group-text"><i class="fas fa-lock"></i></span>#}
+    {#                </div>#}
+    {#                {{ password_form.password1 }}#}
+    {#                {% if password_form.password1.errors %}#}
+    {#                  {% for error in password_form.password1.errors %}#}
+    {#                    <span class="error invalid-feedback">{{ error|escape }}</span>#}
+    {#                  {% endfor %}#}
+    {#                {% endif %}#}
+    {#              </div>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#          <div class="col-md-6">#}
+    {#            <div class="form-group">#}
+    {#              <label for="exampleInputEmail1">Confirme a Senha</label>#}
+    {#              <div class="input-group">#}
+    {#                <div class="input-group-prepend">#}
+    {#                  <span class="input-group-text"><i class="fas fa-lock"></i></span>#}
+    {#                </div>#}
+    {#                {{ password_form.password2 }}#}
+    {#                {% if password_form.password2.errors %}#}
+    {#                  {% for error in password_form.password2.errors %}#}
+    {#                    <span class="error invalid-feedback">{{ error|escape }}</span>#}
+    {#                  {% endfor %}#}
+    {#                {% endif %}#}
+    {#              </div>#}
+    {#            </div>#}
+    {#          </div>#}
+    {% if request.user.is_superuser %}
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Grupo do Membro</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-users"></i></span>
+            </div>
+            {{ form_member.grupo }}
+            {% if form_member.grupo.errors %}
+              {% for error in form_member.grupo.errors %}
+                <span class="error invalid-feedback">{{ error|escape }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <div class="col-md-12">
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary float-right"><i class="fas fa-check"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+</form>

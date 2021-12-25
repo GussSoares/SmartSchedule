@@ -10,6 +10,8 @@ def today():
 
 
 def get_subdomain(request):
+    if '192.168.' in request.get_host():
+        return 'default'
     host = request.get_host().split(':')[0]
     subdomain = host.split('.')[0]
     if subdomain == 'localhost':
